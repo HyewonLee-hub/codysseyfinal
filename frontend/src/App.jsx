@@ -4,6 +4,7 @@ import SignupPage from './pages/SignupPage.jsx'
 import DiagnosisPage from './pages/DiagnosisPage.jsx'
 import DiagnosisQuestionsPage from './pages/DiagnosisQuestionsPage.jsx'
 import DiagnosisResultPage from './pages/DiagnosisResultPage.jsx'
+import WordsPage from './pages/WordsPage.jsx'
 import { diagnosisQuestions } from './data/diagnosisQuestions.js'
 import { mockDiagnosisResult } from './data/mockDiagnosisResult.js'
 
@@ -22,7 +23,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    document.title = `${path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TOEIC AI`
+    document.title = `${path === '/words' ? '오늘의 단어' : path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TOEIC AI`
   }, [path])
 
   function navigate(event, nextPath) {
@@ -33,9 +34,10 @@ function App() {
   }
 
   function handleHeaderNavigate(item) {
-    if (item !== '무료진단') return
-    if (window.location.pathname !== '/diagnosis') window.history.pushState(null, '', '/diagnosis')
-    setPath('/diagnosis')
+    const nextPath = item === '무료진단' ? '/diagnosis' : item === '오늘의 단어' ? '/words' : null
+    if (!nextPath) return
+    if (window.location.pathname !== nextPath) window.history.pushState(null, '', nextPath)
+    setPath(nextPath)
   }
 
   function handleStartDiagnosis() {
@@ -54,6 +56,7 @@ function App() {
   if (path === '/diagnosis/result') return <DiagnosisResultPage result={hasCompleteDiagnosis(diagnosisAnswers) ? mockDiagnosisResult : null} onHeaderNavigate={handleHeaderNavigate} onStart={() => handleHeaderNavigate('무료진단')} />
   if (path === '/diagnosis/questions') return <DiagnosisQuestionsPage onHeaderNavigate={handleHeaderNavigate} onComplete={handleCompleteDiagnosis} completedAnswers={diagnosisAnswers} />
   if (path === '/diagnosis') return <DiagnosisPage onHeaderNavigate={handleHeaderNavigate} onStart={handleStartDiagnosis} />
+  if (path === '/words') return <WordsPage onHeaderNavigate={handleHeaderNavigate} />
   if (path === '/signup') return <SignupPage onLogin={(event) => navigate(event, '/login')} onHeaderNavigate={handleHeaderNavigate} />
   return <LoginPage onSignUp={(event) => navigate(event, '/signup')} onHeaderNavigate={handleHeaderNavigate} />
 }
