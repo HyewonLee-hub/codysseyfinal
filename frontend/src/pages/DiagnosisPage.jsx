@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Button from '../components/common/Button.jsx'
 import Header from '../components/layout/Header.jsx'
 import PageContainer from '../components/layout/PageContainer.jsx'
@@ -9,9 +8,7 @@ const steps = [
   { number: '03', title: '반복 학습', description: '필요한 유형을 선택해 연습합니다.' },
 ]
 
-export default function DiagnosisPage({ onHeaderNavigate }) {
-  const [notice, setNotice] = useState(false)
-
+export default function DiagnosisPage({ onHeaderNavigate, onStart }) {
   return <div className="min-h-screen bg-[#fbfcfd]">
     <Header active="무료진단" onNavigate={onHeaderNavigate} />
     <PageContainer as="main" className="relative pb-14 pt-12 sm:pt-[70px] lg:min-h-[816px] lg:pb-[60px]">
@@ -42,8 +39,7 @@ export default function DiagnosisPage({ onHeaderNavigate }) {
       </section>
 
       <div className="mt-12 flex flex-col items-stretch gap-3 sm:items-end lg:absolute lg:bottom-[60px] lg:right-[72px] lg:mt-0">
-        <Button onClick={() => setNotice(true)} className="min-h-[52px] w-full px-8 text-[15px] sm:w-[185px]">진단 시작하기</Button>
-        {notice && <p role="status" className="text-center text-sm text-body sm:text-right">진단 문제 화면은 준비 중입니다.</p>}
+        <Button onClick={onStart} className="min-h-[52px] w-full px-8 text-[15px] sm:w-[185px]">진단 시작하기</Button>
       </div>
     </PageContainer>
   </div>
