@@ -8,7 +8,7 @@ import cloudSmall from '../assets/login/cloud-small.svg'
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-export default function LoginPage({ onSignUp }) {
+export default function LoginPage({ onSignUp, onHeaderNavigate }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
@@ -32,7 +32,7 @@ export default function LoginPage({ onSignUp }) {
   }
 
   return <div className="min-h-screen bg-canvas">
-    <Header className="[&>div]:min-h-[87px] [&_nav]:gap-x-3 sm:[&_nav]:gap-x-8 lg:[&_nav]:gap-x-[52px]" />
+    <Header onNavigate={onHeaderNavigate} className="[&>div]:min-h-[87px] [&_nav]:gap-x-3 sm:[&_nav]:gap-x-8 lg:[&_nav]:gap-x-[52px]" />
     <main className="mx-auto grid min-h-[calc(100vh-88px)] w-full max-w-[1440px] lg:grid-cols-[minmax(0,740fr)_minmax(0,700fr)]">
       <section aria-labelledby="login-intro-title" className="relative min-h-[440px] overflow-hidden lg:min-h-[812px]">
         <img src={background} alt="" className="absolute inset-0 h-full w-full" aria-hidden="true" />

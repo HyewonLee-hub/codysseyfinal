@@ -22,7 +22,7 @@ function validateField(field, value) {
   return undefined
 }
 
-export default function SignupPage({ onLogin }) {
+export default function SignupPage({ onLogin, onHeaderNavigate }) {
   const [values, setValues] = useState(initialValues)
   const [errors, setErrors] = useState({})
   const [agreed, setAgreed] = useState(false)
@@ -66,7 +66,7 @@ export default function SignupPage({ onLogin }) {
   }
 
   return <div className="min-h-screen bg-canvas">
-    <Header className="[&>div]:min-h-[83px] [&_nav]:gap-x-3 sm:[&_nav]:gap-x-8 lg:[&_nav]:gap-x-[49px]" />
+    <Header onNavigate={onHeaderNavigate} className="[&>div]:min-h-[83px] [&_nav]:gap-x-3 sm:[&_nav]:gap-x-8 lg:[&_nav]:gap-x-[49px]" />
     <main className="mx-auto grid min-h-[calc(100vh-84px)] w-full max-w-[1440px] lg:grid-cols-[minmax(0,575fr)_minmax(0,865fr)]">
       <section aria-labelledby="signup-intro-title" className="relative min-h-[480px] overflow-hidden bg-primary-soft sm:min-h-[560px] lg:min-h-[816px]">
         <div className="absolute -left-[45.22%] top-[64.46%] h-[80.88%] w-[114.78%] rounded-full bg-[#dceaff]" aria-hidden="true" />
