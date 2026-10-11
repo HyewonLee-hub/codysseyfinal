@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Button from '../components/common/Button.jsx'
-import InlineAlert from '../components/common/InlineAlert.jsx'
 import ProgressBar from '../components/common/ProgressBar.jsx'
 import QuestionCard from '../components/domain/QuestionCard.jsx'
 import Header from '../components/layout/Header.jsx'
@@ -9,12 +8,11 @@ import { diagnosisQuestions } from '../data/diagnosisQuestions.js'
 
 const ordinalNames = ['첫', '두', '세', '네', '다섯', '여섯', '일곱', '여덟', '아홉', '열', '열한', '열두', '열세', '열네', '열다섯', '열여섯', '열일곱', '열여덟', '열아홉', '스무']
 
-export default function DiagnosisQuestionsPage({ onHeaderNavigate }) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [selected, setSelected] = useState(null)
-  const [answers, setAnswers] = useState({})
+export default function DiagnosisQuestionsPage({ onHeaderNavigate, onComplete, completedAnswers }) {
+  const [currentIndex, setCurrentIndex] = useState(() => completedAnswers ? diagnosisQuestions.length - 1 : 0)
+  const [selected, setSelected] = useState(() => completedAnswers?.[diagnosisQuestions.at(-1).id] ?? null)
+  const [answers, setAnswers] = useState(() => completedAnswers ?? {})
   const [error, setError] = useState('')
-  const [completed, setCompleted] = useState(false)
   const question = diagnosisQuestions[currentIndex]
   const total = diagnosisQuestions.length
   const currentNumber = currentIndex + 1
@@ -30,7 +28,7 @@ export default function DiagnosisQuestionsPage({ onHeaderNavigate }) {
     setError('')
 
     if (currentNumber === total) {
-      if (Object.keys(nextAnswers).length === total) setCompleted(true)
+      if (Object.keys(nextAnswers).length === total) onComplete?.(nextAnswers)
       return
     }
 
@@ -55,9 +53,7 @@ export default function DiagnosisQuestionsPage({ onHeaderNavigate }) {
       </div>
 
       <PageContainer className="flex justify-end pb-12 pt-12 lg:pt-[113px]">
-        {completed
-          ? <InlineAlert tone="info" title="진단이 완료되었습니다." className="w-full max-w-[480px]">20문제의 답안을 임시로 기록했습니다. 진단 결과 분석 기능은 준비 중입니다.</InlineAlert>
-          : <Button onClick={handleNext} className="min-h-[52px] w-full px-8 text-[15px] sm:w-[185px]">{currentNumber === total ? '진단 완료' : '다음 문제'}</Button>}
+        <Button onClick={handleNext} className="min-h-[52px] w-full px-8 text-[15px] sm:w-[185px]">{currentNumber === total ? '진단 완료' : '다음 문제'}</Button>
       </PageContainer>
     </main>
   </div>

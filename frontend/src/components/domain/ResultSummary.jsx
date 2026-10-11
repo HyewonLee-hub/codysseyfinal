@@ -1,6 +1,15 @@
 import Card from '../common/Card.jsx'
 
-export default function ResultSummary({ correct, total, label = '오늘의 정답률', className = '' }) {
+export default function ResultSummary({ correct, total, label = '오늘의 정답률', variant = 'default', result, className = '' }) {
+  if (variant === 'diagnosis') return <Card as="section" aria-label="진단 결과 요약" className={`relative min-h-[500px] overflow-hidden !rounded-[38px] !border-0 !bg-[#dfeaff] !p-8 sm:!p-12 lg:h-[600px] ${className}`}>
+    <div className="absolute -left-[180px] top-[415px] size-[400px] rounded-full bg-accent-violet" aria-hidden="true" />
+    <div className="relative">
+      <p className="text-sm font-bold text-primary">진단 결과 · 예상 점수</p>
+      <strong className="mt-[77px] block text-[clamp(76px,12vw,122px)] leading-none tracking-[-0.06em] text-primary">{result.expectedScore}</strong>
+      <p className="mt-[21px] text-[18px] leading-normal text-[#526783]">추천 학습<br />{result.recommendedStudy}</p>
+    </div>
+  </Card>
+
   const rate = total > 0 ? Math.round(correct / total * 100) : 0
   return <Card as="section" aria-label="학습 결과 요약" className={`relative overflow-hidden border-0 bg-[#e4edff] p-8 sm:p-11 ${className}`}>
     <div className="pointer-events-none absolute -right-20 -top-24 size-72 rounded-full bg-accent-violet" aria-hidden="true" />
