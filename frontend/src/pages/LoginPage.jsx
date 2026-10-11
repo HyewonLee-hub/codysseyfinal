@@ -8,7 +8,7 @@ import cloudSmall from '../assets/login/cloud-small.svg'
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-export default function LoginPage() {
+export default function LoginPage({ onSignUp }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
@@ -58,7 +58,7 @@ export default function LoginPage() {
             <Button type="submit" size="lg" className="mt-[49px] w-full bg-[#3157c9]">로그인</Button>
             {notice && <p role="status" className="mt-4 text-center text-sm text-body">{notice}</p>}
           </form>
-          <p className="mt-[31px] text-center text-sm text-[#728198]">아직 계정이 없으신가요? <button type="button" onClick={() => setNotice('회원가입 페이지는 준비 중입니다.')} className="ml-3 font-bold text-primary hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-primary">회원가입</button></p>
+          <p className="mt-[31px] text-center text-sm text-[#728198]">아직 계정이 없으신가요? <a href="/signup" onClick={onSignUp} className="ml-3 font-bold text-primary hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-primary">회원가입</a></p>
         </div>
       </section>
     </main>
