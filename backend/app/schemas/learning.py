@@ -151,3 +151,101 @@ class WeakLearningReportResponse(BaseModel):
     trap_counts: list[TrapCountResponse]
     started_at: str
     completed_at: str | None
+
+
+class WrongReviewStartResponse(BaseModel):
+    session_id: str
+    total_count: int
+
+
+class WrongReviewItemsResponse(BaseModel):
+    session_id: str
+    total_count: int
+    items: list[LearningTestItemResponse]
+
+
+class WrongReviewAnswerSubmission(BaseModel):
+    question_id: str
+    selected_choice: ChoiceLabel
+
+
+class WrongReviewSubmitRequest(BaseModel):
+    session_id: str
+    answers: list[WrongReviewAnswerSubmission]
+
+
+class WrongReviewResultResponse(BaseModel):
+    question_id: str
+    subtype_id: str
+    selected_choice: ChoiceLabel
+    correct_choice: ChoiceLabel
+    is_correct: bool
+    trap_id: str | None = None
+
+
+class WrongReviewSubmitResponse(BaseModel):
+    session_id: str
+    total_count: int
+    correct_count: int
+    accuracy: float
+    results: list[WrongReviewResultResponse]
+    status: Literal["completed"]
+
+
+class WrongReviewReportResponse(BaseModel):
+    session_id: str
+    total_count: int
+    correct_count: int
+    accuracy: float
+    remaining_wrong_count: int
+    completed_at: str | None
+
+
+class LearningRecommendationTrapResponse(BaseModel):
+    trap_id: str
+    name: str
+    description: str | None
+    wrong_count: int
+    last_seen_at: str
+
+
+class LearningRecommendationItemResponse(BaseModel):
+    subtype_id: str
+    subtype_name: str
+    type_id: str
+    type_name: str
+    priority_score: float
+    total_attempts: int
+    correct_count: int
+    wrong_count: int
+    accuracy: float
+    last_attempted_at: str
+    last_is_correct: bool
+    recent_wrong_count: int
+    top_traps: list[LearningRecommendationTrapResponse]
+    reason: list[str]
+
+
+class LearningStrengthItemResponse(BaseModel):
+    subtype_id: str
+    subtype_name: str
+    type_id: str
+    type_name: str
+    total_attempts: int
+    correct_count: int
+    wrong_count: int
+    accuracy: float
+    last_attempted_at: str
+    last_is_correct: bool
+    reason: list[str]
+
+
+class LearningRecommendationSummaryResponse(BaseModel):
+    total_attempts: int
+    analyzed_subtypes: int
+
+
+class LearningRecommendationsResponse(BaseModel):
+    recommendations: list[LearningRecommendationItemResponse]
+    strengths: list[LearningStrengthItemResponse]
+    summary: LearningRecommendationSummaryResponse

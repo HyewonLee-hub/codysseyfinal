@@ -56,6 +56,24 @@ class PracticeQuestionGradingData(TypedDict):
     incorrect_choice_traps: list[IncorrectChoiceTrap]
 
 
+class ReviewQuestion(TypedDict):
+    id: str
+    subtype_id: str
+    part: str
+    difficulty: str | None
+    stem: str
+    translation: str | None
+    choices: list[PracticeChoice]
+
+
+class ReviewQuestionGradingData(TypedDict):
+    question_id: str
+    found: bool
+    subtype_id: str | None
+    correct_choice_label: str | None
+    incorrect_choice_traps: list[IncorrectChoiceTrap]
+
+
 def subtype_exists(subtype_id: str) -> bool:
     """Return whether a subtype exists in the taxonomy."""
     response = (
@@ -438,6 +456,105 @@ def get_diagnostic_question_grading_data(
 
     return [
         grading_data_by_question_id.get(
+            question_id,
+            {
+                "question_id": question_id,
+                "found": False,
+                "subtype_id": None,
+                "correct_choice_label": None,
+                "incorrect_choice_traps": [],
+            },
+        )
+        for question_id in question_ids
+    ]
+
+
+def get_public_toeic_questions_by_ids(question_ids: list[str]) -> list[ReviewQuestion]:
+    """Return public diagnostic or practice questions in requested ID order."""
+    if not question_ids:
+        return []
+
+    response = (
+        supabase.table("questions")
+        .select(
+            "id, subtype_id, part, difficulty, stem, translation, "
+            "question_choices(choice_label, choice_text)"
+        )
+        .in_("id", question_ids)
+        .execute()
+    )
+    questions_by_id: dict[str, ReviewQuestion] = {}
+    for row in response.data:
+        choices = sorted(
+            row.get("question_choices") or [],
+            key=lambda choice: choice["choice_label"],
+        )
+        questions_by_id[row["id"]] = {
+            "id": row["id"],
+            "subtype_id": row["subtype_id"],
+            "part": row["part"],
+            "difficulty": row["difficulty"],
+            "stem": row["stem"],
+            "translation": row["translation"],
+            "choices": [
+                {"label": choice["choice_label"], "text": choice["choice_text"]}
+                for choice in choices
+            ],
+        }
+
+    return [
+        questions_by_id[question_id]
+        for question_id in question_ids
+        if question_id in questions_by_id
+    ]
+
+
+def get_toeic_questions_grading_data(
+    question_ids: list[str],
+) -> list[ReviewQuestionGradingData]:
+    """Return internal grading data for diagnostic or practice questions."""
+    if not question_ids:
+        return []
+
+    response = (
+        supabase.table("questions")
+        .select(
+            "id, subtype_id, "
+            "question_choices(choice_label, is_correct, trap_id)"
+        )
+        .in_("id", question_ids)
+        .execute()
+    )
+    by_question_id: dict[str, ReviewQuestionGradingData] = {}
+    for row in response.data:
+        choices = row.get("question_choices") or []
+        by_question_id[row["id"]] = {
+            "question_id": row["id"],
+            "found": True,
+            "subtype_id": row["subtype_id"],
+            "correct_choice_label": next(
+                (
+                    choice["choice_label"]
+                    for choice in choices
+                    if choice["is_correct"]
+                ),
+                None,
+            ),
+            "incorrect_choice_traps": sorted(
+                [
+                    {
+                        "choice_label": choice["choice_label"],
+                        "trap_id": choice["trap_id"],
+                    }
+                    for choice in choices
+                    if not choice["is_correct"]
+                ],
+                key=lambda choice: choice["choice_label"],
+            ),
+        }
+
+    return [
+        by_question_id.get(
             question_id,
             {
                 "question_id": question_id,

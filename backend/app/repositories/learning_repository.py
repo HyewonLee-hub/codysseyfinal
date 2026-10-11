@@ -48,6 +48,13 @@ class LearningSessionQuestion(TypedDict):
     position: int
 
 
+class LearnerQuestionAttempt(TypedDict):
+    question_id: str
+    is_correct: bool
+    answered_at: str
+    id: int
+
+
 def create_learning_session(
     *,
     subtype_id: str | None,
@@ -214,6 +221,19 @@ def get_learning_session_attempt_details(
         .execute()
     )
 
+    return response.data
+
+
+def get_learner_question_attempts(learner_id: str) -> list[LearnerQuestionAttempt]:
+    """Return TOEIC attempts newest first for unresolved-wrong calculation."""
+    response = (
+        supabase.table("question_attempts")
+        .select("id, question_id, is_correct, answered_at")
+        .eq("learner_id", learner_id)
+        .order("answered_at", desc=True)
+        .order("id", desc=True)
+        .execute()
+    )
     return response.data
 
 

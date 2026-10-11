@@ -11,11 +11,15 @@ from app.services.weak_learning_service import get_weak_learning_progress
 
 def get_weak_learning_report(
     learning_session_id: str,
+    learner_id: str,
 ) -> WeakLearningReportResponse:
     """Build a report for one weak-learning session without persisting data."""
     session = get_learning_session(learning_session_id)
 
     if session is None:
+        raise ValueError("Learning session not found.")
+
+    if session["learner_id"] != learner_id:
         raise ValueError("Learning session not found.")
 
     if session["mode"] != "weak_learning":

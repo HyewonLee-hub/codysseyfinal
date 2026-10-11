@@ -21,11 +21,15 @@ from app.services.learning_test_service import (
 
 def get_learning_test_report(
     learning_session_id: str,
+    learner_id: str,
 ) -> LearningTestReportResponse:
     """Build a read-only report for one completed general learning test."""
     session = get_learning_session(learning_session_id)
 
     if session is None:
+        raise ValueError("Learning test session not found.")
+
+    if session["learner_id"] != learner_id:
         raise ValueError("Learning test session not found.")
 
     api_mode = LEARNING_TEST_DB_MODE_TO_API_MODE.get(session["mode"])
