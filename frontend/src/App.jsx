@@ -5,6 +5,7 @@ import DiagnosisPage from './pages/DiagnosisPage.jsx'
 import DiagnosisQuestionsPage from './pages/DiagnosisQuestionsPage.jsx'
 import DiagnosisResultPage from './pages/DiagnosisResultPage.jsx'
 import WordsPage from './pages/WordsPage.jsx'
+import StudyPage from './pages/StudyPage.jsx'
 import { diagnosisQuestions } from './data/diagnosisQuestions.js'
 import { mockDiagnosisResult } from './data/mockDiagnosisResult.js'
 
@@ -23,7 +24,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    document.title = `${path === '/words' ? '오늘의 단어' : path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TOEIC AI`
+    document.title = `${path === '/study' ? '오늘의 문제 풀기' : path === '/words' ? '오늘의 단어' : path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TOEIC AI`
   }, [path])
 
   function navigate(event, nextPath) {
@@ -34,7 +35,7 @@ function App() {
   }
 
   function handleHeaderNavigate(item) {
-    const nextPath = item === '무료진단' ? '/diagnosis' : item === '오늘의 단어' ? '/words' : null
+    const nextPath = item === '무료진단' ? '/diagnosis' : item === '오늘의 단어' ? '/words' : item === '학습' ? '/study' : null
     if (!nextPath) return
     if (window.location.pathname !== nextPath) window.history.pushState(null, '', nextPath)
     setPath(nextPath)
@@ -57,6 +58,7 @@ function App() {
   if (path === '/diagnosis/questions') return <DiagnosisQuestionsPage onHeaderNavigate={handleHeaderNavigate} onComplete={handleCompleteDiagnosis} completedAnswers={diagnosisAnswers} />
   if (path === '/diagnosis') return <DiagnosisPage onHeaderNavigate={handleHeaderNavigate} onStart={handleStartDiagnosis} />
   if (path === '/words') return <WordsPage onHeaderNavigate={handleHeaderNavigate} />
+  if (path === '/study') return <StudyPage onHeaderNavigate={handleHeaderNavigate} />
   if (path === '/signup') return <SignupPage onLogin={(event) => navigate(event, '/login')} onHeaderNavigate={handleHeaderNavigate} />
   return <LoginPage onSignUp={(event) => navigate(event, '/signup')} onHeaderNavigate={handleHeaderNavigate} />
 }

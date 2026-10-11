@@ -3,6 +3,20 @@ import ChoiceOption from '../common/ChoiceOption.jsx'
 import ProgressBar from '../common/ProgressBar.jsx'
 
 export default function QuestionCard({ number, total, category, question, instruction, options, selected, onSelect, name = 'question', variant = 'default', error, className = '' }) {
+  if (variant === 'study') return <section aria-label={`${number}번 문제`} className={className}>
+    <div className="flex flex-wrap items-center justify-between gap-3 text-[15px]">
+      <p className="font-bold text-primary">문제 {String(number).padStart(2, '0')} / {total}</p>
+      <p className="text-[#687284]">{category}</p>
+    </div>
+    <h2 className="mt-[33px] break-words text-[clamp(24px,3vw,29px)] leading-[1.35] font-bold tracking-[-0.03em] text-[#20232a]">{question}</h2>
+    <p className="mt-[34px] text-[15px] text-[#7b8797]">{instruction ?? '빈칸에 들어갈 가장 알맞은 표현을 선택하세요.'}</p>
+    <fieldset aria-invalid={Boolean(error)} aria-describedby={error ? 'study-answer-error' : undefined} className="mt-[15px] grid gap-x-[50px] gap-y-[23px] sm:grid-cols-2">
+      <legend className="sr-only">답안 선택</legend>
+      {options.map((option) => <ChoiceOption key={option.value} variant="study" name={name} value={option.value} label={option.label} checked={selected === option.value} onChange={() => onSelect?.(option.value)} />)}
+    </fieldset>
+    {error && <p id="study-answer-error" role="alert" className="mt-4 text-sm text-error">{error}</p>}
+  </section>
+
   if (variant === 'diagnosis') return <section aria-label={`${number}번 문제`} className={className}>
     <p className="text-[15px] leading-[18px] font-bold text-primary">{category}</p>
     <h2 className="mt-[42px] text-[clamp(24px,3vw,32px)] leading-[1.35] font-bold tracking-[-0.03em] text-ink">{question}</h2>
