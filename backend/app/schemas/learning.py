@@ -47,3 +47,24 @@ class WeakLearningStartResponse(BaseModel):
     learning_session_id: str
     subtype_id: str
     status: Literal["in_progress"]
+
+
+class TrapCountResponse(BaseModel):
+    trap_id: str
+    count: int
+
+
+class WeakLearningReportResponse(BaseModel):
+    learning_session_id: str
+    subtype_id: str
+    subtype_name: str
+    type_id: str
+    type_name: str
+    status: str
+    total_questions: int
+    correct_count: int
+    accuracy: float
+    final_correct_streak: int
+    trap_counts: list[TrapCountResponse]
+    started_at: str
+    completed_at: str | None

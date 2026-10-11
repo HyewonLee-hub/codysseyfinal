@@ -13,12 +13,30 @@ class LearningSession(TypedDict):
     mode: str
     subtype_id: str | None
     status: str
+    started_at: str
+    completed_at: str | None
 
 
 class LearningSessionAttempt(TypedDict):
     question_id: str
     is_correct: bool
     answered_at: str
+
+
+class LearningSessionAttemptDetails(TypedDict):
+    question_id: str
+    subtype_id: str | None
+    selected_choice: str
+    is_correct: bool
+    trap_id: str | None
+    answered_at: str
+
+
+class LearningSubtypeTaxonomy(TypedDict):
+    subtype_id: str
+    subtype_name: str | None
+    type_id: str | None
+    type_name: str | None
 
 
 def create_learning_session(
@@ -73,10 +91,10 @@ def create_learning_attempt(
 
 
 def get_learning_session(learning_session_id: str) -> LearningSession | None:
-    """Return the minimum data required to validate a learning session."""
+    """Return the data required to validate and report on a learning session."""
     response = (
         supabase.table("learning_sessions")
-        .select("id, learner_id, mode, subtype_id, status")
+        .select("id, learner_id, mode, subtype_id, status, started_at, completed_at")
         .eq("id", learning_session_id)
         .limit(1)
         .execute()
@@ -101,6 +119,49 @@ def get_learning_session_attempts(
     )
 
     return response.data
+
+
+def get_learning_session_attempt_details(
+    learning_session_id: str,
+) -> list[LearningSessionAttemptDetails]:
+    """Return report fields for attempts in one learning session, newest first."""
+    response = (
+        supabase.table("question_attempts")
+        .select(
+            "question_id, subtype_id, selected_choice, is_correct, trap_id, answered_at"
+        )
+        .eq("learning_session_id", learning_session_id)
+        .order("answered_at", desc=True)
+        .execute()
+    )
+
+    return response.data
+
+
+def get_learning_subtype_taxonomy(
+    subtype_id: str,
+) -> LearningSubtypeTaxonomy | None:
+    """Return one subtype and its parent type display data."""
+    response = (
+        supabase.table("subtypes")
+        .select("id, name, type_id, types(id, name)")
+        .eq("id", subtype_id)
+        .limit(1)
+        .execute()
+    )
+
+    if not response.data:
+        return None
+
+    subtype = response.data[0]
+    question_type = subtype.get("types") or {}
+
+    return {
+        "subtype_id": subtype["id"],
+        "subtype_name": subtype.get("name"),
+        "type_id": subtype.get("type_id"),
+        "type_name": question_type.get("name"),
+    }
 
 
 def complete_learning_session(learning_session_id: str) -> None:
