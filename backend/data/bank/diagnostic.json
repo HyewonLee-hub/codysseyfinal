@@ -1,0 +1,546 @@
+{
+ "_doc": "진단 블루프린트 문항(세부유형당 1개). AI 생성·검수 전. 원문 미사용.",
+ "version": "0.1",
+ "items": [
+  {
+   "id": "POS-01-01-dg",
+   "subtype_id": "POS-01-01",
+   "type_id": "POS-01",
+   "type_name": "명사 자리",
+   "group": "POS",
+   "group_name": "품사·자리",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "하",
+   "stem": "The committee reached its final ___ after a lengthy discussion.",
+   "options": {
+    "A": "decision",
+    "B": "decide",
+    "C": "decisive",
+    "D": "decisively"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-01",
+    "C": "TR-01",
+    "D": "TR-01"
+   },
+   "translation": "위원회는 오랜 논의 끝에 최종 결정을 내렸다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "POS-03-02-dg",
+   "subtype_id": "POS-03-02",
+   "type_id": "POS-03",
+   "type_name": "형용사 자리·형태",
+   "group": "POS",
+   "group_name": "품사·자리",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "중",
+   "stem": "After the merger, the new division remained ___ despite the market downturn.",
+   "options": {
+    "A": "profitable",
+    "B": "profitably",
+    "C": "profitability",
+    "D": "profit"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-01",
+    "C": "TR-01",
+    "D": "TR-01"
+   },
+   "translation": "합병 이후 새 사업부는 시장 침체에도 불구하고 수익성을 유지했다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "POS-04-01-dg",
+   "subtype_id": "POS-04-01",
+   "type_id": "POS-04",
+   "type_name": "부사 자리",
+   "group": "POS",
+   "group_name": "품사·자리",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "하",
+   "stem": "The engineering team completed the safety inspection ___ ahead of the deadline.",
+   "options": {
+    "A": "successfully",
+    "B": "successful",
+    "C": "success",
+    "D": "succeed"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-01",
+    "C": "TR-01",
+    "D": "TR-01"
+   },
+   "translation": "엔지니어링 팀은 마감일보다 앞서 안전 점검을 성공적으로 완료했다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "VOI-01-01-dg",
+   "subtype_id": "VOI-01-01",
+   "type_id": "VOI-01",
+   "type_name": "능동 vs 수동",
+   "group": "VOI",
+   "group_name": "태",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "중",
+   "stem": "The quarterly report ___ by the finance team before it is submitted to the board.",
+   "options": {
+    "A": "reviews",
+    "B": "is reviewed",
+    "C": "are reviewed",
+    "D": "is reviewing"
+   },
+   "answer": "B",
+   "option_traps": {
+    "A": "TR-07",
+    "C": "TR-08",
+    "D": "TR-07"
+   },
+   "translation": "분기 보고서는 이사회에 제출되기 전에 재무팀에 의해 검토된다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "TEN-03-01-dg",
+   "subtype_id": "TEN-03-01",
+   "type_id": "TEN-03",
+   "type_name": "현재완료",
+   "group": "TEN",
+   "group_name": "시제",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "중",
+   "stem": "Ms. Tanaka ___ for the firm since it opened its first overseas branch in 2015.",
+   "options": {
+    "A": "has worked",
+    "B": "worked",
+    "C": "works",
+    "D": "is working"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-06",
+    "C": "TR-06",
+    "D": "TR-06"
+   },
+   "translation": "다나카 씨는 2015년 회사가 첫 해외 지사를 연 이래로 그 회사에서 일해 왔다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "AGR-01-01-dg",
+   "subtype_id": "AGR-01-01",
+   "type_id": "AGR-01",
+   "type_name": "주어-동사 수일치 기본",
+   "group": "AGR",
+   "group_name": "주어-동사 수일치",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "하",
+   "stem": "The updated safety manual routinely ___ every employee to wear protective gear on the factory floor.",
+   "options": {
+    "A": "requires",
+    "B": "require",
+    "C": "required",
+    "D": "is required"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-08",
+    "C": "TR-06",
+    "D": "TR-07"
+   },
+   "translation": "개정된 안전 수칙은 모든 직원에게 공장 작업장에서 보호 장비를 착용하도록 일상적으로 요구한다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "VF-01-02-dg",
+   "subtype_id": "VF-01-02",
+   "type_id": "VF-01",
+   "type_name": "동사원형 자리",
+   "group": "VF",
+   "group_name": "동사 형태·조동사·문형",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "하",
+   "stem": "The company plans to ___ its overseas operations before the end of the fiscal year.",
+   "options": {
+    "A": "expand",
+    "B": "expansion",
+    "C": "expanding",
+    "D": "expanded"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-01",
+    "C": "TR-09",
+    "D": "TR-09"
+   },
+   "translation": "그 회사는 회계연도가 끝나기 전에 해외 사업을 확장할 계획이다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "VBL-06-02-dg",
+   "subtype_id": "VBL-06-02",
+   "type_id": "VBL-06",
+   "type_name": "전치사 뒤 동명사",
+   "group": "VBL",
+   "group_name": "준동사",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "상",
+   "stem": "The entire project team looks forward to ___ with the new overseas partners starting next quarter.",
+   "options": {
+    "A": "collaborating",
+    "B": "collaborate",
+    "C": "collaborated",
+    "D": "collaboration"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-09",
+    "C": "TR-09",
+    "D": "TR-01"
+   },
+   "translation": "프로젝트 팀 전체가 다음 분기부터 새로운 해외 파트너들과 협업하기를 고대하고 있다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "VBL-07-02-dg",
+   "subtype_id": "VBL-07-02",
+   "type_id": "VBL-07",
+   "type_name": "명사 수식 분사",
+   "group": "VBL",
+   "group_name": "준동사",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "상",
+   "stem": "All employees ___ the quarterly training session must sign the attendance sheet at the main entrance.",
+   "options": {
+    "A": "attending",
+    "B": "attended",
+    "C": "attend",
+    "D": "to attend"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-07",
+    "C": "TR-09",
+    "D": "TR-09"
+   },
+   "translation": "분기별 교육 세션에 참석하는 모든 직원은 정문에서 출석부에 서명해야 한다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "PRN-01-05-dg",
+   "subtype_id": "PRN-01-05",
+   "type_id": "PRN-01",
+   "type_name": "인칭대명사의 격",
+   "group": "PRN",
+   "group_name": "대명사",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "상",
+   "stem": "A colleague of ___ recommended the downtown branch for its faster customer service.",
+   "options": {
+    "A": "mine",
+    "B": "my",
+    "C": "me",
+    "D": "myself"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-11",
+    "C": "TR-11",
+    "D": "TR-11"
+   },
+   "translation": "내 동료 한 명이 더 빠른 고객 서비스 때문에 시내 지점을 추천했다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "DET-01-01-dg",
+   "subtype_id": "DET-01-01",
+   "type_id": "DET-01",
+   "type_name": "가산·불가산 수량 한정사",
+   "group": "DET",
+   "group_name": "한정사·명사의 수",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "중",
+   "stem": "Because the warehouse had only ___ equipment left in stock, the manager placed an urgent order.",
+   "options": {
+    "A": "a little",
+    "B": "a few",
+    "C": "few",
+    "D": "several"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-13",
+    "C": "TR-13",
+    "D": "TR-13"
+   },
+   "translation": "창고에 재고 장비가 조금밖에 남지 않아서, 관리자는 긴급 주문을 넣었다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "PRP-01-02-dg",
+   "subtype_id": "PRP-01-02",
+   "type_id": "PRP-01",
+   "type_name": "시점 전치사",
+   "group": "PRP",
+   "group_name": "전치사",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "중",
+   "stem": "All applicants must submit their documents ___ Friday, as late entries will not be accepted.",
+   "options": {
+    "A": "by",
+    "B": "until",
+    "C": "for",
+    "D": "during"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-06",
+    "C": "TR-04",
+    "D": "TR-04"
+   },
+   "translation": "모든 지원자는 금요일까지 서류를 제출해야 하며, 늦은 제출은 받지 않는다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "PRP-04-02-dg",
+   "subtype_id": "PRP-04-02",
+   "type_id": "PRP-04",
+   "type_name": "의미 전치사",
+   "group": "PRP",
+   "group_name": "전치사",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "중",
+   "stem": "___ the tight deadline, the design team delivered the final layout ahead of schedule.",
+   "options": {
+    "A": "Despite",
+    "B": "Despite of",
+    "C": "Although",
+    "D": "Because of"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-14",
+    "C": "TR-05",
+    "D": "TR-03"
+   },
+   "translation": "촉박한 마감에도 불구하고, 디자인팀은 최종 레이아웃을 예정보다 일찍 전달했다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "CNJ-01-01-dg",
+   "subtype_id": "CNJ-01-01",
+   "type_id": "CNJ-01",
+   "type_name": "전치사 vs 접속사 vs 부사",
+   "group": "CNJ",
+   "group_name": "접속사·명사절",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "중",
+   "stem": "The flight was delayed for several hours ___ the dense fog that covered the entire region.",
+   "options": {
+    "A": "because of",
+    "B": "because",
+    "C": "despite",
+    "D": "nevertheless"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-05",
+    "C": "TR-12",
+    "D": "TR-05"
+   },
+   "translation": "그 항공편은 전 지역을 뒤덮은 짙은 안개 때문에 몇 시간 지연되었다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "CNJ-02-05-dg",
+   "subtype_id": "CNJ-02-05",
+   "type_id": "CNJ-02",
+   "type_name": "부사절 접속사의 의미",
+   "group": "CNJ",
+   "group_name": "접속사·명사절",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "중",
+   "stem": "The demand for the limited-edition model was ___ high that the company sold out its entire stock within hours.",
+   "options": {
+    "A": "so",
+    "B": "such",
+    "C": "too",
+    "D": "very"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-14",
+    "C": "TR-03",
+    "D": "TR-05"
+   },
+   "translation": "그 한정판 모델에 대한 수요가 너무 높아서 회사는 몇 시간 만에 전 재고를 소진했다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "REL-01-03-dg",
+   "subtype_id": "REL-01-03",
+   "type_id": "REL-01",
+   "type_name": "관계대명사의 격",
+   "group": "REL",
+   "group_name": "관계사",
+   "area": "G",
+   "area_name": "문법",
+   "difficulty": "상",
+   "stem": "The startup ___ founder previously worked at a major tech firm has attracted significant investor interest.",
+   "options": {
+    "A": "whose",
+    "B": "which",
+    "C": "whom",
+    "D": "who's"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-16",
+    "C": "TR-16",
+    "D": "TR-02"
+   },
+   "translation": "창업자가 전에 대형 기술 기업에서 일했던 그 스타트업은 상당한 투자자들의 관심을 끌었다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "LXV-02-01-dg",
+   "subtype_id": "LXV-02-01",
+   "type_id": "LXV-02",
+   "type_name": "동사 + 목적어 연어",
+   "group": "LXV",
+   "group_name": "동사 어휘",
+   "area": "V",
+   "area_name": "어휘",
+   "difficulty": "상",
+   "stem": "The marketing department will ___ a survey next month to better understand customer preferences before the product launch.",
+   "options": {
+    "A": "conduct",
+    "B": "make",
+    "C": "take",
+    "D": "give"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-04",
+    "C": "TR-04",
+    "D": "TR-04"
+   },
+   "translation": "마케팅부는 제품 출시에 앞서 고객 선호를 더 잘 파악하기 위해 다음 달 설문조사를 실시할 것이다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "LXN-02-01-dg",
+   "subtype_id": "LXN-02-01",
+   "type_id": "LXN-02",
+   "type_name": "동사·형용사와 연어를 이루는 명사",
+   "group": "LXN",
+   "group_name": "명사 어휘",
+   "area": "V",
+   "area_name": "어휘",
+   "difficulty": "상",
+   "stem": "A neat, professional appearance helps job candidates leave a favorable ___ on potential employers during interviews.",
+   "options": {
+    "A": "impression",
+    "B": "expression",
+    "C": "reputation",
+    "D": "reaction"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-02",
+    "C": "TR-04",
+    "D": "TR-04"
+   },
+   "translation": "단정하고 전문적인 외모는 지원자가 면접에서 잠재적 고용주에게 호감 가는 인상을 남기는 데 도움이 된다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "LXA-03-01-dg",
+   "subtype_id": "LXA-03-01",
+   "type_id": "LXA-03",
+   "type_name": "형용사 + 전치사 결합",
+   "group": "LXA",
+   "group_name": "형용사 어휘",
+   "area": "V",
+   "area_name": "어휘",
+   "difficulty": "상",
+   "stem": "All full-time employees are ___ for the year-end bonus after one year of service.",
+   "options": {
+    "A": "eligible",
+    "B": "capable",
+    "C": "aware",
+    "D": "familiar"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-04",
+    "C": "TR-04",
+    "D": "TR-04"
+   },
+   "translation": "모든 정규직 직원은 1년 근속 후 연말 보너스를 받을 자격이 있다.",
+   "source": "ai-generated",
+   "verified": false
+  },
+  {
+   "id": "CTX-01-01-dg",
+   "subtype_id": "CTX-01-01",
+   "type_id": "CTX-01",
+   "type_name": "접속부사·연결어",
+   "group": "CTX",
+   "group_name": "문맥 연결 (Part 6)",
+   "area": "C",
+   "area_name": "문맥 연결",
+   "difficulty": "중",
+   "stem": "Our new scheduling software was expected to cut processing time in half. ___, several departments have reported that the system frequently freezes during peak business hours.",
+   "options": {
+    "A": "However",
+    "B": "Therefore",
+    "C": "In addition",
+    "D": "For example"
+   },
+   "answer": "A",
+   "option_traps": {
+    "B": "TR-12",
+    "C": "TR-17",
+    "D": "TR-17"
+   },
+   "translation": "우리의 새 일정 관리 소프트웨어는 처리 시간을 절반으로 줄여 줄 것으로 기대되었다. 그러나 여러 부서가 업무가 몰리는 시간대에 시스템이 자주 멈춘다고 보고했다.",
+   "source": "ai-generated",
+   "verified": false
+  }
+ ]
+}
