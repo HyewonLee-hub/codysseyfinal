@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.schemas.learning import (
     WeakLearningItemResponse,
+    WeakLearningReportResponse,
     WeakLearningStartRequest,
     WeakLearningStartResponse,
     WeakLearningSubmitRequest,
@@ -16,6 +17,7 @@ from app.services.weak_learning_service import (
     start_weak_learning_session,
     submit_weak_learning_answer as submit_weak_learning_answer_service,
 )
+from app.services.weak_learning_report_service import get_weak_learning_report
 
 
 router = APIRouter(prefix="/learning", tags=["learning"])
@@ -33,6 +35,47 @@ def read_weak_learning_item(subtype_id: str) -> WeakLearningItemResponse:
         )
 
     return WeakLearningItemResponse(**item)
+
+
+@router.get(
+    "/weak/{learning_session_id}/report",
+    response_model=WeakLearningReportResponse,
+)
+def read_weak_learning_report(
+    learning_session_id: str,
+) -> WeakLearningReportResponse:
+    """Return the report for a weak-learning session."""
+    try:
+        UUID(learning_session_id)
+    except ValueError as error:
+        raise HTTPException(
+            status_code=400,
+            detail="learning_session_id must be a valid UUID.",
+        ) from error
+
+    try:
+        return get_weak_learning_report(learning_session_id)
+    except ValueError as error:
+        status_code = (
+            404
+            if str(error)
+            in {
+                "Learning session not found.",
+                "Learning session has no attempts.",
+            }
+            else 400
+        )
+        raise HTTPException(status_code=status_code, detail=str(error)) from error
+    except RuntimeError as error:
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to retrieve weak learning report.",
+        ) from error
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to retrieve weak learning report.",
+        ) from error
 
 
 @router.post("/weak/submit", response_model=WeakLearningSubmitResponse)
