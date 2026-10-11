@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 
+from app.api.diagnostic import router as diagnostic_router
 from app.db.supabase import supabase
 
 app = FastAPI(
     title="TOEIC AI API",
     version="0.1.0",
 )
+
+app.include_router(diagnostic_router)
 
 
 @app.get("/health")
