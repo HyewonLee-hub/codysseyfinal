@@ -169,12 +169,14 @@ def submit_wrong_review(
             )
         )
 
-    create_learning_test_attempts(
+    attempt_ids_by_question_id = create_learning_test_attempts(
         learning_session_id=submission.session_id,
         results=attempt_results,
         context=WRONG_REVIEW_MODE,
         learner_id=learner_id,
     )
+    for result in results:
+        result.attempt_id = attempt_ids_by_question_id[result.question_id]
     complete_learning_session(submission.session_id)
 
     correct_count = sum(result.is_correct for result in results)

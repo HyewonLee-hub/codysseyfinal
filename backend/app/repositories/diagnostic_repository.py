@@ -59,10 +59,10 @@ def create_question_attempts(
     diagnostic_session_id: str,
     results: list[DiagnosticItemGradingResult],
     learner_id: str | None = None,
-) -> None:
-    """Bulk insert graded attempts for one diagnostic session."""
+) -> dict[str, int]:
+    """Bulk insert diagnostic attempts and return IDs keyed by question ID."""
     if not results:
-        return
+        return {}
 
     answered_at = datetime.now(timezone.utc).isoformat()
     attempts = [
@@ -79,7 +79,32 @@ def create_question_attempts(
         for result in results
     ]
 
-    supabase.table("question_attempts").insert(attempts).execute()
+    response = supabase.table("question_attempts").insert(attempts).execute()
+    return _attempt_ids_by_question_id(response.data, [result.question_id for result in results])
+
+
+def _attempt_ids_by_question_id(
+    inserted_rows: list[dict[str, object]],
+    expected_question_ids: list[str],
+) -> dict[str, int]:
+    """Validate insert output without assuming a bulk-insert row order."""
+    if len(expected_question_ids) != len(set(expected_question_ids)):
+        raise RuntimeError("Diagnostic attempt question IDs must be unique.")
+
+    attempt_ids: dict[str, int] = {}
+    for row in inserted_rows:
+        question_id = row.get("question_id")
+        attempt_id = row.get("id")
+        if not isinstance(question_id, str) or not isinstance(attempt_id, int):
+            raise RuntimeError("Diagnostic attempt insert returned incomplete data.")
+        if question_id in attempt_ids:
+            raise RuntimeError("Diagnostic attempt insert returned duplicate question IDs.")
+        attempt_ids[question_id] = attempt_id
+
+    if set(attempt_ids) != set(expected_question_ids):
+        raise RuntimeError("Diagnostic attempt insert did not return every question ID.")
+
+    return attempt_ids
 
 
 def diagnostic_session_exists(diagnostic_session_id: str) -> bool:

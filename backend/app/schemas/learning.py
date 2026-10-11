@@ -33,6 +33,7 @@ class WeakLearningSubmitRequest(BaseModel):
 
 class WeakLearningSubmitResponse(BaseModel):
     question_id: str
+    attempt_id: int | None = None
     subtype_id: str
     selected_choice: ChoiceLabel
     correct_choice: ChoiceLabel
@@ -91,6 +92,7 @@ class LearningTestSubmitRequest(BaseModel):
 
 class LearningTestItemGradingResult(BaseModel):
     question_id: str
+    attempt_id: int | None = None
     subtype_id: str
     selected_choice: ChoiceLabel
     correct_choice: ChoiceLabel
@@ -176,6 +178,7 @@ class WrongReviewSubmitRequest(BaseModel):
 
 class WrongReviewResultResponse(BaseModel):
     question_id: str
+    attempt_id: int | None = None
     subtype_id: str
     selected_choice: ChoiceLabel
     correct_choice: ChoiceLabel

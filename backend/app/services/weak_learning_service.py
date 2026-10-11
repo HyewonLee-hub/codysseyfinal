@@ -153,7 +153,7 @@ def submit_weak_learning_answer(
     if result.subtype_id != session_subtype_id:
         raise ValueError("Submitted question does not match the learning session subtype.")
 
-    create_learning_attempt(
+    result.attempt_id = create_learning_attempt(
         learner_id=learner_id,
         learning_session_id=submission.learning_session_id,
         result=result,

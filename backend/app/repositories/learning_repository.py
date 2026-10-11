@@ -88,9 +88,9 @@ def create_learning_attempt(
     learning_session_id: str,
     result: WeakLearningSubmitResponse,
     learner_id: str | None = None,
-) -> None:
-    """Store one weak-learning attempt for a learning session."""
-    supabase.table("question_attempts").insert(
+) -> int:
+    """Store one weak-learning attempt and return its generated ID."""
+    response = supabase.table("question_attempts").insert(
         {
             "learner_id": learner_id,
             "diagnostic_session_id": None,
@@ -104,6 +104,18 @@ def create_learning_attempt(
             "answered_at": datetime.now(timezone.utc).isoformat(),
         }
     ).execute()
+    if not response.data:
+        raise RuntimeError("Learning attempt insert did not return an ID.")
+
+    inserted_attempt = response.data[0]
+    attempt_id = inserted_attempt.get("id")
+    if (
+        not isinstance(attempt_id, int)
+        or inserted_attempt.get("question_id") != result.question_id
+    ):
+        raise RuntimeError("Learning attempt insert returned incomplete data.")
+
+    return attempt_id
 
 
 def create_learning_test_attempts(
@@ -112,10 +124,10 @@ def create_learning_test_attempts(
     results: list[LearningTestItemGradingResult],
     context: str,
     learner_id: str | None = None,
-) -> None:
-    """Store all attempts submitted for one general learning test at once."""
+) -> dict[str, int]:
+    """Bulk insert attempts and return generated IDs keyed by question ID."""
     if not results:
-        return
+        return {}
 
     answered_at = datetime.now(timezone.utc).isoformat()
     attempts = [
@@ -134,7 +146,32 @@ def create_learning_test_attempts(
         for result in results
     ]
 
-    supabase.table("question_attempts").insert(attempts).execute()
+    response = supabase.table("question_attempts").insert(attempts).execute()
+    return _attempt_ids_by_question_id(response.data, [result.question_id for result in results])
+
+
+def _attempt_ids_by_question_id(
+    inserted_rows: list[dict[str, object]],
+    expected_question_ids: list[str],
+) -> dict[str, int]:
+    """Validate bulk insert output without relying on returned row order."""
+    if len(expected_question_ids) != len(set(expected_question_ids)):
+        raise RuntimeError("Learning attempt question IDs must be unique.")
+
+    attempt_ids: dict[str, int] = {}
+    for row in inserted_rows:
+        question_id = row.get("question_id")
+        attempt_id = row.get("id")
+        if not isinstance(question_id, str) or not isinstance(attempt_id, int):
+            raise RuntimeError("Learning attempt insert returned incomplete data.")
+        if question_id in attempt_ids:
+            raise RuntimeError("Learning attempt insert returned duplicate question IDs.")
+        attempt_ids[question_id] = attempt_id
+
+    if set(attempt_ids) != set(expected_question_ids):
+        raise RuntimeError("Learning attempt insert did not return every question ID.")
+
+    return attempt_ids
 
 
 def get_learning_session(learning_session_id: str) -> LearningSession | None:

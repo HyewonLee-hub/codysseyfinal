@@ -136,11 +136,14 @@ def submit_diagnostic(
         estimated_score=None,
     )
 
-    create_question_attempts(
+    attempt_ids_by_question_id = create_question_attempts(
         learner_id=learner_id,
         diagnostic_session_id=diagnostic_session_id,
         results=grading_result.results,
     )
+
+    for result in grading_result.results:
+        result.attempt_id = attempt_ids_by_question_id[result.question_id]
 
     return DiagnosticSubmitResponse(
         session_id=diagnostic_session_id,

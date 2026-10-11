@@ -204,12 +204,14 @@ def submit_learning_test(
     correct_count = sum(result.is_correct for result in results)
     accuracy = round(correct_count / LEARNING_TEST_ITEM_LIMIT * 100, 2)
 
-    create_learning_test_attempts(
+    attempt_ids_by_question_id = create_learning_test_attempts(
         learning_session_id=submission.learning_session_id,
         results=results,
         context=session["mode"],
         learner_id=learner_id,
     )
+    for result in results:
+        result.attempt_id = attempt_ids_by_question_id[result.question_id]
     complete_learning_session(submission.learning_session_id)
 
     return LearningTestSubmitResponse(
