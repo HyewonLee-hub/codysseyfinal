@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Button from '../components/common/Button.jsx'
 import Checkbox from '../components/common/Checkbox.jsx'
 import Input from '../components/common/Input.jsx'
+import InlineAlert from '../components/common/InlineAlert.jsx'
 import Header from '../components/layout/Header.jsx'
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -27,6 +28,18 @@ export default function SignupPage({ onLogin }) {
   const [agreed, setAgreed] = useState(false)
   const [agreementError, setAgreementError] = useState(false)
   const [notice, setNotice] = useState('')
+  const fieldErrors = Object.entries(errors).filter(([, error]) => Boolean(error))
+  const hasRequiredError = fieldErrors.some(([field, error]) => error === requiredMessages[field])
+  const alertTitle = hasRequiredError ? '필수 정보를 입력해 주세요.' : '입력 형식을 확인해 주세요.'
+  const alertDescription = hasRequiredError
+    ? '이름·나이·이메일·비밀번호를 확인한 뒤 다시 진행해 주세요.'
+    : errors.email && errors.age
+      ? '이메일 형식과 나이 입력값을 확인한 뒤 다시 진행해 주세요.'
+      : errors.email
+        ? '올바른 이메일 형식으로 입력한 뒤 다시 진행해 주세요.'
+        : errors.age === '나이는 숫자만 입력해 주세요.'
+          ? '나이는 숫자만 입력한 뒤 다시 진행해 주세요.'
+          : '나이를 1세부터 120세까지의 정수로 입력해 주세요.'
 
   function updateField(field, rawValue) {
     const invalidAgeCharacters = field === 'age' && /\D/.test(rawValue)
@@ -78,10 +91,10 @@ export default function SignupPage({ onLogin }) {
           <p className="mt-4 text-base leading-[25px] text-body">학습 기록을 저장할 계정을 만드세요.</p>
           <form noValidate onSubmit={handleSubmit} className="mt-[45px]">
             <div className="grid gap-x-[30px] gap-y-[31px] sm:grid-cols-2">
-              <Input id="signup-name" label="이름" placeholder="이름을 입력해 주세요" autoComplete="name" value={values.name} onChange={(event) => updateField('name', event.target.value)} onBlur={() => updateField('name', values.name.trim())} error={errors.name} variant="signup" required showRequiredIndicator={false} />
-              <Input id="signup-age" label="나이" placeholder="나이를 입력해 주세요" inputMode="numeric" autoComplete="off" value={values.age} onChange={(event) => updateField('age', event.target.value)} error={errors.age} variant="signup" required showRequiredIndicator={false} />
-              <Input id="signup-email" label="이메일" type="email" placeholder="이메일을 입력해 주세요" autoComplete="email" value={values.email} onChange={(event) => updateField('email', event.target.value)} error={errors.email} variant="signup" required showRequiredIndicator={false} />
-              <Input id="signup-password" label="비밀번호" type="password" placeholder="비밀번호를 설정해 주세요" autoComplete="new-password" value={values.password} onChange={(event) => updateField('password', event.target.value)} error={errors.password} variant="signup" required showRequiredIndicator={false} />
+              <Input id="signup-name" label="이름" placeholder="이름을 입력해 주세요" autoComplete="name" value={values.name} onChange={(event) => updateField('name', event.target.value)} onBlur={() => updateField('name', values.name.trim())} error={errors.name} variant="signup" required />
+              <Input id="signup-age" label="나이" placeholder="나이를 입력해 주세요" inputMode="numeric" autoComplete="off" value={values.age} onChange={(event) => updateField('age', event.target.value)} error={errors.age} variant="signup" required />
+              <Input id="signup-email" label="이메일" type="email" placeholder="이메일을 입력해 주세요" autoComplete="email" value={values.email} onChange={(event) => updateField('email', event.target.value)} error={errors.email} variant="signup" required />
+              <Input id="signup-password" label="비밀번호" type="password" placeholder="비밀번호를 설정해 주세요" autoComplete="new-password" value={values.password} onChange={(event) => updateField('password', event.target.value)} error={errors.password} variant="signup" required />
             </div>
             <div className="mt-[42px]">
               <Checkbox id="signup-agreement" label="서비스 이용약관 및 개인정보 처리방침에 동의합니다." variant="circle" checked={agreed} onChange={(event) => { setAgreed(event.target.checked); setAgreementError(false); setNotice('') }} aria-invalid={agreementError} aria-describedby={agreementError ? 'signup-agreement-error' : undefined} className="max-lg:min-h-11" />
@@ -91,6 +104,7 @@ export default function SignupPage({ onLogin }) {
             {notice && <p role="status" className="mt-4 text-center text-sm text-body">{notice}</p>}
           </form>
           <p className="mt-[26px] text-center text-sm text-body">이미 계정이 있으신가요? <a href="/login" onClick={onLogin} className="ml-3 font-bold text-primary hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-primary">로그인</a></p>
+          {fieldErrors.length > 0 && <InlineAlert title={alertTitle} className="mt-10 min-h-[76px] !border-error !text-[#b83232] [&>p:first-child]:text-[18px] [&>p:first-child]:leading-[22px] [&>p:last-child]:mt-[6px] [&>p:last-child]:text-[15px] [&>p:last-child]:leading-[19px]">{alertDescription}</InlineAlert>}
         </div>
       </section>
     </main>
