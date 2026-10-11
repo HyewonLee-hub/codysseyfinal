@@ -12,6 +12,7 @@ from app.repositories.question_repository import (
     get_diagnostic_questions,
 )
 from app.schemas.diagnostic import (
+    DiagnosticGradingResponse,
     DiagnosticItemGradingResult,
     DiagnosticSubmitRequest,
     DiagnosticSubmitResponse,
@@ -42,7 +43,7 @@ def get_diagnostic_items(
 
 def grade_diagnostic_answers(
     submission: DiagnosticSubmitRequest,
-) -> DiagnosticSubmitResponse:
+) -> DiagnosticGradingResponse:
     """Grade submitted diagnostic answers without persisting session data."""
     answers = submission.answers
 
@@ -112,7 +113,7 @@ def grade_diagnostic_answers(
     total_count = len(results)
     accuracy = (correct_count / total_count * 100) if total_count else 0.0
 
-    return DiagnosticSubmitResponse(
+    return DiagnosticGradingResponse(
         total_count=total_count,
         correct_count=correct_count,
         accuracy=accuracy,
@@ -141,4 +142,10 @@ def submit_diagnostic(
         results=grading_result.results,
     )
 
-    return grading_result
+    return DiagnosticSubmitResponse(
+        session_id=diagnostic_session_id,
+        total_count=grading_result.total_count,
+        correct_count=grading_result.correct_count,
+        accuracy=grading_result.accuracy,
+        results=grading_result.results,
+    )

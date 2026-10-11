@@ -1,9 +1,19 @@
 """Persistence queries for completed diagnostic sessions and attempts."""
 
 from datetime import datetime, timezone
+from typing import TypedDict
 
 from app.db.supabase import supabase
 from app.schemas.diagnostic import DiagnosticItemGradingResult
+
+
+class DiagnosticAttemptWithTaxonomy(TypedDict):
+    question_id: str
+    subtype_id: str | None
+    subtype_name: str | None
+    type_id: str | None
+    type_name: str | None
+    is_correct: bool
 
 
 def create_diagnostic_session(
@@ -65,3 +75,51 @@ def create_question_attempts(
     ]
 
     supabase.table("question_attempts").insert(attempts).execute()
+
+
+def diagnostic_session_exists(diagnostic_session_id: str) -> bool:
+    """Return whether a diagnostic session exists."""
+    response = (
+        supabase.table("diagnostic_sessions")
+        .select("id")
+        .eq("id", diagnostic_session_id)
+        .limit(1)
+        .execute()
+    )
+
+    return bool(response.data)
+
+
+def get_diagnostic_attempts_with_taxonomy(
+    diagnostic_session_id: str,
+) -> list[DiagnosticAttemptWithTaxonomy]:
+    """Return a session's attempts with their question subtype and type data."""
+    response = (
+        supabase.table("question_attempts")
+        .select(
+            "question_id, subtype_id, is_correct, "
+            "questions(subtype_id, subtypes(id, name, type_id, types(id, name)))"
+        )
+        .eq("diagnostic_session_id", diagnostic_session_id)
+        .execute()
+    )
+
+    attempts: list[DiagnosticAttemptWithTaxonomy] = []
+
+    for row in response.data:
+        question = row.get("questions") or {}
+        subtype = question.get("subtypes") or {}
+        question_type = subtype.get("types") or {}
+
+        attempts.append(
+            {
+                "question_id": row["question_id"],
+                "subtype_id": row.get("subtype_id") or question.get("subtype_id"),
+                "subtype_name": subtype.get("name"),
+                "type_id": subtype.get("type_id"),
+                "type_name": question_type.get("name"),
+                "is_correct": row["is_correct"],
+            }
+        )
+
+    return attempts
