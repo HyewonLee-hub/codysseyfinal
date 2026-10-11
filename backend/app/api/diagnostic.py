@@ -2,9 +2,11 @@
 
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 
-from app.repositories.diagnostic_repository import diagnostic_session_exists
+from app.api.auth_dependencies import get_current_learner
+from app.repositories.diagnostic_repository import get_diagnostic_session_owner
+from app.schemas.auth import CurrentLearnerResponse
 from app.schemas.diagnostic import (
     DiagnosticItemsResponse,
     DiagnosticReportResponse,
@@ -31,10 +33,14 @@ def read_diagnostic_items(
 @router.post("/submit", response_model=DiagnosticSubmitResponse)
 def submit_diagnostic_answers(
     submission: DiagnosticSubmitRequest,
+    current_learner: CurrentLearnerResponse = Depends(get_current_learner),
 ) -> DiagnosticSubmitResponse:
-    """Grade and persist an anonymous diagnostic submission."""
+    """Grade and persist a diagnostic submission for the authenticated learner."""
     try:
-        return submit_diagnostic(submission=submission, learner_id=None)
+        return submit_diagnostic(
+            submission=submission,
+            learner_id=current_learner.learner_id,
+        )
     except ValueError as error:
         raise HTTPException(status_code=400, detail=str(error)) from error
     except Exception as error:
@@ -45,7 +51,10 @@ def submit_diagnostic_answers(
 
 
 @router.get("/{session_id}/report", response_model=DiagnosticReportResponse)
-def read_diagnostic_report(session_id: str) -> DiagnosticReportResponse:
+def read_diagnostic_report(
+    session_id: str,
+    current_learner: CurrentLearnerResponse = Depends(get_current_learner),
+) -> DiagnosticReportResponse:
     """Return the calculated report for one completed diagnostic session."""
     try:
         UUID(session_id)
@@ -56,7 +65,8 @@ def read_diagnostic_report(session_id: str) -> DiagnosticReportResponse:
         ) from error
 
     try:
-        if not diagnostic_session_exists(session_id):
+        session = get_diagnostic_session_owner(session_id)
+        if session is None or session["learner_id"] != current_learner.learner_id:
             raise HTTPException(status_code=404, detail="Diagnostic session not found.")
 
         report = get_diagnostic_report(session_id)

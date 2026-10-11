@@ -16,6 +16,11 @@ class DiagnosticAttemptWithTaxonomy(TypedDict):
     is_correct: bool
 
 
+class DiagnosticSessionOwner(TypedDict):
+    id: str
+    learner_id: str | None
+
+
 def create_diagnostic_session(
     *,
     total_questions: int,
@@ -88,6 +93,24 @@ def diagnostic_session_exists(diagnostic_session_id: str) -> bool:
     )
 
     return bool(response.data)
+
+
+def get_diagnostic_session_owner(
+    diagnostic_session_id: str,
+) -> DiagnosticSessionOwner | None:
+    """Return the owner data needed to authorize one diagnostic report."""
+    response = (
+        supabase.table("diagnostic_sessions")
+        .select("id, learner_id")
+        .eq("id", diagnostic_session_id)
+        .limit(1)
+        .execute()
+    )
+
+    if not response.data:
+        return None
+
+    return response.data[0]
 
 
 def get_diagnostic_attempts_with_taxonomy(

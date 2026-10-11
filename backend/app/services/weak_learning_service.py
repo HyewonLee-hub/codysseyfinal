@@ -40,7 +40,7 @@ def get_weak_learning_item(subtype_id: str) -> PracticeQuestion | None:
 
 def start_weak_learning_session(
     subtype_id: str,
-    learner_id: str | None = None,
+    learner_id: str,
 ) -> str:
     """Start an in-progress weak-subtype learning session."""
     if not subtype_exists(subtype_id):
@@ -126,12 +126,15 @@ def get_weak_learning_progress(
 
 def submit_weak_learning_answer(
     submission: WeakLearningSubmitRequest,
-    learner_id: str | None = None,
+    learner_id: str,
 ) -> WeakLearningSubmitResponse:
     """Validate a weak-learning session, grade an answer, and store its attempt."""
     session = get_learning_session(submission.learning_session_id)
 
     if session is None:
+        raise ValueError("Learning session not found.")
+
+    if session["learner_id"] != learner_id:
         raise ValueError("Learning session not found.")
 
     if session["mode"] != "weak_learning":

@@ -47,9 +47,9 @@ LEARNING_TEST_ITEM_LIMIT = 20
 
 def start_learning_test_session(
     mode: str,
-    learner_id: str | None = None,
+    learner_id: str,
 ) -> str:
-    """Start an anonymous in-progress session for a general learning test."""
+    """Start an in-progress session for one authenticated learning-test user."""
     db_mode = LEARNING_TEST_MODE_TO_DB_MODE.get(mode)
 
     if db_mode is None:
@@ -65,11 +65,15 @@ def start_learning_test_session(
 
 def get_learning_test_items(
     learning_session_id: str,
+    learner_id: str,
 ) -> LearningTestItemsResponse:
     """Return one active test session's fixed public practice questions."""
     session = get_learning_session(learning_session_id)
 
     if session is None:
+        raise ValueError("Learning test session not found.")
+
+    if session["learner_id"] != learner_id:
         raise ValueError("Learning test session not found.")
 
     if session["status"] != "in_progress":
@@ -123,12 +127,15 @@ def get_learning_test_items(
 
 def submit_learning_test(
     submission: LearningTestSubmitRequest,
-    learner_id: str | None = None,
+    learner_id: str,
 ) -> LearningTestSubmitResponse:
     """Grade, persist, and complete one fully assigned learning test session."""
     session = get_learning_session(submission.learning_session_id)
 
     if session is None:
+        raise ValueError("Learning test session not found.")
+
+    if session["learner_id"] != learner_id:
         raise ValueError("Learning test session not found.")
 
     if session["status"] != "in_progress":
