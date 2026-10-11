@@ -1,0 +1,94 @@
+"""Endpoints for weak-subtype practice learning."""
+
+from uuid import UUID
+
+from fastapi import APIRouter, HTTPException
+
+from app.schemas.learning import (
+    WeakLearningItemResponse,
+    WeakLearningStartRequest,
+    WeakLearningStartResponse,
+    WeakLearningSubmitRequest,
+    WeakLearningSubmitResponse,
+)
+from app.services.weak_learning_service import (
+    get_weak_learning_item,
+    start_weak_learning_session,
+    submit_weak_learning_answer as submit_weak_learning_answer_service,
+)
+
+
+router = APIRouter(prefix="/learning", tags=["learning"])
+
+
+@router.get("/weak/{subtype_id}/item", response_model=WeakLearningItemResponse)
+def read_weak_learning_item(subtype_id: str) -> WeakLearningItemResponse:
+    """Return one random public practice item for a weak subtype."""
+    item = get_weak_learning_item(subtype_id)
+
+    if item is None:
+        raise HTTPException(
+            status_code=404,
+            detail="No practice questions found for this subtype.",
+        )
+
+    return WeakLearningItemResponse(**item)
+
+
+@router.post("/weak/submit", response_model=WeakLearningSubmitResponse)
+def submit_weak_learning_answer(
+    submission: WeakLearningSubmitRequest,
+) -> WeakLearningSubmitResponse:
+    """Validate a session, grade one practice answer, and store its attempt."""
+    try:
+        UUID(submission.learning_session_id)
+    except ValueError as error:
+        raise HTTPException(
+            status_code=400,
+            detail="learning_session_id must be a valid UUID.",
+        ) from error
+
+    try:
+        return submit_weak_learning_answer_service(submission, learner_id=None)
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
+    except RuntimeError as error:
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to grade weak learning answer.",
+        ) from error
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to grade weak learning answer.",
+        ) from error
+
+
+@router.post("/weak/start", response_model=WeakLearningStartResponse)
+def start_weak_learning(
+    request: WeakLearningStartRequest,
+) -> WeakLearningStartResponse:
+    """Start an anonymous in-progress weak-subtype learning session."""
+    try:
+        learning_session_id = start_weak_learning_session(
+            subtype_id=request.subtype_id,
+            learner_id=None,
+        )
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
+    except RuntimeError as error:
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to start weak learning session.",
+        ) from error
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to start weak learning session.",
+        ) from error
+
+    return WeakLearningStartResponse(
+        learning_session_id=learning_session_id,
+        subtype_id=request.subtype_id,
+        status="in_progress",
+    )
