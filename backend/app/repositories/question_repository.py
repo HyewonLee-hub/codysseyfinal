@@ -20,6 +20,21 @@ class DiagnosticQuestion(TypedDict):
     choices: list[DiagnosticChoice]
 
 
+class PracticeChoice(TypedDict):
+    label: str
+    text: str
+
+
+class PracticeQuestion(TypedDict):
+    id: str
+    subtype_id: str
+    part: str
+    difficulty: str | None
+    stem: str
+    translation: str | None
+    choices: list[PracticeChoice]
+
+
 class IncorrectChoiceTrap(TypedDict):
     choice_label: str
     trap_id: str | None
@@ -31,6 +46,27 @@ class DiagnosticQuestionGradingData(TypedDict):
     subtype_id: str | None
     correct_choice_label: str | None
     incorrect_choice_traps: list[IncorrectChoiceTrap]
+
+
+class PracticeQuestionGradingData(TypedDict):
+    question_id: str
+    found: bool
+    subtype_id: str | None
+    correct_choice_label: str | None
+    incorrect_choice_traps: list[IncorrectChoiceTrap]
+
+
+def subtype_exists(subtype_id: str) -> bool:
+    """Return whether a subtype exists in the taxonomy."""
+    response = (
+        supabase.table("subtypes")
+        .select("id")
+        .eq("id", subtype_id)
+        .limit(1)
+        .execute()
+    )
+
+    return bool(response.data)
 
 
 def get_diagnostic_questions() -> list[DiagnosticQuestion]:
@@ -52,6 +88,107 @@ def get_diagnostic_questions() -> list[DiagnosticQuestion]:
     )
 
     questions: list[DiagnosticQuestion] = []
+
+    for row in response.data:
+        choices = sorted(
+            row.get("question_choices") or [],
+            key=lambda choice: choice["choice_label"],
+        )
+
+        questions.append(
+            {
+                "id": row["id"],
+                "subtype_id": row["subtype_id"],
+                "part": row["part"],
+                "difficulty": row["difficulty"],
+                "stem": row["stem"],
+                "translation": row["translation"],
+                "choices": [
+                    {
+                        "label": choice["choice_label"],
+                        "text": choice["choice_text"],
+                    }
+                    for choice in choices
+                ],
+            }
+        )
+
+    return questions
+
+
+def get_practice_question_grading_data(
+    question_id: str,
+) -> PracticeQuestionGradingData:
+    """Return internal grading data for one practice question."""
+    response = (
+        supabase.table("questions")
+        .select(
+            "id, subtype_id, "
+            "question_choices(choice_label, is_correct, trap_id)"
+        )
+        .eq("question_type", "practice")
+        .eq("id", question_id)
+        .limit(1)
+        .execute()
+    )
+
+    if not response.data:
+        return {
+            "question_id": question_id,
+            "found": False,
+            "subtype_id": None,
+            "correct_choice_label": None,
+            "incorrect_choice_traps": [],
+        }
+
+    row = response.data[0]
+    choices = row.get("question_choices") or []
+    correct_choice_label = next(
+        (
+            choice["choice_label"]
+            for choice in choices
+            if choice["is_correct"]
+        ),
+        None,
+    )
+    incorrect_choice_traps = sorted(
+        [
+            {
+                "choice_label": choice["choice_label"],
+                "trap_id": choice["trap_id"],
+            }
+            for choice in choices
+            if not choice["is_correct"]
+        ],
+        key=lambda choice: choice["choice_label"],
+    )
+
+    return {
+        "question_id": row["id"],
+        "found": True,
+        "subtype_id": row["subtype_id"],
+        "correct_choice_label": correct_choice_label,
+        "incorrect_choice_traps": incorrect_choice_traps,
+    }
+
+
+def get_practice_questions_by_subtype(
+    subtype_id: str,
+) -> list[PracticeQuestion]:
+    """Return public practice questions for one subtype in A-D choice order."""
+    response = (
+        supabase.table("questions")
+        .select(
+            "id, subtype_id, part, difficulty, stem, translation, "
+            "question_choices(choice_label, choice_text)"
+        )
+        .eq("question_type", "practice")
+        .eq("subtype_id", subtype_id)
+        .order("id")
+        .execute()
+    )
+
+    questions: list[PracticeQuestion] = []
 
     for row in response.data:
         choices = sorted(

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from app.api.diagnostic import router as diagnostic_router
+from app.api.learning import router as learning_router
 from app.db.supabase import supabase
 
 app = FastAPI(
@@ -9,6 +10,7 @@ app = FastAPI(
 )
 
 app.include_router(diagnostic_router)
+app.include_router(learning_router)
 
 
 @app.get("/health")
