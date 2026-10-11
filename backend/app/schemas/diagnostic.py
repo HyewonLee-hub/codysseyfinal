@@ -46,8 +46,33 @@ class DiagnosticItemGradingResult(BaseModel):
     trap_id: str | None = None
 
 
-class DiagnosticSubmitResponse(BaseModel):
+class DiagnosticGradingResponse(BaseModel):
     total_count: int
     correct_count: int
     accuracy: float
     results: list[DiagnosticItemGradingResult]
+
+
+class DiagnosticSubmitResponse(DiagnosticGradingResponse):
+    session_id: str
+
+
+class DiagnosticSubtypePerformanceResponse(BaseModel):
+    subtype_id: str
+    subtype_name: str
+    type_id: str
+    type_name: str
+    attempted_count: int
+    correct_count: int
+    accuracy: float
+
+
+class DiagnosticReportResponse(BaseModel):
+    diagnostic_session_id: str
+    total_count: int
+    correct_count: int
+    accuracy: float
+    estimated_score: int | None
+    strengths: list[DiagnosticSubtypePerformanceResponse]
+    weaknesses: list[DiagnosticSubtypePerformanceResponse]
+    recommended_learning_type: DiagnosticSubtypePerformanceResponse | None
