@@ -41,14 +41,14 @@
    "difficulty": "중",
    "stem": "After the merger, the new division remained ___ despite the market downturn.",
    "options": {
-    "A": "profitable",
-    "B": "profitably",
+    "A": "profitably",
+    "B": "profitable",
     "C": "profitability",
     "D": "profit"
    },
-   "answer": "A",
+   "answer": "B",
    "option_traps": {
-    "B": "TR-01",
+    "A": "TR-01",
     "C": "TR-01",
     "D": "TR-01"
    },
@@ -68,15 +68,15 @@
    "difficulty": "하",
    "stem": "The engineering team completed the safety inspection ___ ahead of the deadline.",
    "options": {
-    "A": "successfully",
-    "B": "successful",
-    "C": "success",
+    "A": "successful",
+    "B": "success",
+    "C": "successfully",
     "D": "succeed"
    },
-   "answer": "A",
+   "answer": "C",
    "option_traps": {
+    "A": "TR-01",
     "B": "TR-01",
-    "C": "TR-01",
     "D": "TR-01"
    },
    "translation": "엔지니어링 팀은 마감일보다 앞서 안전 점검을 성공적으로 완료했다.",
@@ -96,15 +96,15 @@
    "stem": "The quarterly report ___ by the finance team before it is submitted to the board.",
    "options": {
     "A": "reviews",
-    "B": "is reviewed",
-    "C": "are reviewed",
-    "D": "is reviewing"
+    "B": "are reviewed",
+    "C": "is reviewing",
+    "D": "is reviewed"
    },
-   "answer": "B",
+   "answer": "D",
    "option_traps": {
     "A": "TR-07",
-    "C": "TR-08",
-    "D": "TR-07"
+    "B": "TR-08",
+    "C": "TR-07"
    },
    "translation": "분기 보고서는 이사회에 제출되기 전에 재무팀에 의해 검토된다.",
    "source": "ai-generated",
@@ -149,14 +149,14 @@
    "difficulty": "하",
    "stem": "The updated safety manual routinely ___ every employee to wear protective gear on the factory floor.",
    "options": {
-    "A": "requires",
-    "B": "require",
+    "A": "require",
+    "B": "requires",
     "C": "required",
     "D": "is required"
    },
-   "answer": "A",
+   "answer": "B",
    "option_traps": {
-    "B": "TR-08",
+    "A": "TR-08",
     "C": "TR-06",
     "D": "TR-07"
    },
@@ -176,15 +176,15 @@
    "difficulty": "하",
    "stem": "The company plans to ___ its overseas operations before the end of the fiscal year.",
    "options": {
-    "A": "expand",
-    "B": "expansion",
-    "C": "expanding",
+    "A": "expansion",
+    "B": "expanding",
+    "C": "expand",
     "D": "expanded"
    },
-   "answer": "A",
+   "answer": "C",
    "option_traps": {
-    "B": "TR-01",
-    "C": "TR-09",
+    "A": "TR-01",
+    "B": "TR-09",
     "D": "TR-09"
    },
    "translation": "그 회사는 회계연도가 끝나기 전에 해외 사업을 확장할 계획이다.",
@@ -203,16 +203,16 @@
    "difficulty": "상",
    "stem": "The entire project team looks forward to ___ with the new overseas partners starting next quarter.",
    "options": {
-    "A": "collaborating",
-    "B": "collaborate",
-    "C": "collaborated",
-    "D": "collaboration"
+    "A": "collaborate",
+    "B": "collaborated",
+    "C": "collaboration",
+    "D": "collaborating"
    },
-   "answer": "A",
+   "answer": "D",
    "option_traps": {
+    "A": "TR-09",
     "B": "TR-09",
-    "C": "TR-09",
-    "D": "TR-01"
+    "C": "TR-01"
    },
    "translation": "프로젝트 팀 전체가 다음 분기부터 새로운 해외 파트너들과 협업하기를 고대하고 있다.",
    "source": "ai-generated",
@@ -257,14 +257,14 @@
    "difficulty": "상",
    "stem": "A colleague of ___ recommended the downtown branch for its faster customer service.",
    "options": {
-    "A": "mine",
-    "B": "my",
+    "A": "my",
+    "B": "mine",
     "C": "me",
     "D": "myself"
    },
-   "answer": "A",
+   "answer": "B",
    "option_traps": {
-    "B": "TR-11",
+    "A": "TR-11",
     "C": "TR-11",
     "D": "TR-11"
    },
@@ -284,15 +284,15 @@
    "difficulty": "중",
    "stem": "Because the warehouse had only ___ equipment left in stock, the manager placed an urgent order.",
    "options": {
-    "A": "a little",
-    "B": "a few",
-    "C": "few",
+    "A": "a few",
+    "B": "few",
+    "C": "a little",
     "D": "several"
    },
-   "answer": "A",
+   "answer": "C",
    "option_traps": {
+    "A": "TR-13",
     "B": "TR-13",
-    "C": "TR-13",
     "D": "TR-13"
    },
    "translation": "창고에 재고 장비가 조금밖에 남지 않아서, 관리자는 긴급 주문을 넣었다.",
@@ -311,16 +311,16 @@
    "difficulty": "중",
    "stem": "All applicants must submit their documents ___ Friday, as late entries will not be accepted.",
    "options": {
-    "A": "by",
-    "B": "until",
-    "C": "for",
-    "D": "during"
+    "A": "until",
+    "B": "for",
+    "C": "during",
+    "D": "by"
    },
-   "answer": "A",
+   "answer": "D",
    "option_traps": {
-    "B": "TR-06",
-    "C": "TR-04",
-    "D": "TR-04"
+    "A": "TR-06",
+    "B": "TR-04",
+    "C": "TR-04"
    },
    "translation": "모든 지원자는 금요일까지 서류를 제출해야 하며, 늦은 제출은 받지 않는다.",
    "source": "ai-generated",
@@ -365,14 +365,14 @@
    "difficulty": "중",
    "stem": "The flight was delayed for several hours ___ the dense fog that covered the entire region.",
    "options": {
-    "A": "because of",
-    "B": "because",
+    "A": "because",
+    "B": "because of",
     "C": "despite",
     "D": "nevertheless"
    },
-   "answer": "A",
+   "answer": "B",
    "option_traps": {
-    "B": "TR-05",
+    "A": "TR-05",
     "C": "TR-12",
     "D": "TR-05"
    },
@@ -392,15 +392,15 @@
    "difficulty": "중",
    "stem": "The demand for the limited-edition model was ___ high that the company sold out its entire stock within hours.",
    "options": {
-    "A": "so",
-    "B": "such",
-    "C": "too",
+    "A": "such",
+    "B": "too",
+    "C": "so",
     "D": "very"
    },
-   "answer": "A",
+   "answer": "C",
    "option_traps": {
-    "B": "TR-14",
-    "C": "TR-03",
+    "A": "TR-14",
+    "B": "TR-03",
     "D": "TR-05"
    },
    "translation": "그 한정판 모델에 대한 수요가 너무 높아서 회사는 몇 시간 만에 전 재고를 소진했다.",
@@ -419,16 +419,16 @@
    "difficulty": "상",
    "stem": "The startup ___ founder previously worked at a major tech firm has attracted significant investor interest.",
    "options": {
-    "A": "whose",
-    "B": "which",
-    "C": "whom",
-    "D": "who's"
+    "A": "which",
+    "B": "whom",
+    "C": "who's",
+    "D": "whose"
    },
-   "answer": "A",
+   "answer": "D",
    "option_traps": {
+    "A": "TR-16",
     "B": "TR-16",
-    "C": "TR-16",
-    "D": "TR-02"
+    "C": "TR-02"
    },
    "translation": "창업자가 전에 대형 기술 기업에서 일했던 그 스타트업은 상당한 투자자들의 관심을 끌었다.",
    "source": "ai-generated",
@@ -473,14 +473,14 @@
    "difficulty": "상",
    "stem": "A neat, professional appearance helps job candidates leave a favorable ___ on potential employers during interviews.",
    "options": {
-    "A": "impression",
-    "B": "expression",
+    "A": "expression",
+    "B": "impression",
     "C": "reputation",
     "D": "reaction"
    },
-   "answer": "A",
+   "answer": "B",
    "option_traps": {
-    "B": "TR-02",
+    "A": "TR-02",
     "C": "TR-04",
     "D": "TR-04"
    },
@@ -500,15 +500,15 @@
    "difficulty": "상",
    "stem": "All full-time employees are ___ for the year-end bonus after one year of service.",
    "options": {
-    "A": "eligible",
-    "B": "capable",
-    "C": "aware",
+    "A": "capable",
+    "B": "aware",
+    "C": "eligible",
     "D": "familiar"
    },
-   "answer": "A",
+   "answer": "C",
    "option_traps": {
+    "A": "TR-04",
     "B": "TR-04",
-    "C": "TR-04",
     "D": "TR-04"
    },
    "translation": "모든 정규직 직원은 1년 근속 후 연말 보너스를 받을 자격이 있다.",
@@ -527,16 +527,16 @@
    "difficulty": "중",
    "stem": "Our new scheduling software was expected to cut processing time in half. ___, several departments have reported that the system frequently freezes during peak business hours.",
    "options": {
-    "A": "However",
-    "B": "Therefore",
-    "C": "In addition",
-    "D": "For example"
+    "A": "Therefore",
+    "B": "In addition",
+    "C": "For example",
+    "D": "However"
    },
-   "answer": "A",
+   "answer": "D",
    "option_traps": {
-    "B": "TR-12",
-    "C": "TR-17",
-    "D": "TR-17"
+    "A": "TR-12",
+    "B": "TR-17",
+    "C": "TR-17"
    },
    "translation": "우리의 새 일정 관리 소프트웨어는 처리 시간을 절반으로 줄여 줄 것으로 기대되었다. 그러나 여러 부서가 업무가 몰리는 시간대에 시스템이 자주 멈춘다고 보고했다.",
    "source": "ai-generated",

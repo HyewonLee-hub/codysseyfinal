@@ -42,14 +42,14 @@
     "difficulty": "하",
     "stem": "The factory increased its monthly ___ after installing the new assembly line.",
     "options": {
-     "A": "production",
-     "B": "produce",
+     "A": "produce",
+     "B": "production",
      "C": "productive",
      "D": "productively"
     },
-    "answer": "A",
+    "answer": "B",
     "option_traps": {
-     "B": "TR-01",
+     "A": "TR-01",
      "C": "TR-01",
      "D": "TR-01"
     },
@@ -71,15 +71,15 @@
     "difficulty": "중",
     "stem": "Despite the repeated delays, the project manager remained ___ about meeting the final deadline.",
     "options": {
-     "A": "confident",
-     "B": "confidently",
-     "C": "confidence",
+     "A": "confidently",
+     "B": "confidence",
+     "C": "confident",
      "D": "confide"
     },
-    "answer": "A",
+    "answer": "C",
     "option_traps": {
+     "A": "TR-01",
      "B": "TR-01",
-     "C": "TR-01",
      "D": "TR-01"
     },
     "translation": "거듭된 지연에도 불구하고, 프로젝트 관리자는 최종 마감일을 맞출 수 있다고 계속 자신했다.",
@@ -98,16 +98,16 @@
     "difficulty": "중",
     "stem": "After the system upgrade, the company's pricing has become increasingly ___ in the regional market.",
     "options": {
-     "A": "competitive",
-     "B": "competitively",
-     "C": "competition",
-     "D": "compete"
+     "A": "competitively",
+     "B": "competition",
+     "C": "compete",
+     "D": "competitive"
     },
-    "answer": "A",
+    "answer": "D",
     "option_traps": {
+     "A": "TR-01",
      "B": "TR-01",
-     "C": "TR-01",
-     "D": "TR-01"
+     "C": "TR-01"
     },
     "translation": "시스템 업그레이드 이후, 그 회사의 가격은 지역 시장에서 점점 더 경쟁력 있게 되었다.",
     "source": "ai-generated",
@@ -154,14 +154,14 @@
     "difficulty": "하",
     "stem": "Online sales grew ___ after the company launched its new mobile application.",
     "options": {
-     "A": "significantly",
-     "B": "significant",
+     "A": "significant",
+     "B": "significantly",
      "C": "significance",
      "D": "signify"
     },
-    "answer": "A",
+    "answer": "B",
     "option_traps": {
-     "B": "TR-01",
+     "A": "TR-01",
      "C": "TR-01",
      "D": "TR-01"
     },
@@ -183,15 +183,15 @@
     "difficulty": "중",
     "stem": "All travel expenses ___ by the accounting department before any reimbursement is issued.",
     "options": {
-     "A": "are approved",
-     "B": "approve",
-     "C": "is approved",
+     "A": "approve",
+     "B": "is approved",
+     "C": "are approved",
      "D": "were approved"
     },
-    "answer": "A",
+    "answer": "C",
     "option_traps": {
-     "B": "TR-07",
-     "C": "TR-08",
+     "A": "TR-07",
+     "B": "TR-08",
      "D": "TR-06"
     },
     "translation": "모든 출장 경비는 환급이 지급되기 전에 회계부서에 의해 승인된다.",
@@ -210,16 +210,16 @@
     "difficulty": "중",
     "stem": "The marketing manager ___ the campaign results every Friday to adjust the following week's budget.",
     "options": {
-     "A": "reviews",
-     "B": "is reviewed",
-     "C": "review",
-     "D": "reviewed"
+     "A": "is reviewed",
+     "B": "review",
+     "C": "reviewed",
+     "D": "reviews"
     },
-    "answer": "A",
+    "answer": "D",
     "option_traps": {
-     "B": "TR-07",
-     "C": "TR-08",
-     "D": "TR-06"
+     "A": "TR-07",
+     "B": "TR-08",
+     "C": "TR-06"
     },
     "translation": "마케팅 관리자는 다음 주 예산을 조정하기 위해 매주 금요일에 캠페인 결과를 검토한다.",
     "source": "ai-generated",
@@ -266,14 +266,14 @@
     "difficulty": "중",
     "stem": "Our firm ___ this client for more than a decade, and the partnership continues to grow stronger.",
     "options": {
-     "A": "has served",
-     "B": "served",
+     "A": "served",
+     "B": "has served",
      "C": "serves",
      "D": "is serving"
     },
-    "answer": "A",
+    "answer": "B",
     "option_traps": {
-     "B": "TR-06",
+     "A": "TR-06",
      "C": "TR-06",
      "D": "TR-06"
     },
@@ -295,15 +295,15 @@
     "difficulty": "하",
     "stem": "The new accounting software automatically ___ every transaction before generating the monthly report.",
     "options": {
-     "A": "processes",
-     "B": "process",
-     "C": "processed",
+     "A": "process",
+     "B": "processed",
+     "C": "processes",
      "D": "is processed"
     },
-    "answer": "A",
+    "answer": "C",
     "option_traps": {
-     "B": "TR-08",
-     "C": "TR-06",
+     "A": "TR-08",
+     "B": "TR-06",
      "D": "TR-07"
     },
     "translation": "새 회계 소프트웨어는 월간 보고서를 생성하기 전에 모든 거래를 자동으로 처리한다.",
@@ -322,16 +322,16 @@
     "difficulty": "하",
     "stem": "Each shift supervisor routinely ___ all safety concerns in the shared maintenance log.",
     "options": {
-     "A": "lists",
-     "B": "list",
-     "C": "listed",
-     "D": "is listed"
+     "A": "list",
+     "B": "listed",
+     "C": "is listed",
+     "D": "lists"
     },
-    "answer": "A",
+    "answer": "D",
     "option_traps": {
-     "B": "TR-08",
-     "C": "TR-06",
-     "D": "TR-07"
+     "A": "TR-08",
+     "B": "TR-06",
+     "C": "TR-07"
     },
     "translation": "각 교대조 감독관은 모든 안전 우려 사항을 공용 정비 일지에 일상적으로 기록한다.",
     "source": "ai-generated",
@@ -378,14 +378,14 @@
     "difficulty": "하",
     "stem": "The committee decided to ___ a fundraising event for the local community center next spring.",
     "options": {
-     "A": "organize",
-     "B": "organization",
+     "A": "organization",
+     "B": "organize",
      "C": "organizing",
      "D": "organized"
     },
-    "answer": "A",
+    "answer": "B",
     "option_traps": {
-     "B": "TR-01",
+     "A": "TR-01",
      "C": "TR-09",
      "D": "TR-09"
     },
@@ -407,15 +407,15 @@
     "difficulty": "상",
     "stem": "The company is firmly committed to ___ its customer service standards over the next fiscal year.",
     "options": {
-     "A": "improving",
-     "B": "improve",
-     "C": "improved",
+     "A": "improve",
+     "B": "improved",
+     "C": "improving",
      "D": "improvement"
     },
-    "answer": "A",
+    "answer": "C",
     "option_traps": {
+     "A": "TR-09",
      "B": "TR-09",
-     "C": "TR-09",
      "D": "TR-01"
     },
     "translation": "그 회사는 다음 회계연도에 걸쳐 고객 서비스 기준을 개선하는 데 확고히 전념하고 있다.",
@@ -434,16 +434,16 @@
     "difficulty": "상",
     "stem": "Several long-term employees objected to ___ the headquarters to another city without prior notice.",
     "options": {
-     "A": "relocating",
-     "B": "relocate",
-     "C": "relocated",
-     "D": "relocation"
+     "A": "relocate",
+     "B": "relocated",
+     "C": "relocation",
+     "D": "relocating"
     },
-    "answer": "A",
+    "answer": "D",
     "option_traps": {
+     "A": "TR-09",
      "B": "TR-09",
-     "C": "TR-09",
-     "D": "TR-01"
+     "C": "TR-01"
     },
     "translation": "몇몇 장기 근속 직원들은 사전 통보 없이 본사를 다른 도시로 이전하는 것에 반대했다.",
     "source": "ai-generated",
@@ -488,14 +488,14 @@
     "difficulty": "상",
     "stem": "The engineers ___ the new ventilation system received a company award for innovation.",
     "options": {
-     "A": "designing",
-     "B": "designed",
+     "A": "designed",
+     "B": "designing",
      "C": "design",
      "D": "to design"
     },
-    "answer": "A",
+    "answer": "B",
     "option_traps": {
-     "B": "TR-07",
+     "A": "TR-07",
      "C": "TR-09",
      "D": "TR-09"
     },
@@ -515,15 +515,15 @@
     "difficulty": "상",
     "stem": "The equipment ___ by the overseas supplier arrived two weeks behind schedule.",
     "options": {
-     "A": "manufactured",
-     "B": "manufacturing",
-     "C": "manufactures",
+     "A": "manufacturing",
+     "B": "manufactures",
+     "C": "manufactured",
      "D": "to manufacture"
     },
-    "answer": "A",
+    "answer": "C",
     "option_traps": {
-     "B": "TR-07",
-     "C": "TR-09",
+     "A": "TR-07",
+     "B": "TR-09",
      "D": "TR-09"
     },
     "translation": "해외 공급업체가 제조한 장비가 예정보다 2주 늦게 도착했다.",
@@ -544,16 +544,16 @@
     "difficulty": "상",
     "stem": "An associate of ___ suggested that we outsource the payroll processing to a local firm.",
     "options": {
-     "A": "ours",
-     "B": "our",
-     "C": "us",
-     "D": "ourselves"
+     "A": "our",
+     "B": "us",
+     "C": "ourselves",
+     "D": "ours"
     },
-    "answer": "A",
+    "answer": "D",
     "option_traps": {
+     "A": "TR-11",
      "B": "TR-11",
-     "C": "TR-11",
-     "D": "TR-11"
+     "C": "TR-11"
     },
     "translation": "우리 동료 한 명이 급여 처리 업무를 지역 업체에 외주로 맡기자고 제안했다.",
     "source": "ai-generated",
@@ -600,14 +600,14 @@
     "difficulty": "중",
     "stem": "The new seasonal policy allowed the firm to bring in ___ temporary workers to handle the holiday rush.",
     "options": {
-     "A": "a number of",
-     "B": "much",
+     "A": "much",
+     "B": "a number of",
      "C": "a little",
      "D": "an amount of"
     },
-    "answer": "A",
+    "answer": "B",
     "option_traps": {
-     "B": "TR-13",
+     "A": "TR-13",
      "C": "TR-13",
      "D": "TR-13"
     },
@@ -628,14 +628,14 @@
     "stem": "The committee collected only ___ feedback from the pilot survey, so the findings were considered inconclusive.",
     "options": {
      "A": "a few",
-     "B": "a little",
-     "C": "few",
+     "B": "few",
+     "C": "a little",
      "D": "several"
     },
-    "answer": "B",
+    "answer": "C",
     "option_traps": {
      "A": "TR-13",
-     "C": "TR-13",
+     "B": "TR-13",
      "D": "TR-13"
     },
     "translation": "위원회는 시범 설문에서 약간의 피드백만 수집했기 때문에, 그 결과는 결론을 내리기 어렵다고 여겨졌다.",
@@ -656,16 +656,16 @@
     "difficulty": "중",
     "stem": "Please return the signed contract ___ the end of this week so that processing can begin on Monday.",
     "options": {
-     "A": "by",
-     "B": "until",
-     "C": "for",
-     "D": "during"
+     "A": "until",
+     "B": "for",
+     "C": "during",
+     "D": "by"
     },
-    "answer": "A",
+    "answer": "D",
     "option_traps": {
-     "B": "TR-06",
-     "C": "TR-04",
-     "D": "TR-04"
+     "A": "TR-06",
+     "B": "TR-04",
+     "C": "TR-04"
     },
     "translation": "월요일에 처리를 시작할 수 있도록, 서명한 계약서를 이번 주말까지 반송해 주십시오.",
     "source": "ai-generated",
@@ -708,14 +708,14 @@
     "difficulty": "중",
     "stem": "The construction crew must complete the renovation of the lobby ___ the end of the month to avoid additional penalty fees.",
     "options": {
-     "A": "by",
-     "B": "until",
+     "A": "until",
+     "B": "by",
      "C": "for",
      "D": "during"
     },
-    "answer": "A",
+    "answer": "B",
     "option_traps": {
-     "B": "TR-06",
+     "A": "TR-06",
      "C": "TR-04",
      "D": "TR-04"
     },
@@ -733,15 +733,15 @@
     "difficulty": "중",
     "stem": "The exhibition hall will stay open ___ 8 p.m. on Saturday so that visitors have ample time to view all the displays.",
     "options": {
-     "A": "until",
-     "B": "by",
-     "C": "for",
+     "A": "by",
+     "B": "for",
+     "C": "until",
      "D": "during"
     },
-    "answer": "A",
+    "answer": "C",
     "option_traps": {
-     "B": "TR-06",
-     "C": "TR-04",
+     "A": "TR-06",
+     "B": "TR-04",
      "D": "TR-04"
     },
     "translation": "전시장은 방문객들이 모든 전시물을 볼 충분한 시간을 가질 수 있도록 토요일 저녁 8시까지 계속 문을 열 것이다.",
@@ -762,16 +762,16 @@
     "difficulty": "중",
     "stem": "___ the unexpected rise in production costs, the company managed to keep its retail prices unchanged.",
     "options": {
-     "A": "Despite",
-     "B": "Despite of",
-     "C": "Although",
-     "D": "Because of"
+     "A": "Despite of",
+     "B": "Although",
+     "C": "Because of",
+     "D": "Despite"
     },
-    "answer": "A",
+    "answer": "D",
     "option_traps": {
-     "B": "TR-14",
-     "C": "TR-05",
-     "D": "TR-03"
+     "A": "TR-14",
+     "B": "TR-05",
+     "C": "TR-03"
     },
     "translation": "예상치 못한 생산비 상승에도 불구하고, 회사는 소매가를 변동 없이 유지할 수 있었다.",
     "source": "ai-generated",
@@ -818,14 +818,14 @@
     "difficulty": "중",
     "stem": "The shipment arrived a full day late ___ the port had been closed for emergency maintenance.",
     "options": {
-     "A": "because",
-     "B": "because of",
+     "A": "because of",
+     "B": "because",
      "C": "although",
      "D": "therefore"
     },
-    "answer": "A",
+    "answer": "B",
     "option_traps": {
-     "B": "TR-05",
+     "A": "TR-05",
      "C": "TR-12",
      "D": "TR-05"
     },
@@ -845,15 +845,15 @@
     "difficulty": "중",
     "stem": "___ the sudden increase in online orders, the company hired additional staff for its warehouse.",
     "options": {
-     "A": "Because of",
-     "B": "Because",
-     "C": "Despite",
+     "A": "Because",
+     "B": "Despite",
+     "C": "Because of",
      "D": "Nevertheless"
     },
-    "answer": "A",
+    "answer": "C",
     "option_traps": {
-     "B": "TR-05",
-     "C": "TR-12",
+     "A": "TR-05",
+     "B": "TR-12",
      "D": "TR-05"
     },
     "translation": "온라인 주문의 급증 때문에, 회사는 창고에 추가 인력을 고용했다.",
@@ -874,16 +874,16 @@
     "difficulty": "중",
     "stem": "The restaurant received ___ positive reviews that it had to expand its seating within a single month.",
     "options": {
-     "A": "such",
-     "B": "so",
-     "C": "too",
-     "D": "very"
+     "A": "so",
+     "B": "too",
+     "C": "very",
+     "D": "such"
     },
-    "answer": "A",
+    "answer": "D",
     "option_traps": {
-     "B": "TR-14",
-     "C": "TR-03",
-     "D": "TR-05"
+     "A": "TR-14",
+     "B": "TR-03",
+     "C": "TR-05"
     },
     "translation": "그 식당은 너무나 좋은 평가를 받아서 한 달 만에 좌석을 늘려야 했다.",
     "source": "ai-generated",
@@ -930,14 +930,14 @@
     "difficulty": "상",
     "stem": "The author ___ latest novel won several literary awards will be signing books at our store next week.",
     "options": {
-     "A": "whose",
-     "B": "which",
+     "A": "which",
+     "B": "whose",
      "C": "whom",
      "D": "who's"
     },
-    "answer": "A",
+    "answer": "B",
     "option_traps": {
-     "B": "TR-16",
+     "A": "TR-16",
      "C": "TR-16",
      "D": "TR-02"
     },
@@ -957,15 +957,15 @@
     "difficulty": "상",
     "stem": "We decided to work with a supplier ___ products meet every international safety standard in the industry.",
     "options": {
-     "A": "whose",
-     "B": "which",
-     "C": "whom",
+     "A": "which",
+     "B": "whom",
+     "C": "whose",
      "D": "who's"
     },
-    "answer": "A",
+    "answer": "C",
     "option_traps": {
+     "A": "TR-16",
      "B": "TR-16",
-     "C": "TR-16",
      "D": "TR-02"
     },
     "translation": "우리는 제품이 업계의 모든 국제 안전 기준을 충족하는 공급업체와 협력하기로 결정했다.",
@@ -986,16 +986,16 @@
     "difficulty": "상",
     "stem": "If we want to secure the contract, the entire project team must ___ the deadline set by the client.",
     "options": {
-     "A": "meet",
-     "B": "reach",
-     "C": "keep",
-     "D": "achieve"
+     "A": "reach",
+     "B": "keep",
+     "C": "achieve",
+     "D": "meet"
     },
-    "answer": "A",
+    "answer": "D",
     "option_traps": {
+     "A": "TR-04",
      "B": "TR-04",
-     "C": "TR-04",
-     "D": "TR-03"
+     "C": "TR-03"
     },
     "translation": "계약을 따내려면, 프로젝트 팀 전체가 고객이 정한 마감 기한을 맞춰야 한다.",
     "source": "ai-generated",
@@ -1042,14 +1042,14 @@
     "difficulty": "상",
     "stem": "A customer who had been overcharged decided to file a formal ___ with the billing department.",
     "options": {
-     "A": "complaint",
-     "B": "accusation",
+     "A": "accusation",
+     "B": "complaint",
      "C": "objection",
      "D": "disagreement"
     },
-    "answer": "A",
+    "answer": "B",
     "option_traps": {
-     "B": "TR-04",
+     "A": "TR-04",
      "C": "TR-03",
      "D": "TR-03"
     },
@@ -1069,15 +1069,15 @@
     "difficulty": "상",
     "stem": "The committee was unable to make a final ___ until all of the financial data had been carefully reviewed.",
     "options": {
-     "A": "decision",
-     "B": "agreement",
-     "C": "conclusion",
+     "A": "agreement",
+     "B": "conclusion",
+     "C": "decision",
      "D": "solution"
     },
-    "answer": "A",
+    "answer": "C",
     "option_traps": {
+     "A": "TR-04",
      "B": "TR-04",
-     "C": "TR-04",
      "D": "TR-03"
     },
     "translation": "위원회는 모든 재무 데이터를 면밀히 검토하기 전까지 최종 결정을 내릴 수 없었다.",
@@ -1098,16 +1098,16 @@
     "difficulty": "상",
     "stem": "The newly appointed supervisor will be ___ for overseeing the daily operations of the distribution center.",
     "options": {
-     "A": "responsible",
-     "B": "capable",
-     "C": "aware",
-     "D": "reliable"
+     "A": "capable",
+     "B": "aware",
+     "C": "reliable",
+     "D": "responsible"
     },
-    "answer": "A",
+    "answer": "D",
     "option_traps": {
+     "A": "TR-04",
      "B": "TR-04",
-     "C": "TR-04",
-     "D": "TR-02"
+     "C": "TR-02"
     },
     "translation": "새로 임명된 관리자는 물류 센터의 일일 운영을 감독하는 일을 맡게 될 것이다.",
     "source": "ai-generated",
@@ -1141,6 +1141,510 @@
     "verified": false
    }
   ],
+  "LXV-01-01": [
+   {
+    "id": "LXV-01-01-p1",
+    "subtype_id": "LXV-01-01",
+    "type_id": "LXV-01",
+    "type_name": "의미로 고르는 동사",
+    "group": "LXV",
+    "group_name": "동사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "Sales from the new subscription service ___ the company's projections by 18 percent during its first quarter.",
+    "options": {
+     "A": "reduced",
+     "B": "surpassed",
+     "C": "delayed",
+     "D": "withdrew"
+    },
+    "answer": "B",
+    "option_traps": {
+     "A": "TR-03",
+     "C": "TR-03",
+     "D": "TR-03"
+    },
+    "translation": "새 구독 서비스의 매출은 첫 분기에 회사의 예상치를 18퍼센트 초과했다.",
+    "source": "ai-generated",
+    "verified": false
+   },
+   {
+    "id": "LXV-01-01-p2",
+    "subtype_id": "LXV-01-01",
+    "type_id": "LXV-01",
+    "type_name": "의미로 고르는 동사",
+    "group": "LXV",
+    "group_name": "동사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "To comply with the revised safety regulations, the renovation project will ___ additional inspections before reopening.",
+    "options": {
+     "A": "prevent",
+     "B": "remove",
+     "C": "require",
+     "D": "overlook"
+    },
+    "answer": "C",
+    "option_traps": {
+     "A": "TR-03",
+     "B": "TR-03",
+     "D": "TR-03"
+    },
+    "translation": "개정된 안전 규정을 준수하기 위해, 그 리모델링 프로젝트는 재개장 전에 추가 점검을 필요로 할 것이다.",
+    "source": "ai-generated",
+    "verified": false
+   }
+  ],
+  "LXN-01-01": [
+   {
+    "id": "LXN-01-01-p1",
+    "subtype_id": "LXN-01-01",
+    "type_id": "LXN-01",
+    "type_name": "의미로 고르는 명사",
+    "group": "LXN",
+    "group_name": "명사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "Because the two totals did not match, the accounting team began an investigation to identify the ___.",
+    "options": {
+     "A": "preference",
+     "B": "reference",
+     "C": "coincidence",
+     "D": "discrepancy"
+    },
+    "answer": "D",
+    "option_traps": {
+     "A": "TR-03",
+     "B": "TR-02",
+     "C": "TR-03"
+    },
+    "translation": "두 합계가 일치하지 않았기 때문에, 회계팀은 그 차이를 확인하기 위한 조사를 시작했다.",
+    "source": "ai-generated",
+    "verified": false
+   },
+   {
+    "id": "LXN-01-01-p2",
+    "subtype_id": "LXN-01-01",
+    "type_id": "LXN-01",
+    "type_name": "의미로 고르는 명사",
+    "group": "LXN",
+    "group_name": "명사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "The annual report highlighted a significant ___ in customer satisfaction following the launch of the support portal.",
+    "options": {
+     "A": "improvement",
+     "B": "restriction",
+     "C": "preference",
+     "D": "coincidence"
+    },
+    "answer": "A",
+    "option_traps": {
+     "B": "TR-03",
+     "C": "TR-03",
+     "D": "TR-03"
+    },
+    "translation": "연례 보고서는 지원 포털 출시 이후 고객 만족도가 크게 향상되었음을 강조했다.",
+    "source": "ai-generated",
+    "verified": false
+   }
+  ],
+  "LXA-01-01": [
+   {
+    "id": "LXA-01-01-p1",
+    "subtype_id": "LXA-01-01",
+    "type_id": "LXA-01",
+    "type_name": "의미로 고르는 형용사",
+    "group": "LXA",
+    "group_name": "형용사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "Because the storage room has no climate control, it is ___ for preserving temperature-sensitive materials.",
+    "options": {
+     "A": "spacious",
+     "B": "unsuitable",
+     "C": "portable",
+     "D": "vacant"
+    },
+    "answer": "B",
+    "option_traps": {
+     "A": "TR-03",
+     "C": "TR-03",
+     "D": "TR-03"
+    },
+    "translation": "그 보관실에는 온도 조절 장치가 없기 때문에 온도에 민감한 자재를 보관하기에 부적합하다.",
+    "source": "ai-generated",
+    "verified": false
+   },
+   {
+    "id": "LXA-01-01-p2",
+    "subtype_id": "LXA-01-01",
+    "type_id": "LXA-01",
+    "type_name": "의미로 고르는 형용사",
+    "group": "LXA",
+    "group_name": "형용사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "After three failed inspections, the equipment was deemed ___ for continued use in the factory.",
+    "options": {
+     "A": "flexible",
+     "B": "vacant",
+     "C": "unsafe",
+     "D": "optional"
+    },
+    "answer": "C",
+    "option_traps": {
+     "A": "TR-03",
+     "B": "TR-03",
+     "D": "TR-03"
+    },
+    "translation": "세 번의 점검에 실패한 후, 그 장비는 공장에서 계속 사용하기에 안전하지 않은 것으로 판단되었다.",
+    "source": "ai-generated",
+    "verified": false
+   }
+  ],
+  "LXA-02-01": [
+   {
+    "id": "LXA-02-01-p1",
+    "subtype_id": "LXA-02-01",
+    "type_id": "LXA-02",
+    "type_name": "형용사 + 명사 연어",
+    "group": "LXA",
+    "group_name": "형용사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "상",
+    "stem": "After reviewing the revised proposal, the committee reached a ___ decision to extend the project deadline.",
+    "options": {
+     "A": "consecutive",
+     "B": "formal",
+     "C": "attached",
+     "D": "unanimous"
+    },
+    "answer": "D",
+    "option_traps": {
+     "A": "TR-04",
+     "B": "TR-04",
+     "C": "TR-04"
+    },
+    "translation": "수정된 제안서를 검토한 후, 위원회는 프로젝트 마감일을 연장하기로 만장일치 결정을 내렸다.",
+    "source": "ai-generated",
+    "verified": false
+   },
+   {
+    "id": "LXA-02-01-p2",
+    "subtype_id": "LXA-02-01",
+    "type_id": "LXA-02",
+    "type_name": "형용사 + 명사 연어",
+    "group": "LXA",
+    "group_name": "형용사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "상",
+    "stem": "Staff members are expected to wear ___ attire at the annual awards banquet.",
+    "options": {
+     "A": "formal",
+     "B": "consecutive",
+     "C": "terminal",
+     "D": "sparse"
+    },
+    "answer": "A",
+    "option_traps": {
+     "B": "TR-04",
+     "C": "TR-04",
+     "D": "TR-04"
+    },
+    "translation": "직원들은 연례 시상식 만찬에 정장을 착용해야 한다.",
+    "source": "ai-generated",
+    "verified": false
+   }
+  ],
+  "LXD-01-01": [
+   {
+    "id": "LXD-01-01-p1",
+    "subtype_id": "LXD-01-01",
+    "type_id": "LXD-01",
+    "type_name": "의미로 고르는 부사",
+    "group": "LXD",
+    "group_name": "부사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "Because nearly all clients renewed their contracts, the response to the new service was ___ positive.",
+    "options": {
+     "A": "hardly",
+     "B": "largely",
+     "C": "rarely",
+     "D": "evenly"
+    },
+    "answer": "B",
+    "option_traps": {
+     "A": "TR-03",
+     "C": "TR-03",
+     "D": "TR-03"
+    },
+    "translation": "거의 모든 고객이 계약을 갱신했기 때문에, 새 서비스에 대한 반응은 대체로 긍정적이었다.",
+    "source": "ai-generated",
+    "verified": false
+   },
+   {
+    "id": "LXD-01-01-p2",
+    "subtype_id": "LXD-01-01",
+    "type_id": "LXD-01",
+    "type_name": "의미로 고르는 부사",
+    "group": "LXD",
+    "group_name": "부사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "The two departments divided the relocation costs ___, with each paying half of the total amount.",
+    "options": {
+     "A": "mostly",
+     "B": "hardly",
+     "C": "evenly",
+     "D": "rarely"
+    },
+    "answer": "C",
+    "option_traps": {
+     "A": "TR-03",
+     "B": "TR-03",
+     "D": "TR-03"
+    },
+    "translation": "두 부서는 이전 비용을 균등하게 나누어 각각 총액의 절반을 부담했다.",
+    "source": "ai-generated",
+    "verified": false
+   }
+  ],
+  "LXD-02-01": [
+   {
+    "id": "LXD-02-01-p1",
+    "subtype_id": "LXD-02-01",
+    "type_id": "LXD-02",
+    "type_name": "동사·분사와 연어를 이루는 부사",
+    "group": "LXD",
+    "group_name": "부사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "상",
+    "stem": "Customers who experience a service interruption should be ___ notified of the estimated restoration time.",
+    "options": {
+     "A": "closely",
+     "B": "widely",
+     "C": "highly",
+     "D": "promptly"
+    },
+    "answer": "D",
+    "option_traps": {
+     "A": "TR-04",
+     "B": "TR-04",
+     "C": "TR-04"
+    },
+    "translation": "서비스 중단을 겪는 고객에게는 예상 복구 시간을 즉시 알려야 한다.",
+    "source": "ai-generated",
+    "verified": false
+   },
+   {
+    "id": "LXD-02-01-p2",
+    "subtype_id": "LXD-02-01",
+    "type_id": "LXD-02",
+    "type_name": "동사·분사와 연어를 이루는 부사",
+    "group": "LXD",
+    "group_name": "부사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "상",
+    "stem": "Employees are ___ encouraged to submit suggestions for reducing energy use at the office.",
+    "options": {
+     "A": "strongly",
+     "B": "closely",
+     "C": "widely",
+     "D": "promptly"
+    },
+    "answer": "A",
+    "option_traps": {
+     "B": "TR-04",
+     "C": "TR-04",
+     "D": "TR-04"
+    },
+    "translation": "직원들은 사무실 에너지 사용을 줄이기 위한 제안을 제출하도록 강력히 권장받는다.",
+    "source": "ai-generated",
+    "verified": false
+   }
+  ],
+  "LXD-04-01": [
+   {
+    "id": "LXD-04-01-p1",
+    "subtype_id": "LXD-04-01",
+    "type_id": "LXD-04",
+    "type_name": "시간 부사",
+    "group": "LXD",
+    "group_name": "부사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "The design team has ___ completed the preliminary drawings for the new showroom.",
+    "options": {
+     "A": "still",
+     "B": "already",
+     "C": "yet",
+     "D": "soon"
+    },
+    "answer": "B",
+    "option_traps": {
+     "A": "TR-03",
+     "C": "TR-03",
+     "D": "TR-06"
+    },
+    "translation": "디자인팀은 새 전시장에 대한 예비 도면을 이미 완성했다.",
+    "source": "ai-generated",
+    "verified": false
+   },
+   {
+    "id": "LXD-04-01-p2",
+    "subtype_id": "LXD-04-01",
+    "type_id": "LXD-04",
+    "type_name": "시간 부사",
+    "group": "LXD",
+    "group_name": "부사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "The updated employee manual is ___ under review by the legal department.",
+    "options": {
+     "A": "already",
+     "B": "yet",
+     "C": "still",
+     "D": "soon"
+    },
+    "answer": "C",
+    "option_traps": {
+     "A": "TR-03",
+     "B": "TR-03",
+     "D": "TR-06"
+    },
+    "translation": "개정된 직원 안내서는 법무 부서에서 여전히 검토 중이다.",
+    "source": "ai-generated",
+    "verified": false
+   }
+  ],
+  "LXD-04-02": [
+   {
+    "id": "LXD-04-02-p1",
+    "subtype_id": "LXD-04-02",
+    "type_id": "LXD-04",
+    "type_name": "시간 부사",
+    "group": "LXD",
+    "group_name": "부사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "The company has ___ opened a service center near the airport to assist international clients.",
+    "options": {
+     "A": "formerly",
+     "B": "previously",
+     "C": "soon",
+     "D": "recently"
+    },
+    "answer": "D",
+    "option_traps": {
+     "A": "TR-03",
+     "B": "TR-03",
+     "C": "TR-06"
+    },
+    "translation": "그 회사는 해외 고객을 지원하기 위해 최근 공항 근처에 서비스 센터를 열었다.",
+    "source": "ai-generated",
+    "verified": false
+   },
+   {
+    "id": "LXD-04-02-p2",
+    "subtype_id": "LXD-04-02",
+    "type_id": "LXD-04",
+    "type_name": "시간 부사",
+    "group": "LXD",
+    "group_name": "부사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "The reception desk is ___ located on the second floor while the lobby is being renovated.",
+    "options": {
+     "A": "currently",
+     "B": "previously",
+     "C": "recently",
+     "D": "soon"
+    },
+    "answer": "A",
+    "option_traps": {
+     "B": "TR-03",
+     "C": "TR-03",
+     "D": "TR-06"
+    },
+    "translation": "로비가 리모델링되는 동안 접수 데스크는 현재 2층에 있다.",
+    "source": "ai-generated",
+    "verified": false
+   }
+  ],
+  "LXD-04-03": [
+   {
+    "id": "LXD-04-03-p1",
+    "subtype_id": "LXD-04-03",
+    "type_id": "LXD-04",
+    "type_name": "시간 부사",
+    "group": "LXD",
+    "group_name": "부사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "The company ___ accepts paper applications for positions posted on its careers website.",
+    "options": {
+     "A": "not any longer",
+     "B": "no longer",
+     "C": "any longer",
+     "D": "not longer"
+    },
+    "answer": "B",
+    "option_traps": {
+     "A": "TR-03",
+     "C": "TR-03",
+     "D": "TR-02"
+    },
+    "translation": "그 회사는 채용 웹사이트에 게시된 직무에 대해 더 이상 종이 지원서를 받지 않는다.",
+    "source": "ai-generated",
+    "verified": false
+   },
+   {
+    "id": "LXD-04-03-p2",
+    "subtype_id": "LXD-04-03",
+    "type_id": "LXD-04",
+    "type_name": "시간 부사",
+    "group": "LXD",
+    "group_name": "부사 어휘",
+    "area": "V",
+    "area_name": "어휘",
+    "difficulty": "중",
+    "stem": "Customers do not need to submit paper receipts for reimbursement ___.",
+    "options": {
+     "A": "no longer",
+     "B": "not any longer",
+     "C": "any longer",
+     "D": "not longer"
+    },
+    "answer": "C",
+    "option_traps": {
+     "A": "TR-03",
+     "B": "TR-03",
+     "D": "TR-02"
+    },
+    "translation": "고객은 더 이상 환급을 위해 종이 영수증을 제출할 필요가 없다.",
+    "source": "ai-generated",
+    "verified": false
+   }
+  ],
   "CTX-01-01": [
    {
     "id": "CTX-01-01-p1",
@@ -1154,16 +1658,16 @@
     "difficulty": "중",
     "stem": "The marketing campaign generated an enormous amount of online traffic. ___, actual sales during the same period barely increased.",
     "options": {
-     "A": "However",
-     "B": "Therefore",
-     "C": "Moreover",
-     "D": "For example"
+     "A": "Therefore",
+     "B": "Moreover",
+     "C": "For example",
+     "D": "However"
     },
-    "answer": "A",
+    "answer": "D",
     "option_traps": {
-     "B": "TR-12",
-     "C": "TR-17",
-     "D": "TR-17"
+     "A": "TR-12",
+     "B": "TR-17",
+     "C": "TR-17"
     },
     "translation": "그 마케팅 캠페인은 엄청난 온라인 트래픽을 만들어 냈다. 그러나 같은 기간 동안 실제 매출은 거의 늘지 않았다.",
     "source": "ai-generated",

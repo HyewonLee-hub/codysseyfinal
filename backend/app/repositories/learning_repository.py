@@ -4,7 +4,10 @@ from datetime import datetime, timezone
 from typing import TypedDict
 
 from app.db.supabase import supabase
-from app.schemas.learning import WeakLearningSubmitResponse
+from app.schemas.learning import (
+    LearningTestItemGradingResult,
+    WeakLearningSubmitResponse,
+)
 
 
 class LearningSession(TypedDict):
@@ -29,6 +32,7 @@ class LearningSessionAttemptDetails(TypedDict):
     selected_choice: str
     is_correct: bool
     trap_id: str | None
+    context: str | None
     answered_at: str
 
 
@@ -39,9 +43,14 @@ class LearningSubtypeTaxonomy(TypedDict):
     type_name: str | None
 
 
+class LearningSessionQuestion(TypedDict):
+    question_id: str
+    position: int
+
+
 def create_learning_session(
     *,
-    subtype_id: str,
+    subtype_id: str | None,
     learner_id: str | None = None,
     mode: str = "weak_learning",
     status: str = "in_progress",
@@ -90,6 +99,37 @@ def create_learning_attempt(
     ).execute()
 
 
+def create_learning_test_attempts(
+    *,
+    learning_session_id: str,
+    results: list[LearningTestItemGradingResult],
+    context: str,
+    learner_id: str | None = None,
+) -> None:
+    """Store all attempts submitted for one general learning test at once."""
+    if not results:
+        return
+
+    answered_at = datetime.now(timezone.utc).isoformat()
+    attempts = [
+        {
+            "learner_id": learner_id,
+            "diagnostic_session_id": None,
+            "learning_session_id": learning_session_id,
+            "question_id": result.question_id,
+            "subtype_id": result.subtype_id,
+            "selected_choice": result.selected_choice,
+            "is_correct": result.is_correct,
+            "trap_id": result.trap_id,
+            "context": context,
+            "answered_at": answered_at,
+        }
+        for result in results
+    ]
+
+    supabase.table("question_attempts").insert(attempts).execute()
+
+
 def get_learning_session(learning_session_id: str) -> LearningSession | None:
     """Return the data required to validate and report on a learning session."""
     response = (
@@ -104,6 +144,44 @@ def get_learning_session(learning_session_id: str) -> LearningSession | None:
         return None
 
     return response.data[0]
+
+
+def get_learning_session_question_ids(
+    learning_session_id: str,
+) -> list[LearningSessionQuestion]:
+    """Return one session's assigned question IDs in fixed position order."""
+    response = (
+        supabase.table("learning_session_questions")
+        .select("question_id, position")
+        .eq("learning_session_id", learning_session_id)
+        .order("position")
+        .execute()
+    )
+
+    return response.data
+
+
+def create_learning_session_questions(
+    learning_session_id: str,
+    question_ids: list[str],
+) -> None:
+    """Persist a session's assigned questions in their supplied order."""
+    if len(question_ids) != len(set(question_ids)):
+        raise ValueError("Learning session question IDs must be unique.")
+
+    if not question_ids:
+        return
+
+    assignments = [
+        {
+            "learning_session_id": learning_session_id,
+            "question_id": question_id,
+            "position": position,
+        }
+        for position, question_id in enumerate(question_ids, start=1)
+    ]
+
+    supabase.table("learning_session_questions").insert(assignments).execute()
 
 
 def get_learning_session_attempts(
@@ -128,7 +206,8 @@ def get_learning_session_attempt_details(
     response = (
         supabase.table("question_attempts")
         .select(
-            "question_id, subtype_id, selected_choice, is_correct, trap_id, answered_at"
+            "question_id, subtype_id, selected_choice, is_correct, trap_id, "
+            "context, answered_at"
         )
         .eq("learning_session_id", learning_session_id)
         .order("answered_at", desc=True)
