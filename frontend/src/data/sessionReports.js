@@ -43,7 +43,7 @@ export function createSessionReports({ diagnosisReport, studyReports = [], revie
     label: '반복 학습',
     title: `${record.typeTitle} 반복 학습 결과`,
     createdAt: record.completedAt,
-    path: `/study/review/${record.typeId}`,
+    path: `/mypage/reports/review/${record.id}`,
     resultData: record,
   })
 

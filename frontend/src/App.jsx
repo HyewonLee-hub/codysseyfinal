@@ -12,6 +12,7 @@ import MyPage from './pages/MyPage.jsx'
 import ProfilePage from './pages/ProfilePage.jsx'
 import SavedWordsPage from './pages/SavedWordsPage.jsx'
 import StudyReportPage from './pages/StudyReportPage.jsx'
+import ReviewReportPage from './pages/ReviewReportPage.jsx'
 import FaqPage from './pages/FaqPage.jsx'
 import ContactPage from './pages/ContactPage.jsx'
 import HomePage from './pages/HomePage.jsx'
@@ -53,7 +54,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    document.title = `${path === '/' ? '홈' : path === '/support/contact' ? '1:1 문의' : path === '/support/faq' ? '자주 묻는 질문' : path.startsWith('/mypage/reports/study') ? '오늘의 학습 보고서' : path === '/mypage/profile' ? '내 정보' : path === '/mypage/words' ? '저장한 단어' : path === '/mypage' ? '나의 학습 기록' : path.startsWith('/study/review') ? '취약 유형 반복' : path === '/study/result' ? '학습 결과' : path === '/study' ? '오늘의 문제 풀기' : path === '/words' ? '오늘의 단어' : path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TOEIC AI`
+    document.title = `${path === '/' ? '홈' : path === '/support/contact' ? '1:1 문의' : path === '/support/faq' ? '자주 묻는 질문' : path.startsWith('/mypage/reports/study') ? '오늘의 학습 보고서' : path.startsWith('/mypage/reports/review') ? '반복 학습 보고서' : path === '/mypage/profile' ? '내 정보' : path === '/mypage/words' ? '저장한 단어' : path === '/mypage' ? '나의 학습 기록' : path.startsWith('/study/review') ? '취약 유형 반복' : path === '/study/result' ? '학습 결과' : path === '/study' ? '오늘의 문제 풀기' : path === '/words' ? '오늘의 단어' : path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TOEIC AI`
   }, [path])
 
   function navigate(event, nextPath) {
@@ -130,7 +131,6 @@ function App() {
     if (report.type === 'review') {
       const record = reviewRecords.find((item) => item.id === report.id)
       if (!record) return
-      setReviewCompleted(record)
     }
     if (window.location.pathname !== report.path) window.history.pushState(null, '', report.path)
     setPath(report.path)
@@ -155,6 +155,11 @@ function App() {
     const reportId = path.slice('/mypage/reports/study/'.length)
     const report = reports.find((item) => item.type === 'study' && item.id === reportId)
     return <StudyReportPage report={report} onHeaderNavigate={handleHeaderNavigate} onBack={() => handleHeaderNavigate('마이페이지')} onReview={handleOpenReview} />
+  }
+  if (path === '/mypage/reports/review' || path.startsWith('/mypage/reports/review/')) {
+    const reportId = path.slice('/mypage/reports/review/'.length)
+    const report = reports.find((item) => item.type === 'review' && item.id === reportId)
+    return <ReviewReportPage report={report} onHeaderNavigate={handleHeaderNavigate} onBack={() => handleHeaderNavigate('마이페이지')} onRetake={() => handleStartReview(report.resultData.typeId)} />
   }
   if (path === '/mypage/profile') return <ProfilePage profile={profile} onSave={(nextProfile) => { setProfile(nextProfile); window.history.pushState(null, '', '/mypage'); setPath('/mypage') }} onCancel={() => { window.history.pushState(null, '', '/mypage'); setPath('/mypage') }} onHeaderNavigate={handleHeaderNavigate} onBack={() => handleHeaderNavigate('마이페이지')} />
   if (path === '/mypage/words') return <SavedWordsPage savedIds={savedWordIds} memorizedIds={memorizedWordIds} onToggleSaved={(id) => setSavedWordIds((current) => toggleId(current, id))} onToggleMemorized={(id) => setMemorizedWordIds((current) => toggleId(current, id))} onStartTest={handleStartVocabularyStudy} onHeaderNavigate={handleHeaderNavigate} onBack={() => handleHeaderNavigate('마이페이지')} onOpenWords={() => handleHeaderNavigate('오늘의 단어')} />
