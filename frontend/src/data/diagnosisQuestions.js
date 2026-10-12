@@ -2,7 +2,7 @@ export const diagnosisQuestions = [
   {
     id: 'diagnosis-01', number: 1, part: 'PART 5', format: '문장 완성', grammarType: '전치사',
     question: 'The revised schedule will be sent to all employees _____ Monday.',
-    options: [{ value: 'A', label: 'at' }, { value: 'B', label: 'by' }, { value: 'C', label: 'on' }, { value: 'D', label: 'from' }],
+    options: [{ value: 'A', label: 'at' }, { value: 'B', label: 'by' }, { value: 'C', label: 'in' }, { value: 'D', label: 'to' }],
     answer: 'B',
   },
   {
