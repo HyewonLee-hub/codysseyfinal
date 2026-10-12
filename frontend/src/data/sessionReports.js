@@ -11,7 +11,7 @@ export function formatSessionDate(isoDate, short = false) {
 }
 
 // 현재 탭에서 실제로 완료한 기록만 목록에 포함합니다.
-export function createSessionReports({ diagnosisReport, studyResult, reviewRecords }) {
+export function createSessionReports({ diagnosisReport, studyReports = [], reviewRecords = [] }) {
   const reports = []
 
   if (diagnosisReport) reports.push({
@@ -24,15 +24,18 @@ export function createSessionReports({ diagnosisReport, studyResult, reviewRecor
     resultData: diagnosisReport.resultData,
   })
 
-  if (studyResult?.reportId) reports.push({
-    id: studyResult.reportId,
-    type: 'study',
-    label: '오늘의 학습',
-    title: '오늘의 학습 보고서',
-    createdAt: studyResult.completedAt,
-    path: '/study/result',
-    resultData: studyResult,
-  })
+  for (const studyResult of studyReports) {
+    if (!studyResult.reportId) continue
+    reports.push({
+      id: studyResult.reportId,
+      type: 'study',
+      label: '오늘의 학습',
+      title: '오늘의 학습 보고서',
+      createdAt: studyResult.completedAt,
+      path: `/mypage/reports/study/${studyResult.reportId}`,
+      resultData: studyResult,
+    })
+  }
 
   for (const record of reviewRecords) reports.push({
     id: record.id,

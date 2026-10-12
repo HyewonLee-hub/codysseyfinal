@@ -11,6 +11,7 @@ import StudyReviewPage from './pages/StudyReviewPage.jsx'
 import MyPage from './pages/MyPage.jsx'
 import ProfilePage from './pages/ProfilePage.jsx'
 import SavedWordsPage from './pages/SavedWordsPage.jsx'
+import StudyReportPage from './pages/StudyReportPage.jsx'
 import { diagnosisQuestions } from './data/diagnosisQuestions.js'
 import { mockDiagnosisResult } from './data/mockDiagnosisResult.js'
 import { calculateStudyResult } from './data/studyResult.js'
@@ -33,13 +34,14 @@ function App() {
   const [diagnosisAnswers, setDiagnosisAnswers] = useState(null)
   const [diagnosisReport, setDiagnosisReport] = useState(null)
   const [studyResult, setStudyResult] = useState(null)
+  const [studyReports, setStudyReports] = useState([])
   const [studyInitialExamId, setStudyInitialExamId] = useState('basic')
   const [reviewRecords, setReviewRecords] = useState([])
   const [reviewCompleted, setReviewCompleted] = useState(null)
   const [savedWordIds, setSavedWordIds] = useState(() => new Set())
   const [memorizedWordIds, setMemorizedWordIds] = useState(() => new Set())
   const [profile, setProfile] = useState({ name: '', age: '' })
-  const reports = createSessionReports({ diagnosisReport: hasCompleteDiagnosis(diagnosisAnswers) ? diagnosisReport : null, studyResult, reviewRecords })
+  const reports = createSessionReports({ diagnosisReport: hasCompleteDiagnosis(diagnosisAnswers) ? diagnosisReport : null, studyReports, reviewRecords })
 
   useEffect(() => {
     const handlePopState = () => setPath(window.location.pathname)
@@ -48,7 +50,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    document.title = `${path === '/mypage/profile' ? '내 정보' : path === '/mypage/words' ? '저장한 단어' : path === '/mypage' ? '나의 학습 기록' : path.startsWith('/study/review') ? '취약 유형 반복' : path === '/study/result' ? '학습 결과' : path === '/study' ? '오늘의 문제 풀기' : path === '/words' ? '오늘의 단어' : path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TOEIC AI`
+    document.title = `${path.startsWith('/mypage/reports/study') ? '오늘의 학습 보고서' : path === '/mypage/profile' ? '내 정보' : path === '/mypage/words' ? '저장한 단어' : path === '/mypage' ? '나의 학습 기록' : path.startsWith('/study/review') ? '취약 유형 반복' : path === '/study/result' ? '학습 결과' : path === '/study' ? '오늘의 문제 풀기' : path === '/words' ? '오늘의 단어' : path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TOEIC AI`
   }, [path])
 
   function navigate(event, nextPath) {
@@ -83,7 +85,9 @@ function App() {
   function handleCompleteStudy(attempt) {
     const result = calculateStudyResult(attempt.examId, attempt.answers)
     if (!result) return
-    setStudyResult({ ...result, reportId: crypto.randomUUID(), completedAt: new Date().toISOString() })
+    const completedResult = { ...result, reportId: crypto.randomUUID(), completedAt: new Date().toISOString() }
+    setStudyResult(completedResult)
+    setStudyReports((previous) => [completedResult, ...previous])
     setStudyInitialExamId(result.examId)
     if (window.location.pathname !== '/study/result') window.history.pushState(null, '', '/study/result')
     setPath('/study/result')
@@ -119,7 +123,7 @@ function App() {
 
   function handleOpenReport(report) {
     if (report.type === 'diagnosis' && diagnosisReport?.id !== report.id) return
-    if (report.type === 'study' && studyResult?.reportId !== report.id) return
+    if (report.type === 'study' && !studyReports.some((item) => item.reportId === report.id)) return
     if (report.type === 'review') {
       const record = reviewRecords.find((item) => item.id === report.id)
       if (!record) return
@@ -141,6 +145,11 @@ function App() {
   if (path === '/diagnosis') return <DiagnosisPage onHeaderNavigate={handleHeaderNavigate} onStart={handleStartDiagnosis} />
   if (path === '/words') return <WordsPage onHeaderNavigate={handleHeaderNavigate} savedIds={savedWordIds} memorizedIds={memorizedWordIds} onToggleSaved={(id) => setSavedWordIds((current) => toggleId(current, id))} onToggleMemorized={(id) => setMemorizedWordIds((current) => toggleId(current, id))} />
   if (path === '/mypage') return <MyPage profile={profile} reports={reports} onHeaderNavigate={handleHeaderNavigate} onOpenReport={handleOpenReport} onSavedWords={() => { window.history.pushState(null, '', '/mypage/words'); setPath('/mypage/words') }} onEditProfile={() => { window.history.pushState(null, '', '/mypage/profile'); setPath('/mypage/profile') }} />
+  if (path === '/mypage/reports/study' || path.startsWith('/mypage/reports/study/')) {
+    const reportId = path.slice('/mypage/reports/study/'.length)
+    const report = reports.find((item) => item.type === 'study' && item.id === reportId)
+    return <StudyReportPage report={report} onHeaderNavigate={handleHeaderNavigate} onBack={() => handleHeaderNavigate('마이페이지')} onReview={handleOpenReview} />
+  }
   if (path === '/mypage/profile') return <ProfilePage profile={profile} onSave={(nextProfile) => { setProfile(nextProfile); window.history.pushState(null, '', '/mypage'); setPath('/mypage') }} onCancel={() => { window.history.pushState(null, '', '/mypage'); setPath('/mypage') }} onHeaderNavigate={handleHeaderNavigate} onBack={() => handleHeaderNavigate('마이페이지')} />
   if (path === '/mypage/words') return <SavedWordsPage savedIds={savedWordIds} memorizedIds={memorizedWordIds} onToggleSaved={(id) => setSavedWordIds((current) => toggleId(current, id))} onToggleMemorized={(id) => setMemorizedWordIds((current) => toggleId(current, id))} onStartTest={handleStartVocabularyStudy} onHeaderNavigate={handleHeaderNavigate} onBack={() => handleHeaderNavigate('마이페이지')} onOpenWords={() => handleHeaderNavigate('오늘의 단어')} />
   if (path === '/study/result') return <StudyResultPage result={studyResult} onHeaderNavigate={handleHeaderNavigate} onStart={() => handleHeaderNavigate('학습')} onRetake={handleRetakeStudy} onReview={handleOpenReview} />
