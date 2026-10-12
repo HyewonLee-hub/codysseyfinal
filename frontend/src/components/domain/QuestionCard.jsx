@@ -6,7 +6,6 @@ export default function QuestionCard({ number, total, category, question, instru
   if (variant === 'study') return <section aria-label={`${number}번 문제`} className={className}>
     <div className="flex flex-wrap items-center justify-between gap-3 text-[15px]">
       <p className="font-bold text-primary">문제 {String(number).padStart(2, '0')} / {total}</p>
-      <p className="text-[#687284]">{category}</p>
     </div>
     <h2 className="mt-[33px] break-words text-[clamp(24px,3vw,29px)] leading-[1.35] font-bold tracking-[-0.03em] text-[#20232a]">{question}</h2>
     <p className="mt-[34px] text-[15px] text-[#7b8797]">{instruction ?? '빈칸에 들어갈 가장 알맞은 표현을 선택하세요.'}</p>

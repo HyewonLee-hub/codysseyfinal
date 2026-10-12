@@ -3,7 +3,7 @@ import ResultSummary from '../components/domain/ResultSummary.jsx'
 import Header from '../components/layout/Header.jsx'
 import PageContainer from '../components/layout/PageContainer.jsx'
 
-export default function StudyResultPage({ result, onHeaderNavigate, onStart, onRetake }) {
+export default function StudyResultPage({ result, onHeaderNavigate, onStart, onRetake, onReview }) {
   if (!result) return <div className="min-h-screen bg-canvas">
     <Header active="학습" onNavigate={onHeaderNavigate} />
     <PageContainer as="main" className="py-16 sm:py-20">
@@ -43,6 +43,7 @@ export default function StudyResultPage({ result, onHeaderNavigate, onStart, onR
             </section>)}
           </div>
           <Button onClick={onRetake} className="mt-[35px] w-full sm:w-[192px]">오늘 다시 풀기</Button>
+          <button type="button" onClick={onReview} className="mt-4 block rounded text-sm font-bold text-primary underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">취약 유형 반복하기</button>
           <p className="mt-4 text-xs text-muted">Mock 문제 답안으로 계산한 결과입니다. 실제 TOEIC 점수나 AI 분석 결과가 아닙니다.</p>
         </section>
       </div>

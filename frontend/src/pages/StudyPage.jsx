@@ -5,6 +5,7 @@ import QuestionCard from '../components/domain/QuestionCard.jsx'
 import Header from '../components/layout/Header.jsx'
 import PageContainer from '../components/layout/PageContainer.jsx'
 import { studyExams, studyQuestionsByType } from '../data/studyQuestions.js'
+import { getReviewQuestions, getReviewType } from '../data/studyReview.js'
 
 const cardStyles = {
   blue: { background: 'bg-[#deecff]', eyebrow: 'text-primary', ornament: 'border-[22px] border-[#bed9fb]' },
@@ -12,15 +13,17 @@ const cardStyles = {
   coral: { background: 'bg-[#ffebe5]', eyebrow: 'text-[#d8604d]', ornament: 'bg-[#ffc7b9]' },
 }
 
-export default function StudyPage({ onHeaderNavigate, onComplete, initialExamId = 'basic', completedAttempt }) {
-  const [examId, setExamId] = useState(completedAttempt?.examId ?? initialExamId)
-  const [currentIndex, setCurrentIndex] = useState(completedAttempt ? studyQuestionsByType[completedAttempt.examId].length - 1 : 0)
-  const [selectedAnswer, setSelectedAnswer] = useState(completedAttempt ? completedAttempt.answers[studyQuestionsByType[completedAttempt.examId].at(-1).id] : null)
-  const [answers, setAnswers] = useState(completedAttempt?.answers ?? {})
+export default function StudyPage({ onHeaderNavigate, onComplete, initialExamId = 'basic', completedAttempt, reviewTypeId, reviewCompleted, onReviewComplete, onBackToReview }) {
+  const reviewType = getReviewType(reviewTypeId)
+  const [examId, setExamId] = useState(reviewType?.examId ?? completedAttempt?.examId ?? initialExamId)
+  const [currentIndex, setCurrentIndex] = useState(!reviewType && completedAttempt ? studyQuestionsByType[completedAttempt.examId].length - 1 : 0)
+  const [selectedAnswer, setSelectedAnswer] = useState(!reviewType && completedAttempt ? completedAttempt.answers[studyQuestionsByType[completedAttempt.examId].at(-1).id] : null)
+  const [answers, setAnswers] = useState(!reviewType ? completedAttempt?.answers ?? {} : {})
   const [error, setError] = useState('')
   const [switchNotice, setSwitchNotice] = useState('')
-  const questions = studyQuestionsByType[examId]
+  const questions = reviewType ? getReviewQuestions(reviewType.id) : studyQuestionsByType[examId]
   const question = questions[currentIndex]
+  const reviewIsComplete = reviewType && reviewCompleted?.typeId === reviewType.id
 
   function selectExam(nextId) {
     if (nextId === examId) return
@@ -42,7 +45,10 @@ export default function StudyPage({ onHeaderNavigate, onComplete, initialExamId 
     setAnswers(nextAnswers)
     setError('')
     if (currentIndex === questions.length - 1) {
-      if (Object.keys(nextAnswers).length === questions.length) onComplete?.({ examId, answers: nextAnswers })
+      if (Object.keys(nextAnswers).length === questions.length) {
+        if (reviewType) onReviewComplete?.({ typeId: reviewType.id, answers: nextAnswers })
+        else onComplete?.({ examId, answers: nextAnswers })
+      }
       return
     }
     setCurrentIndex((index) => index + 1)
@@ -53,9 +59,9 @@ export default function StudyPage({ onHeaderNavigate, onComplete, initialExamId 
     <Header active="학습" onNavigate={onHeaderNavigate} />
     <main>
       <PageContainer className="pb-10 pt-[24px] lg:!px-[64px]">
-        <h1 className="text-[clamp(34px,5vw,42px)] leading-[1.2] font-bold tracking-[-0.05em] text-[#20232a]">오늘의 문제 풀기</h1>
-        <p className="mt-[19px] text-[17px] text-[#687284]">세 가지 시험 중 하나를 골라 시작해 보세요.</p>
-        <div aria-label="시험 유형 선택" className="mt-[46px] grid gap-5 md:grid-cols-3 lg:gap-6">
+        <h1 className="text-[clamp(34px,5vw,42px)] leading-[1.2] font-bold tracking-[-0.05em] text-[#20232a]">{reviewType ? `${reviewType.title} 반복 학습` : '오늘의 문제 풀기'}</h1>
+        <p className="mt-[19px] text-[17px] text-[#687284]">{reviewType ? `${questions.length}문제를 풀며 선택한 유형을 다시 연습하세요.` : '세 가지 시험 중 하나를 골라 시작해 보세요.'}</p>
+        {!reviewType && <div aria-label="시험 유형 선택" className="mt-[46px] grid gap-5 md:grid-cols-3 lg:gap-6">
           {studyExams.map((exam) => {
             const chosen = examId === exam.id
             const tone = cardStyles[exam.tone]
@@ -66,17 +72,23 @@ export default function StudyPage({ onHeaderNavigate, onComplete, initialExamId 
               <span className="mt-[8px] block text-[15px] text-[#647084]">{exam.description}</span>
             </button>
           })}
-        </div>
+        </div>}
         {switchNotice && <p role="status" className="mt-3 text-sm text-body">{switchNotice}</p>}
       </PageContainer>
 
       <section aria-label="오늘의 문제 풀이" className="min-h-[453px] bg-[linear-gradient(115deg,#f9fbff_0%,#eef4ff_55%,#f8faff_100%)]">
-        <ProgressBar value={currentIndex + 1} max={questions.length} ariaLabel={`${studyExams.find((exam) => exam.id === examId).title} 진행률`} valueText={`${currentIndex + 1} / ${questions.length}문제`} trackClassName="!h-[2px] !rounded-none bg-[#e3e9f4]" fillClassName="!rounded-none" />
+        <ProgressBar value={currentIndex + 1} max={questions.length} ariaLabel={`${reviewType?.title ?? studyExams.find((exam) => exam.id === examId).title} 진행률`} valueText={`${currentIndex + 1} / ${questions.length}문제`} trackClassName="!h-[2px] !rounded-none bg-[#e3e9f4]" fillClassName="!rounded-none" />
         <PageContainer className="pb-8 pt-[34px] lg:!px-[64px]">
-          <QuestionCard key={question.id} variant="study" number={currentIndex + 1} total={questions.length} category={question.category} question={question.question} options={question.options} selected={selectedAnswer} onSelect={(value) => { setSelectedAnswer(value); setError('') }} name={question.id} error={error} />
-          <div className="mt-[31px] flex justify-end">
-            <Button onClick={nextQuestion} className="w-full sm:w-[218px]">{currentIndex === questions.length - 1 ? '시험 완료' : '다음 문제'}</Button>
-          </div>
+          {reviewIsComplete ? <div role="status" aria-live="polite" className="py-14">
+            <h2 className="text-[29px] font-bold text-ink">반복 학습을 완료했습니다.</h2>
+            <p className="mt-5 text-[16px] text-body">{reviewCompleted.total}문제 중 {reviewCompleted.correct}문제를 맞혔습니다. 정답률 {reviewCompleted.accuracy}%</p>
+            <Button onClick={onBackToReview} className="mt-8">다른 유형 선택하기</Button>
+          </div> : <>
+            <QuestionCard key={question.id} variant="study" number={currentIndex + 1} total={questions.length} category={question.category} question={question.question} options={question.options} selected={selectedAnswer} onSelect={(value) => { setSelectedAnswer(value); setError('') }} name={question.id} error={error} />
+            <div className="mt-[31px] flex justify-end">
+              <Button onClick={nextQuestion} className="w-full sm:w-[218px]">{currentIndex === questions.length - 1 ? reviewType ? '학습 완료' : '시험 완료' : '다음 문제'}</Button>
+            </div>
+          </>}
         </PageContainer>
       </section>
     </main>
