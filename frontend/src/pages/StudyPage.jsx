@@ -12,26 +12,24 @@ const cardStyles = {
   coral: { background: 'bg-[#ffebe5]', eyebrow: 'text-[#d8604d]', ornament: 'bg-[#ffc7b9]' },
 }
 
-export default function StudyPage({ onHeaderNavigate }) {
-  const [examId, setExamId] = useState('basic')
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [selectedAnswer, setSelectedAnswer] = useState(null)
-  const [answers, setAnswers] = useState({})
+export default function StudyPage({ onHeaderNavigate, onComplete, initialExamId = 'basic', completedAttempt }) {
+  const [examId, setExamId] = useState(completedAttempt?.examId ?? initialExamId)
+  const [currentIndex, setCurrentIndex] = useState(completedAttempt ? studyQuestionsByType[completedAttempt.examId].length - 1 : 0)
+  const [selectedAnswer, setSelectedAnswer] = useState(completedAttempt ? completedAttempt.answers[studyQuestionsByType[completedAttempt.examId].at(-1).id] : null)
+  const [answers, setAnswers] = useState(completedAttempt?.answers ?? {})
   const [error, setError] = useState('')
   const [switchNotice, setSwitchNotice] = useState('')
-  const [completed, setCompleted] = useState(false)
   const questions = studyQuestionsByType[examId]
   const question = questions[currentIndex]
 
   function selectExam(nextId) {
     if (nextId === examId) return
-    const hadProgress = currentIndex > 0 || Boolean(selectedAnswer) || Object.keys(answers).length > 0 || completed
+    const hadProgress = currentIndex > 0 || Boolean(selectedAnswer) || Object.keys(answers).length > 0
     setExamId(nextId)
     setCurrentIndex(0)
     setSelectedAnswer(null)
     setAnswers({})
     setError('')
-    setCompleted(false)
     setSwitchNotice(hadProgress ? '시험 유형을 변경해 이전 답안을 초기화하고 1번 문제부터 시작합니다.' : '선택한 시험의 1번 문제부터 시작합니다.')
   }
 
@@ -44,20 +42,11 @@ export default function StudyPage({ onHeaderNavigate }) {
     setAnswers(nextAnswers)
     setError('')
     if (currentIndex === questions.length - 1) {
-      if (Object.keys(nextAnswers).length === questions.length) setCompleted(true)
+      if (Object.keys(nextAnswers).length === questions.length) onComplete?.({ examId, answers: nextAnswers })
       return
     }
     setCurrentIndex((index) => index + 1)
     setSelectedAnswer(null)
-  }
-
-  function restart() {
-    setCurrentIndex(0)
-    setSelectedAnswer(null)
-    setAnswers({})
-    setError('')
-    setCompleted(false)
-    setSwitchNotice('')
   }
 
   return <div className="min-h-screen overflow-x-hidden bg-[#fbfcff]">
@@ -82,18 +71,12 @@ export default function StudyPage({ onHeaderNavigate }) {
       </PageContainer>
 
       <section aria-label="오늘의 문제 풀이" className="min-h-[453px] bg-[linear-gradient(115deg,#f9fbff_0%,#eef4ff_55%,#f8faff_100%)]">
-        <ProgressBar value={completed ? questions.length : currentIndex + 1} max={questions.length} ariaLabel={`${studyExams.find((exam) => exam.id === examId).title} 진행률`} valueText={`${completed ? questions.length : currentIndex + 1} / ${questions.length}문제`} trackClassName="!h-[2px] !rounded-none bg-[#e3e9f4]" fillClassName="!rounded-none" />
+        <ProgressBar value={currentIndex + 1} max={questions.length} ariaLabel={`${studyExams.find((exam) => exam.id === examId).title} 진행률`} valueText={`${currentIndex + 1} / ${questions.length}문제`} trackClassName="!h-[2px] !rounded-none bg-[#e3e9f4]" fillClassName="!rounded-none" />
         <PageContainer className="pb-8 pt-[34px] lg:!px-[64px]">
-          {completed ? <div role="status" aria-live="polite" className="py-14">
-            <h2 className="text-[29px] font-bold text-ink">시험을 완료했습니다.</h2>
-            <p className="mt-5 text-[16px] text-body">20문제의 답안을 기록했습니다. 결과 분석 기능은 준비 중입니다.</p>
-            <Button onClick={restart} className="mt-8">다시 풀기</Button>
-          </div> : <>
-            <QuestionCard key={question.id} variant="study" number={currentIndex + 1} total={questions.length} category={question.category} question={question.question} options={question.options} selected={selectedAnswer} onSelect={(value) => { setSelectedAnswer(value); setError('') }} name={question.id} error={error} />
-            <div className="mt-[31px] flex justify-end">
-              <Button onClick={nextQuestion} className="w-full sm:w-[218px]">{currentIndex === questions.length - 1 ? '시험 완료' : '다음 문제'}</Button>
-            </div>
-          </>}
+          <QuestionCard key={question.id} variant="study" number={currentIndex + 1} total={questions.length} category={question.category} question={question.question} options={question.options} selected={selectedAnswer} onSelect={(value) => { setSelectedAnswer(value); setError('') }} name={question.id} error={error} />
+          <div className="mt-[31px] flex justify-end">
+            <Button onClick={nextQuestion} className="w-full sm:w-[218px]">{currentIndex === questions.length - 1 ? '시험 완료' : '다음 문제'}</Button>
+          </div>
         </PageContainer>
       </section>
     </main>
