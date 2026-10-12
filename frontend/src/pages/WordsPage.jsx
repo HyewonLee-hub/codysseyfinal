@@ -4,18 +4,9 @@ import Header from '../components/layout/Header.jsx'
 import WordRow from '../components/domain/WordRow.jsx'
 import { dailyWords } from '../data/dailyWords.js'
 
-function toggleId(previous, id) {
-  const next = new Set(previous)
-  if (next.has(id)) next.delete(id)
-  else next.add(id)
-  return next
-}
-
-export default function WordsPage({ onHeaderNavigate }) {
+export default function WordsPage({ onHeaderNavigate, savedIds, memorizedIds, onToggleSaved, onToggleMemorized }) {
   const [viewedIds, setViewedIds] = useState(() => new Set())
   const [selectedId, setSelectedId] = useState(null)
-  const [savedIds, setSavedIds] = useState(() => new Set())
-  const [memorizedIds, setMemorizedIds] = useState(() => new Set())
   const [testNotice, setTestNotice] = useState(false)
 
   function selectWord(id) {
@@ -52,8 +43,8 @@ export default function WordsPage({ onHeaderNavigate }) {
             saved={savedIds.has(word.id)}
             memorized={memorizedIds.has(word.id)}
             onSelect={selectWord}
-            onSave={(id) => setSavedIds((previous) => toggleId(previous, id))}
-            onMemorizedChange={(id) => setMemorizedIds((previous) => toggleId(previous, id))}
+            onSave={onToggleSaved}
+            onMemorizedChange={onToggleMemorized}
           />)}
         </ol>
         <div className="mt-9 flex flex-col items-stretch gap-3 sm:items-end">
