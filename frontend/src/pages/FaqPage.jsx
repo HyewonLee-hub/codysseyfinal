@@ -4,11 +4,10 @@ import Header from '../components/layout/Header.jsx'
 import PageContainer from '../components/layout/PageContainer.jsx'
 import { faqCategories, faqItems } from '../data/faq.js'
 
-export default function FaqPage({ onHeaderNavigate }) {
+export default function FaqPage({ onHeaderNavigate, onContact }) {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('전체')
   const [openId, setOpenId] = useState(null)
-  const [contactNotice, setContactNotice] = useState(false)
   const query = search.trim().toLocaleLowerCase()
   const filteredItems = faqItems.filter((item) =>
     (category === '전체' || item.category === category) &&
@@ -77,9 +76,8 @@ export default function FaqPage({ onHeaderNavigate }) {
       <div className="mt-[70px] flex flex-col items-stretch gap-4 sm:items-end">
         <div className="flex w-full flex-col items-stretch gap-4 rounded-[19px] bg-[#fff1d6] px-[27px] py-[15px] sm:w-auto sm:flex-row sm:items-center sm:gap-[31px] sm:pr-[17px]">
           <p className="text-[15px] text-ink">원하는 답변을 찾지 못하셨나요?</p>
-          <Button size="sm" onClick={() => setContactNotice(true)} className="min-h-[40px] !min-w-[155px] !px-[19px] !text-[15px]">1:1 문의하기</Button>
+          <Button size="sm" onClick={onContact} className="min-h-[40px] !min-w-[155px] !px-[19px] !text-[15px]">1:1 문의하기</Button>
         </div>
-        {contactNotice && <p role="status" className="text-[14px] text-body">1:1 문의 화면은 현재 이용할 수 없습니다.</p>}
       </div>
     </PageContainer>
   </div>

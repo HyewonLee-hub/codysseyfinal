@@ -13,6 +13,7 @@ import ProfilePage from './pages/ProfilePage.jsx'
 import SavedWordsPage from './pages/SavedWordsPage.jsx'
 import StudyReportPage from './pages/StudyReportPage.jsx'
 import FaqPage from './pages/FaqPage.jsx'
+import ContactPage from './pages/ContactPage.jsx'
 import { diagnosisQuestions } from './data/diagnosisQuestions.js'
 import { mockDiagnosisResult } from './data/mockDiagnosisResult.js'
 import { calculateStudyResult } from './data/studyResult.js'
@@ -51,7 +52,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    document.title = `${path === '/support/faq' ? '자주 묻는 질문' : path.startsWith('/mypage/reports/study') ? '오늘의 학습 보고서' : path === '/mypage/profile' ? '내 정보' : path === '/mypage/words' ? '저장한 단어' : path === '/mypage' ? '나의 학습 기록' : path.startsWith('/study/review') ? '취약 유형 반복' : path === '/study/result' ? '학습 결과' : path === '/study' ? '오늘의 문제 풀기' : path === '/words' ? '오늘의 단어' : path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TOEIC AI`
+    document.title = `${path === '/support/contact' ? '1:1 문의' : path === '/support/faq' ? '자주 묻는 질문' : path.startsWith('/mypage/reports/study') ? '오늘의 학습 보고서' : path === '/mypage/profile' ? '내 정보' : path === '/mypage/words' ? '저장한 단어' : path === '/mypage' ? '나의 학습 기록' : path.startsWith('/study/review') ? '취약 유형 반복' : path === '/study/result' ? '학습 결과' : path === '/study' ? '오늘의 문제 풀기' : path === '/words' ? '오늘의 단어' : path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TOEIC AI`
   }, [path])
 
   function navigate(event, nextPath) {
@@ -141,7 +142,8 @@ function App() {
     setPath('/study')
   }
 
-  if (path === '/support/faq') return <FaqPage onHeaderNavigate={handleHeaderNavigate} />
+  if (path === '/support/faq') return <FaqPage onHeaderNavigate={handleHeaderNavigate} onContact={() => { window.history.pushState(null, '', '/support/contact'); setPath('/support/contact') }} />
+  if (path === '/support/contact') return <ContactPage onHeaderNavigate={handleHeaderNavigate} onFaq={(event) => navigate(event, '/support/faq')} />
   if (path === '/diagnosis/result') return <DiagnosisResultPage result={hasCompleteDiagnosis(diagnosisAnswers) ? mockDiagnosisResult : null} onHeaderNavigate={handleHeaderNavigate} onStart={() => handleHeaderNavigate('무료진단')} />
   if (path === '/diagnosis/questions') return <DiagnosisQuestionsPage onHeaderNavigate={handleHeaderNavigate} onComplete={handleCompleteDiagnosis} completedAnswers={diagnosisAnswers} />
   if (path === '/diagnosis') return <DiagnosisPage onHeaderNavigate={handleHeaderNavigate} onStart={handleStartDiagnosis} />
