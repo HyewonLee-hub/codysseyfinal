@@ -20,26 +20,26 @@ export const diagnosisQuestions = [
   {
     id: 'diagnosis-04', number: 4, part: 'PART 5', format: '문장 완성', grammarType: '품사·형용사',
     question: 'Please provide a _____ estimate of the repair costs.',
-    options: [{ value: 'A', label: 'detail' }, { value: 'B', label: 'detailed' }, { value: 'C', label: 'detailing' }, { value: 'D', label: 'details' }],
-    answer: 'B',
+    options: [{ value: 'A', label: 'detail' }, { value: 'B', label: 'details' }, { value: 'C', label: 'detailing' }, { value: 'D', label: 'detailed' }],
+    answer: 'D',
   },
   {
     id: 'diagnosis-05', number: 5, part: 'PART 5', format: '문장 완성', grammarType: '접속사',
     question: 'The event will proceed _____ the weather conditions change.',
-    options: [{ value: 'A', label: 'unless' }, { value: 'B', label: 'despite' }, { value: 'C', label: 'during' }, { value: 'D', label: 'because of' }],
-    answer: 'A',
+    options: [{ value: 'A', label: 'during' }, { value: 'B', label: 'despite' }, { value: 'C', label: 'unless' }, { value: 'D', label: 'because of' }],
+    answer: 'C',
   },
   {
     id: 'diagnosis-06', number: 6, part: 'PART 5', format: '문장 완성', grammarType: '시제',
     question: 'By the time the guests arrived, the presentation _____.',
-    options: [{ value: 'A', label: 'begins' }, { value: 'B', label: 'has begun' }, { value: 'C', label: 'had begun' }, { value: 'D', label: 'will begin' }],
-    answer: 'C',
+    options: [{ value: 'A', label: 'begins' }, { value: 'B', label: 'had begun' }, { value: 'C', label: 'has begun' }, { value: 'D', label: 'will begin' }],
+    answer: 'B',
   },
   {
     id: 'diagnosis-07', number: 7, part: 'PART 5', format: '문장 완성', grammarType: '대명사',
     question: 'The director asked Ms. Lee to send _____ the final report.',
-    options: [{ value: 'A', label: 'she' }, { value: 'B', label: 'hers' }, { value: 'C', label: 'her' }, { value: 'D', label: 'herself' }],
-    answer: 'C',
+    options: [{ value: 'A', label: 'she' }, { value: 'B', label: 'hers' }, { value: 'C', label: 'herself' }, { value: 'D', label: 'her' }],
+    answer: 'D',
   },
   {
     id: 'diagnosis-08', number: 8, part: 'PART 5', format: '문장 완성', grammarType: '어휘·명사',
@@ -50,8 +50,8 @@ export const diagnosisQuestions = [
   {
     id: 'diagnosis-09', number: 9, part: 'PART 5', format: '문장 완성', grammarType: '관계대명사',
     question: 'The consultant _____ led the workshop has extensive experience.',
-    options: [{ value: 'A', label: 'whose' }, { value: 'B', label: 'who' }, { value: 'C', label: 'which' }, { value: 'D', label: 'whom' }],
-    answer: 'B',
+    options: [{ value: 'A', label: 'whose' }, { value: 'B', label: 'whom' }, { value: 'C', label: 'which' }, { value: 'D', label: 'who' }],
+    answer: 'D',
   },
   {
     id: 'diagnosis-10', number: 10, part: 'PART 5', format: '문장 완성', grammarType: '부사',
@@ -62,14 +62,14 @@ export const diagnosisQuestions = [
   {
     id: 'diagnosis-11', number: 11, part: 'PART 5', format: '문장 완성', grammarType: '전치사',
     question: 'The conference room is located _____ the third floor.',
-    options: [{ value: 'A', label: 'at' }, { value: 'B', label: 'in' }, { value: 'C', label: 'on' }, { value: 'D', label: 'by' }],
-    answer: 'C',
+    options: [{ value: 'A', label: 'at' }, { value: 'B', label: 'on' }, { value: 'C', label: 'in' }, { value: 'D', label: 'by' }],
+    answer: 'B',
   },
   {
     id: 'diagnosis-12', number: 12, part: 'PART 5', format: '문장 완성', grammarType: '수동태',
     question: 'The invoices _____ to clients at the end of each month.',
-    options: [{ value: 'A', label: 'send' }, { value: 'B', label: 'are sent' }, { value: 'C', label: 'sending' }, { value: 'D', label: 'has sent' }],
-    answer: 'B',
+    options: [{ value: 'A', label: 'are sent' }, { value: 'B', label: 'send' }, { value: 'C', label: 'sending' }, { value: 'D', label: 'has sent' }],
+    answer: 'A',
   },
   {
     id: 'diagnosis-13', number: 13, part: 'PART 5', format: '문장 완성', grammarType: '어휘·형용사',
@@ -80,8 +80,8 @@ export const diagnosisQuestions = [
   {
     id: 'diagnosis-14', number: 14, part: 'PART 5', format: '문장 완성', grammarType: '부정사',
     question: 'Employees are encouraged _____ the safety training session.',
-    options: [{ value: 'A', label: 'attend' }, { value: 'B', label: 'attending' }, { value: 'C', label: 'to attend' }, { value: 'D', label: 'attended' }],
-    answer: 'C',
+    options: [{ value: 'A', label: 'attend' }, { value: 'B', label: 'attending' }, { value: 'C', label: 'attended' }, { value: 'D', label: 'to attend' }],
+    answer: 'D',
   },
   {
     id: 'diagnosis-15', number: 15, part: 'PART 5', format: '문장 완성', grammarType: '비교급',
@@ -98,25 +98,25 @@ export const diagnosisQuestions = [
   {
     id: 'diagnosis-17', number: 17, part: 'PART 5', format: '문장 완성', grammarType: '어휘·동사',
     question: 'Please _____ the attached document before the meeting.',
-    options: [{ value: 'A', label: 'review' }, { value: 'B', label: 'reserve' }, { value: 'C', label: 'replace' }, { value: 'D', label: 'reduce' }],
-    answer: 'A',
+    options: [{ value: 'A', label: 'reduce' }, { value: 'B', label: 'reserve' }, { value: 'C', label: 'replace' }, { value: 'D', label: 'review' }],
+    answer: 'D',
   },
   {
     id: 'diagnosis-18', number: 18, part: 'PART 5', format: '문장 완성', grammarType: '분사',
     question: 'The documents _____ in the cabinet are confidential.',
-    options: [{ value: 'A', label: 'store' }, { value: 'B', label: 'storing' }, { value: 'C', label: 'stored' }, { value: 'D', label: 'stores' }],
-    answer: 'C',
+    options: [{ value: 'A', label: 'stored' }, { value: 'B', label: 'storing' }, { value: 'C', label: 'store' }, { value: 'D', label: 'stores' }],
+    answer: 'A',
   },
   {
     id: 'diagnosis-19', number: 19, part: 'PART 5', format: '문장 완성', grammarType: '접속사',
     question: 'The office will close early _____ the holiday begins.',
-    options: [{ value: 'A', label: 'before' }, { value: 'B', label: 'during' }, { value: 'C', label: 'despite' }, { value: 'D', label: 'because of' }],
-    answer: 'A',
+    options: [{ value: 'A', label: 'despite' }, { value: 'B', label: 'during' }, { value: 'C', label: 'before' }, { value: 'D', label: 'because of' }],
+    answer: 'C',
   },
   {
     id: 'diagnosis-20', number: 20, part: 'PART 5', format: '문장 완성', grammarType: '어휘·명사',
     question: 'The annual report includes a summary of the company’s _____.',
-    options: [{ value: 'A', label: 'performance' }, { value: 'B', label: 'appointment' }, { value: 'C', label: 'location' }, { value: 'D', label: 'instruction' }],
-    answer: 'A',
+    options: [{ value: 'A', label: 'appointment' }, { value: 'B', label: 'performance' }, { value: 'C', label: 'location' }, { value: 'D', label: 'instruction' }],
+    answer: 'B',
   },
 ]
