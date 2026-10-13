@@ -1,5 +1,6 @@
 // PDF 보고서 데이터 빌더. 실제 API 응답값만 옮기고, 응답에 없는 항목은 비워 둔다(렌더러가 줄·섹션을 생략).
 // 진단·오늘의 학습·약점 학습 보고서가 같은 문서 형식(doc)을 쓴다.
+import { replaceTrapIds, trapName } from './trapNames.js'
 
 function pad(n) { return String(n).padStart(2, '0') }
 
@@ -31,21 +32,11 @@ function toPerformanceRows(items) {
   }))
 }
 
-// /learning/recommendations의 top_traps에서 함정 이름을 찾는다(없으면 trap_id 그대로).
-function trapNameMap(recommendations) {
-  const names = {}
-  for (const item of recommendations?.recommendations ?? []) {
-    for (const trap of item.top_traps ?? []) if (trap.name) names[trap.trap_id] = trap.name
-  }
-  return names
-}
-
-function trapRowsFromCounts(trapCounts, recommendations) {
-  const names = trapNameMap(recommendations)
+function trapRowsFromCounts(trapCounts) {
   return (trapCounts ?? [])
     .slice()
     .sort((a, b) => b.count - a.count)
-    .map((trap) => ({ label: names[trap.trap_id] ? `${trap.trap_id} ${names[trap.trap_id]}` : trap.trap_id, count: trap.count }))
+    .map((trap) => ({ label: trapName(trap.trap_id), count: trap.count }))
 }
 
 // 학습 기록 전체에서 추천 유형별로 반복된 함정(wrong_count)을 합산한다.
@@ -53,19 +44,23 @@ function trapRowsFromRecommendations(recommendations) {
   const totals = {}
   for (const item of recommendations?.recommendations ?? []) {
     for (const trap of item.top_traps ?? []) {
-      const row = totals[trap.trap_id] ?? (totals[trap.trap_id] = { label: trap.name ? `${trap.trap_id} ${trap.name}` : trap.trap_id, count: 0, description: trap.description ?? '' })
+      const row = totals[trap.trap_id] ?? (totals[trap.trap_id] = { label: trapName(trap.trap_id), count: 0 })
       row.count += trap.wrong_count
     }
   }
   return Object.values(totals).sort((a, b) => b.count - a.count)
 }
 
+function reasonTexts(reasons) {
+  return (reasons ?? []).map(replaceTrapIds)
+}
+
 function recommendRows(recommendations, limit = 3) {
   return (recommendations?.recommendations ?? []).slice(0, limit).map((item) => ({
     title: subtypeTitle(item),
     detail: `누적 ${item.total_attempts}문제 중 ${item.correct_count}문제 정답 · 정답률 ${percent(item.accuracy)}`,
-    reasons: item.reason ?? [],
-    traps: (item.top_traps ?? []).map((trap) => trap.name || trap.trap_id),
+    reasons: reasonTexts(item.reason),
+    traps: (item.top_traps ?? []).map((trap) => trapName(trap.trap_id)),
   }))
 }
 
@@ -105,7 +100,7 @@ export function buildDiagnosticDoc({ report, userName, completedAt, recommendati
       { kind: 'recommend', title: '추천 학습', rows: recommended ? [{
         title: subtypeTitle(recommended),
         detail: `진단 ${recommended.attempted_count}문제 중 ${recommended.correct_count}문제 정답 · 정답률 ${percent(recommended.accuracy)}`,
-        reasons: recommendedReasons,
+        reasons: reasonTexts(recommendedReasons),
         traps: [],
       }] : [] },
       { kind: 'steps', title: '다음 학습 방향', rows: nextSteps({ recommendations, fallbackTitles: (report.weaknesses ?? []).slice(0, 3).map(subtypeTitle) }) },
@@ -133,7 +128,7 @@ export function buildLearningTestDoc({ report, userName, recommendations }) {
     sections: [
       { kind: 'performance', title: '취약 유형', description: '이번 학습에서 다시 볼 유형이에요.', rows: toPerformanceRows(report.review_subtypes), tone: 'weak', empty: '이번 학습에서 다시 볼 유형이 분류되지 않았어요.' },
       { kind: 'performance', title: '강점 유형', description: '이번 학습에서 잘 푼 유형이에요.', rows: toPerformanceRows(report.strengths), tone: 'strong' },
-      { kind: 'traps', title: '자주 걸린 함정 · 주의할 점', description: '이번 학습 오답에서 고른 함정이에요.', rows: trapRowsFromCounts(report.trap_counts, recommendations) },
+      { kind: 'traps', title: '자주 걸린 함정 · 주의할 점', description: '이번 학습 오답에서 고른 함정이에요.', rows: trapRowsFromCounts(report.trap_counts) },
       { kind: 'recommend', title: '추천 학습', description: '지금까지의 학습 기록으로 계산한 우선 연습 유형이에요.', rows: recommendRows(recommendations) },
       { kind: 'steps', title: '다음 학습 방향', rows: nextSteps({ recommendations, fallbackTitles: (report.review_subtypes ?? []).slice(0, 3).map(subtypeTitle) }) },
     ],
@@ -157,7 +152,7 @@ export function buildWeakLearningDoc({ report, userName, recommendations }) {
       { label: '최종 연속 정답', value: `${report.final_correct_streak}회` },
     ],
     sections: [
-      { kind: 'traps', title: '자주 걸린 함정 · 주의할 점', description: '이번 학습 오답에서 고른 함정이에요.', rows: trapRowsFromCounts(report.trap_counts, recommendations) },
+      { kind: 'traps', title: '자주 걸린 함정 · 주의할 점', description: '이번 학습 오답에서 고른 함정이에요.', rows: trapRowsFromCounts(report.trap_counts) },
       { kind: 'recommend', title: '추천 학습', description: '지금까지의 학습 기록으로 계산한 우선 연습 유형이에요.', rows: recommendRows(recommendations) },
       { kind: 'steps', title: '다음 학습 방향', rows: nextSteps({ recommendations }) },
     ],
