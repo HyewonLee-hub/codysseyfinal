@@ -14,7 +14,9 @@ export default function ResultSummary({ correct, total, label = '오늘의 정�
     <div className="absolute -left-[180px] top-[415px] size-[400px] rounded-full bg-accent-violet" aria-hidden="true" />
     <div className="relative">
       <p className="text-sm font-bold text-primary">진단 결과 · 예상 점수</p>
-      <strong className="mt-[77px] block text-[clamp(76px,12vw,122px)] leading-none tracking-[-0.06em] text-primary">{result.expectedScore}</strong>
+      {result.expectedScore == null
+        ? <p className="mt-[77px] text-[18px] leading-normal text-[#526783]">예상 점수 정보가 없습니다.</p>
+        : <strong className="mt-[77px] block text-[clamp(76px,12vw,122px)] leading-none tracking-[-0.06em] text-primary">{result.expectedScore}</strong>}
       <p className="mt-[21px] text-[18px] leading-normal text-[#526783]">추천 학습<br />{result.recommendedStudy}</p>
     </div>
   </Card>

@@ -4,6 +4,7 @@ import Checkbox from '../components/common/Checkbox.jsx'
 import Input from '../components/common/Input.jsx'
 import InlineAlert from '../components/common/InlineAlert.jsx'
 import Header from '../components/layout/Header.jsx'
+import { signup } from '../api/auth.js'
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const initialValues = { name: '', age: '', email: '', password: '' }
@@ -22,12 +23,13 @@ function validateField(field, value) {
   return undefined
 }
 
-export default function SignupPage({ onLogin, onHeaderNavigate }) {
+export default function SignupPage({ onLogin, onHeaderNavigate, onSignupSuccess }) {
   const [values, setValues] = useState(initialValues)
   const [errors, setErrors] = useState({})
   const [agreed, setAgreed] = useState(false)
   const [agreementError, setAgreementError] = useState(false)
   const [notice, setNotice] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const fieldErrors = Object.entries(errors).filter(([, error]) => Boolean(error))
   const hasRequiredError = fieldErrors.some(([field, error]) => error === requiredMessages[field])
   const alertTitle = hasRequiredError ? '필수 정보를 입력해 주세요.' : '입력 형식을 확인해 주세요.'
@@ -53,8 +55,10 @@ export default function SignupPage({ onLogin, onHeaderNavigate }) {
     setNotice('')
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
+    if (isSubmitting) return
+
     const normalizedName = values.name.trim()
     setValues((current) => ({ ...current, name: normalizedName }))
     const nextErrors = Object.fromEntries(Object.entries({ ...values, name: normalizedName })
@@ -62,7 +66,35 @@ export default function SignupPage({ onLogin, onHeaderNavigate }) {
       .filter(([, error]) => error))
     setErrors(nextErrors)
     setAgreementError(!agreed)
-    setNotice(Object.keys(nextErrors).length === 0 && agreed ? '현재 계정 생성 기능은 준비 중입니다. 인증 연결 후 이용해 주세요.' : '')
+    if (Object.keys(nextErrors).length > 0 || !agreed) {
+      setNotice('')
+      return
+    }
+
+    setIsSubmitting(true)
+    setNotice('')
+
+    try {
+      await signup({
+        name: normalizedName,
+        age: Number(values.age),
+        email: values.email.trim(),
+        password: values.password,
+        terms_agreed: true,
+        privacy_agreed: true,
+      })
+      onSignupSuccess?.()
+    } catch (error) {
+      if (error.response?.status === 409) {
+        setNotice('이미 가입된 이메일입니다.')
+      } else if (error.response?.status === 422) {
+        setNotice('입력한 정보를 확인해주세요. 이름, 나이, 이메일, 비밀번호와 약관 동의를 다시 확인해주세요.')
+      } else {
+        setNotice('회원가입 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return <div className="min-h-screen bg-canvas">
@@ -91,16 +123,16 @@ export default function SignupPage({ onLogin, onHeaderNavigate }) {
           <p className="mt-4 text-base leading-[25px] text-body">학습 기록을 저장할 계정을 만드세요.</p>
           <form noValidate onSubmit={handleSubmit} className="mt-[45px]">
             <div className="grid gap-x-[30px] gap-y-[31px] sm:grid-cols-2">
-              <Input id="signup-name" label="이름" placeholder="이름을 입력해 주세요" autoComplete="name" value={values.name} onChange={(event) => updateField('name', event.target.value)} onBlur={() => updateField('name', values.name.trim())} error={errors.name} variant="signup" required />
-              <Input id="signup-age" label="나이" placeholder="나이를 입력해 주세요" inputMode="numeric" autoComplete="off" value={values.age} onChange={(event) => updateField('age', event.target.value)} error={errors.age} variant="signup" required />
-              <Input id="signup-email" label="이메일" type="email" placeholder="이메일을 입력해 주세요" autoComplete="email" value={values.email} onChange={(event) => updateField('email', event.target.value)} error={errors.email} variant="signup" required />
-              <Input id="signup-password" label="비밀번호" type="password" placeholder="비밀번호를 설정해 주세요" autoComplete="new-password" value={values.password} onChange={(event) => updateField('password', event.target.value)} error={errors.password} variant="signup" required />
+              <Input id="signup-name" label="이름" placeholder="이름을 입력해 주세요" autoComplete="name" value={values.name} onChange={(event) => updateField('name', event.target.value)} onBlur={() => updateField('name', values.name.trim())} error={errors.name} variant="signup" required disabled={isSubmitting} />
+              <Input id="signup-age" label="나이" placeholder="나이를 입력해 주세요" inputMode="numeric" autoComplete="off" value={values.age} onChange={(event) => updateField('age', event.target.value)} error={errors.age} variant="signup" required disabled={isSubmitting} />
+              <Input id="signup-email" label="이메일" type="email" placeholder="이메일을 입력해 주세요" autoComplete="email" value={values.email} onChange={(event) => updateField('email', event.target.value)} error={errors.email} variant="signup" required disabled={isSubmitting} />
+              <Input id="signup-password" label="비밀번호" type="password" placeholder="비밀번호를 설정해 주세요" autoComplete="new-password" value={values.password} onChange={(event) => updateField('password', event.target.value)} error={errors.password} variant="signup" required disabled={isSubmitting} />
             </div>
             <div className="mt-[42px]">
-              <Checkbox id="signup-agreement" label="서비스 이용약관 및 개인정보 처리방침에 동의합니다." variant="circle" checked={agreed} onChange={(event) => { setAgreed(event.target.checked); setAgreementError(false); setNotice('') }} aria-invalid={agreementError} aria-describedby={agreementError ? 'signup-agreement-error' : undefined} className="max-lg:min-h-11" />
+              <Checkbox id="signup-agreement" label="서비스 이용약관 및 개인정보 처리방침에 동의합니다." variant="circle" checked={agreed} onChange={(event) => { setAgreed(event.target.checked); setAgreementError(false); setNotice('') }} aria-invalid={agreementError} aria-describedby={agreementError ? 'signup-agreement-error' : undefined} className="max-lg:min-h-11" disabled={isSubmitting} />
               {agreementError && <p id="signup-agreement-error" className="mt-1 text-[13px] text-error">서비스 이용약관 및 개인정보 처리방침에 동의해 주세요.</p>}
             </div>
-            <Button type="submit" size="lg" className="mt-5 w-full bg-[#3157c8] text-[15px]">계정 만들기</Button>
+            <Button type="submit" size="lg" className="mt-5 w-full bg-[#3157c8] text-[15px]" disabled={isSubmitting}>{isSubmitting ? '가입 중...' : '계정 만들기'}</Button>
             {notice && <p role="status" className="mt-4 text-center text-sm text-body">{notice}</p>}
           </form>
           <p className="mt-[26px] text-center text-sm text-body">이미 계정이 있으신가요? <a href="/login" onClick={onLogin} className="ml-3 font-bold text-primary hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-primary">로그인</a></p>

@@ -1,11 +1,51 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Button from '../components/common/Button.jsx'
 import ResultSummary from '../components/domain/ResultSummary.jsx'
 import Header from '../components/layout/Header.jsx'
 import PageContainer from '../components/layout/PageContainer.jsx'
+import { getDiagnosticReport, toDiagnosisResultViewModel } from '../api/diagnostic.js'
 
-export default function DiagnosisResultPage({ result, onHeaderNavigate, onStart }) {
-  const [practiceNotice, setPracticeNotice] = useState(false)
+export default function DiagnosisResultPage({ sessionId, onHeaderNavigate, onStart, onStartWeakLearning }) {
+  const [result, setResult] = useState(null)
+  const [isLoading, setIsLoading] = useState(Boolean(sessionId))
+  const [loadError, setLoadError] = useState('')
+
+  useEffect(() => {
+    if (!sessionId) return undefined
+
+    let isActive = true
+
+    getDiagnosticReport(sessionId)
+      .then((report) => {
+        if (isActive) setResult(toDiagnosisResultViewModel(report))
+      })
+      .catch(() => {
+        if (isActive) setLoadError('진단 결과를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.')
+      })
+      .finally(() => {
+        if (isActive) setIsLoading(false)
+      })
+
+    return () => {
+      isActive = false
+    }
+  }, [sessionId])
+
+  if (isLoading) return <div className="min-h-screen bg-[#fbfcfd]">
+    <Header active="무료진단" onNavigate={onHeaderNavigate} className="[&>div]:min-h-[83px]" />
+    <PageContainer as="main" className="py-16 sm:py-20">
+      <p role="status" className="text-base text-body">진단 결과를 불러오는 중입니다.</p>
+    </PageContainer>
+  </div>
+
+  if (loadError) return <div className="min-h-screen bg-[#fbfcfd]">
+    <Header active="무료진단" onNavigate={onHeaderNavigate} className="[&>div]:min-h-[83px]" />
+    <PageContainer as="main" className="py-16 sm:py-20">
+      <h1 className="text-[clamp(32px,5vw,45px)] font-bold tracking-[-0.04em] text-ink">진단 결과를 불러오지 못했습니다.</h1>
+      <p role="status" className="mt-5 text-base leading-7 text-body">{loadError}</p>
+      <Button onClick={onStart} className="mt-8">무료진단 다시 시작하기</Button>
+    </PageContainer>
+  </div>
 
   if (!result) return <div className="min-h-screen bg-[#fbfcfd]">
     <Header active="무료진단" onNavigate={onHeaderNavigate} className="[&>div]:min-h-[83px]" />
@@ -37,9 +77,7 @@ export default function DiagnosisResultPage({ result, onHeaderNavigate, onStart 
           </section>
         </div>
 
-        <Button onClick={() => setPracticeNotice(true)} className="mt-[31px] min-h-[52px] w-full !px-2 text-[15px] whitespace-nowrap sm:w-[185px]">취약 유형 연습하기</Button>
-        {practiceNotice && <p role="status" className="mt-4 text-sm text-body">취약 유형 학습 화면은 준비 중입니다.</p>}
-        {result.source === 'figma-preview' && <p className="mt-5 text-xs text-muted">화면 확인용 예시 결과입니다. 실제 진단 분석 결과가 아닙니다.</p>}
+        <Button onClick={onStartWeakLearning} className="mt-[31px] min-h-[52px] w-full !px-2 text-[15px] whitespace-nowrap sm:w-[185px]">취약 유형 연습하기</Button>
       </section>
     </PageContainer>
   </div>
