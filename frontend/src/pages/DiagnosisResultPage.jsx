@@ -4,8 +4,14 @@ import ResultSummary from '../components/domain/ResultSummary.jsx'
 import Header from '../components/layout/Header.jsx'
 import PageContainer from '../components/layout/PageContainer.jsx'
 import { getDiagnosticReport, toDiagnosisResultViewModel } from '../api/diagnostic.js'
+import { useAuth } from '../auth/useAuth.js'
+import ReportPdfButton from '../report/ReportPdfButton.jsx'
+import { loadReportContext } from '../report/reportContext.js'
+import { buildDiagnosticDoc } from '../report/reportDocs.js'
 
 export default function DiagnosisResultPage({ sessionId, onHeaderNavigate, onStart, onStartWeakLearning }) {
+  const { user } = useAuth()
+  const [report, setReport] = useState(null)
   const [result, setResult] = useState(null)
   const [isLoading, setIsLoading] = useState(Boolean(sessionId))
   const [loadError, setLoadError] = useState('')
@@ -16,8 +22,10 @@ export default function DiagnosisResultPage({ sessionId, onHeaderNavigate, onSta
     let isActive = true
 
     getDiagnosticReport(sessionId)
-      .then((report) => {
-        if (isActive) setResult(toDiagnosisResultViewModel(report))
+      .then((response) => {
+        if (!isActive) return
+        setReport(response)
+        setResult(toDiagnosisResultViewModel(response))
       })
       .catch(() => {
         if (isActive) setLoadError('진단 결과를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.')
@@ -77,7 +85,15 @@ export default function DiagnosisResultPage({ sessionId, onHeaderNavigate, onSta
           </section>
         </div>
 
-        <Button onClick={onStartWeakLearning} className="mt-[31px] min-h-[52px] w-full !px-2 text-[15px] whitespace-nowrap sm:w-[185px]">취약 유형 연습하기</Button>
+        <div className="mt-[31px] flex flex-col gap-3 sm:flex-row sm:items-start">
+          <Button onClick={onStartWeakLearning} className="min-h-[52px] w-full !px-2 text-[15px] whitespace-nowrap sm:w-[185px]">취약 유형 연습하기</Button>
+          <div>
+            <ReportPdfButton className="min-h-[52px] w-full !px-2 text-[15px] whitespace-nowrap sm:w-[185px]" buildDoc={async () => {
+              const context = await loadReportContext(sessionId)
+              return buildDiagnosticDoc({ report, userName: user?.name, ...context })
+            }} />
+          </div>
+        </div>
       </section>
     </PageContainer>
   </div>

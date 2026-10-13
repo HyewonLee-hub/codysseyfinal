@@ -7,6 +7,10 @@ import {
   getLearningTestReport,
   toLearningTestResultViewModel,
 } from "../api/learning.js";
+import { useAuth } from "../auth/useAuth.js";
+import ReportPdfButton from "../report/ReportPdfButton.jsx";
+import { loadReportContext } from "../report/reportContext.js";
+import { buildLearningTestDoc } from "../report/reportDocs.js";
 
 const modeLabel = { general: "전체 유형", vocabulary: "어휘", grammar: "문법" };
 
@@ -26,6 +30,8 @@ export default function StudyResultPage({
   onRetake,
   onReview,
 }) {
+  const { user } = useAuth();
+  const [report, setReport] = useState(null);
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(Boolean(session));
   const [error, setError] = useState("");
@@ -34,8 +40,10 @@ export default function StudyResultPage({
     if (!session) return undefined;
     let isActive = true;
     getLearningTestReport(session.learningSessionId)
-      .then((report) => {
-        if (isActive) setResult(toLearningTestResultViewModel(report));
+      .then((response) => {
+        if (!isActive) return;
+        setReport(response);
+        setResult(toLearningTestResultViewModel(response));
       })
       .catch((requestError) => {
         if (isActive) setError(getReportErrorMessage(requestError));
@@ -164,12 +172,20 @@ export default function StudyResultPage({
                 {result.completedAt ? ` · 완료 ${result.completedAt}` : ""}
               </p>
             </section>
-            <Button
-              onClick={onRetake}
-              className="mt-[35px] w-full sm:w-[192px]"
-            >
-              오늘 다시 풀기
-            </Button>
+            <div className="mt-[35px] flex flex-col gap-3 sm:flex-row sm:items-start">
+              <Button onClick={onRetake} className="w-full sm:w-[192px]">
+                오늘 다시 풀기
+              </Button>
+              <div>
+                <ReportPdfButton
+                  className="w-full sm:w-[192px]"
+                  buildDoc={async () => {
+                    const { recommendations } = await loadReportContext();
+                    return buildLearningTestDoc({ report, userName: user?.name, recommendations });
+                  }}
+                />
+              </div>
+            </div>
             <button
               type="button"
               onClick={onReview}
