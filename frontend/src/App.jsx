@@ -64,7 +64,7 @@ function App() {
   }, [isAuthenticated, isInitializing, path])
 
   useEffect(() => {
-    document.title = `${path === '/' ? '홈' : path === '/support/contact' ? '1:1 문의' : path === '/support/faq' ? '자주 묻는 질문' : path.startsWith('/mypage/reports/') ? '학습 보고서' : path === '/mypage/profile' ? '내 정보' : path === '/mypage/words' ? '저장한 단어' : path === '/mypage' ? '나의 학습 기록' : path.startsWith('/study/review') ? '취약 유형 반복' : path === '/study/result' ? '학습 결과' : path === '/study' ? '오늘의 문제 풀기' : path.startsWith('/words/quiz') ? '단어 테스트' : path === '/words' ? '오늘의 단어' : path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TOEIC AI`
+    document.title = `${path === '/' ? '홈' : path === '/support/contact' ? '1:1 문의' : path === '/support/faq' ? '자주 묻는 질문' : path.startsWith('/mypage/reports/') ? '학습 보고서' : path === '/mypage/profile' ? '내 정보' : path === '/mypage/words' ? '저장한 단어' : path === '/mypage' ? '나의 학습 기록' : path.startsWith('/study/review') ? '취약 유형 반복' : path === '/study/result' ? '학습 결과' : path === '/study' ? '오늘의 문제 풀기' : path.startsWith('/words/quiz') ? '단어 테스트' : path === '/words' ? '오늘의 단어' : path === '/signup' ? '회원가입' : path === '/diagnosis/result' ? '무료진단 결과' : path === '/diagnosis/questions' ? '무료진단 문제' : path === '/diagnosis' ? '무료진단' : '로그인'} | TYPEUP`
   }, [path])
 
   function navigate(event, nextPath) {
@@ -79,7 +79,7 @@ function App() {
   }
 
   function handleHeaderNavigate(item) {
-    const nextPath = item === '무료진단' ? '/diagnosis' : item === '오늘의 단어' ? '/words' : item === '학습' ? '/study' : item === '마이페이지' ? '/mypage' : item === '고객센터' ? '/support/faq' : null
+    const nextPath = item === '홈' ? '/' : item === '무료진단' ? '/diagnosis' : item === '오늘의 단어' ? '/words' : item === '학습' ? '/study' : item === '마이페이지' ? '/mypage' : item === '고객센터' ? '/support/faq' : null
     if (!nextPath) return
     if (window.location.pathname !== nextPath) window.history.pushState(null, '', nextPath)
     setPath(nextPath)
