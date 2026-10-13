@@ -195,7 +195,7 @@ function App() {
 
   if (isProtectedPath(path) && (isInitializing || !isAuthenticated)) return <div className="min-h-screen bg-canvas"><main className="mx-auto max-w-[1200px] px-6 py-16 sm:py-20"><p role="status" className="text-base text-body">{isInitializing ? '로그인 정보를 확인하는 중입니다.' : '로그인 화면으로 이동하는 중입니다.'}</p></main></div>
 
-  if (path === '/') return <HomePage onHeaderNavigate={handleHeaderNavigate} onNavigate={navigate} onLogin={() => { window.history.pushState(null, '', '/login'); setPath('/login') }} />
+  if (path === '/') return <HomePage onHeaderNavigate={handleHeaderNavigate} onNavigate={navigate} />
   if (path === '/support/faq') return <FaqPage onHeaderNavigate={handleHeaderNavigate} onContact={() => { window.history.pushState(null, '', '/support/contact'); setPath('/support/contact') }} />
   if (path === '/support/contact') return <ContactPage onHeaderNavigate={handleHeaderNavigate} onFaq={(event) => navigate(event, '/support/faq')} />
   if (path === '/diagnosis/result') return <DiagnosisResultPage sessionId={diagnosticSessionId} onHeaderNavigate={handleHeaderNavigate} onStart={() => handleHeaderNavigate('무료진단')} onStartWeakLearning={handleOpenReview} />
