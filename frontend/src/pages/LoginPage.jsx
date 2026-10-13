@@ -2,26 +2,53 @@ import { useState } from 'react'
 import Button from '../components/common/Button.jsx'
 import Input from '../components/common/Input.jsx'
 import Header from '../components/layout/Header.jsx'
+import { getMe, login } from '../api/auth.js'
+import { useAuth } from '../auth/useAuth.js'
 import background from '../assets/login/background.svg'
 import cloudLarge from '../assets/login/cloud-large.svg'
 import cloudSmall from '../assets/login/cloud-small.svg'
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-export default function LoginPage({ onSignUp, onHeaderNavigate }) {
+export default function LoginPage({ onSignUp, onHeaderNavigate, onLoginSuccess }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
   const [notice, setNotice] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { setSession, clearSession } = useAuth()
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
+    if (isSubmitting) return
+
     const nextErrors = {}
     if (!email.trim()) nextErrors.email = '이메일을 입력해 주세요.'
     else if (!emailPattern.test(email.trim())) nextErrors.email = '올바른 이메일 형식으로 입력해 주세요.'
     if (!password) nextErrors.password = '비밀번호를 입력해 주세요.'
     setErrors(nextErrors)
-    setNotice(Object.keys(nextErrors).length === 0 ? '현재 로그인 기능은 준비 중입니다. 인증 연결 후 이용해 주세요.' : '')
+    if (Object.keys(nextErrors).length > 0) {
+      setNotice('')
+      return
+    }
+
+    setIsSubmitting(true)
+    setNotice('')
+
+    try {
+      const session = await login({ email: email.trim(), password })
+      setSession(session)
+      const user = await getMe()
+      setSession({ ...user, access_token: session.access_token })
+      onLoginSuccess?.()
+    } catch (error) {
+      clearSession()
+      setNotice(error.response?.status === 401
+        ? '이메일 또는 비밀번호를 확인해주세요.'
+        : '로그인 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   function updateField(field, value) {
@@ -53,9 +80,9 @@ export default function LoginPage({ onSignUp, onHeaderNavigate }) {
           <h2 id="login-title" className="text-[40px] leading-[46px] font-bold text-[#202630]">로그인</h2>
           <p className="mt-[14px] text-base leading-[18px] text-[#6e7d91]">이메일로 로그인해 학습을 이어가세요.</p>
           <form noValidate onSubmit={handleSubmit} className="mt-[52px]">
-            <Input id="login-email" label="이메일" type="email" autoComplete="email" placeholder="이메일을 입력해 주세요" value={email} onChange={(event) => updateField('email', event.target.value)} error={errors.email} variant="underline" required showRequiredIndicator={false} />
-            <Input id="login-password" label="비밀번호" type="password" autoComplete="current-password" placeholder="비밀번호를 입력해 주세요" value={password} onChange={(event) => updateField('password', event.target.value)} error={errors.password} variant="underline" required showRequiredIndicator={false} className="mt-[37px]" />
-            <Button type="submit" size="lg" className="mt-[49px] w-full bg-[#3157c9]">로그인</Button>
+            <Input id="login-email" label="이메일" type="email" autoComplete="email" placeholder="이메일을 입력해 주세요" value={email} onChange={(event) => updateField('email', event.target.value)} error={errors.email} variant="underline" required showRequiredIndicator={false} disabled={isSubmitting} />
+            <Input id="login-password" label="비밀번호" type="password" autoComplete="current-password" placeholder="비밀번호를 입력해 주세요" value={password} onChange={(event) => updateField('password', event.target.value)} error={errors.password} variant="underline" required showRequiredIndicator={false} className="mt-[37px]" disabled={isSubmitting} />
+            <Button type="submit" size="lg" className="mt-[49px] w-full bg-[#3157c9]" disabled={isSubmitting}>{isSubmitting ? '로그인 중...' : '로그인'}</Button>
             {notice && <p role="status" className="mt-4 text-center text-sm text-body">{notice}</p>}
           </form>
           <p className="mt-[31px] text-center text-sm text-[#728198]">아직 계정이 없으신가요? <a href="/signup" onClick={onSignUp} className="ml-3 font-bold text-primary hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-primary">회원가입</a></p>

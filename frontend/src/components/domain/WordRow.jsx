@@ -1,6 +1,6 @@
 
 
-export default function WordRow({ word, selected, saved, memorized, onSelect, onSave, onMemorizedChange }) {
+export default function WordRow({ word, selected, saved, memorized, isUpdating = false, onSelect, onSave, onMemorizedChange }) {
   return <li className={`relative grid min-h-[166px] min-w-0 grid-cols-[minmax(0,1fr)_44px] items-center gap-x-3 border-b border-[#d6e0ea] pb-10 pt-5 transition-colors ${selected ? 'bg-[#f2f6ff]' : 'bg-white'}`}>
     <button
       type="button"
@@ -19,6 +19,7 @@ export default function WordRow({ word, selected, saved, memorized, onSelect, on
       aria-label={`${word.word} ${saved ? '저장 해제' : '저장'}`}
       aria-pressed={saved}
       onClick={() => onSave(word.id)}
+      disabled={isUpdating}
       className={`flex size-[42px] shrink-0 items-center justify-center rounded-full border text-[23px] leading-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${saved ? 'border-primary bg-primary text-white' : 'border-[#c9d9ed] bg-white text-primary hover:bg-primary-soft'}`}
     >
       <span aria-hidden="true">{saved ? '✓' : '+'}</span>
@@ -32,6 +33,7 @@ export default function WordRow({ word, selected, saved, memorized, onSelect, on
     type="checkbox"
     checked={memorized}
     onChange={() => onMemorizedChange(word.id)}
+    disabled={isUpdating}
     aria-label={`${word.word} 외웠어요`}
     className="m-0 h-[13px] w-[13px] shrink-0 cursor-pointer accent-[#3157cc]"
   />
