@@ -1,5 +1,6 @@
 import Button from "../components/common/Button.jsx";
 import Header from "../components/layout/Header.jsx";
+import LandingSections from "../components/home/LandingSections.jsx";
 import largeCloud from "../assets/home/cloud-large.svg";
 import smallCloud from "../assets/home/cloud-small.svg";
 
@@ -30,25 +31,17 @@ const learningSteps = [
   },
 ];
 
-export default function HomePage({ onHeaderNavigate, onNavigate, onLogin }) {
+export default function HomePage({ onHeaderNavigate, onNavigate }) {
+  function scrollToSection(sectionId) {
+    document
+      .getElementById(sectionId)
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#e9f6ff]">
-      <div className="relative isolate mx-auto min-h-screen max-w-[1440px] overflow-hidden xl:min-h-[900px]">
-        <div className="relative z-20 px-5 pt-4 sm:px-8 xl:px-[50px] xl:pt-[22px]">
-          <Header
-            home
-            onNavigate={onHeaderNavigate}
-            action={
-              <Button
-                size="sm"
-                onClick={onLogin}
-                className="!min-h-[40px] !px-[28px] !text-[14px] !font-normal"
-              >
-                시작하기
-              </Button>
-            }
-          />
-        </div>
+    <div className="min-h-screen overflow-x-hidden bg-canvas">
+      <div className="relative isolate mx-auto min-h-screen max-w-[1440px] overflow-hidden bg-[#e9f6ff] xl:min-h-[900px]">
+        <Header onNavigate={onHeaderNavigate} />
 
         <main>
           <section
@@ -65,7 +58,7 @@ export default function HomePage({ onHeaderNavigate, onNavigate, onLogin }) {
               >
                 모르는 문제는 줄이고,
                 <br />
-                아는 단어는 늘리고.
+                아는 단어는 늘리고
               </h1>
               <p className="mt-[28px] text-[18px] leading-[22px] text-body">
                 진단 결과에 맞춰 필요한 부분을 공부하세요.
@@ -127,6 +120,11 @@ export default function HomePage({ onHeaderNavigate, onNavigate, onLogin }) {
           </nav>
         </main>
       </div>
+      <LandingSections
+        onStartDiagnosis={() => onHeaderNavigate?.("무료진단")}
+        onScrollTo={scrollToSection}
+        onOpenSupport={() => onHeaderNavigate?.("고객센터")}
+      />
     </div>
   );
 }
