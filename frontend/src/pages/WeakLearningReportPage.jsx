@@ -4,6 +4,10 @@ import Card from '../components/common/Card.jsx'
 import Header from '../components/layout/Header.jsx'
 import PageContainer from '../components/layout/PageContainer.jsx'
 import { getWeakLearningReport } from '../api/weakLearning.js'
+import { useAuth } from '../auth/useAuth.js'
+import ReportPdfButton from '../report/ReportPdfButton.jsx'
+import { loadReportContext } from '../report/reportContext.js'
+import { buildWeakLearningDoc } from '../report/reportDocs.js'
 
 function getReportErrorMessage(error) {
   if (error.response?.status === 401) return '로그인 후 학습 보고서를 확인할 수 있습니다.'
@@ -13,6 +17,7 @@ function getReportErrorMessage(error) {
 }
 
 export default function WeakLearningReportPage({ session, onHeaderNavigate, onBack }) {
+  const { user } = useAuth()
   const [report, setReport] = useState(null)
   const [isLoading, setIsLoading] = useState(Boolean(session))
   const [error, setError] = useState('')
@@ -77,7 +82,13 @@ export default function WeakLearningReportPage({ session, onHeaderNavigate, onBa
           : <p className="mt-3 text-[16px] text-body">기록된 오답 함정이 없습니다.</p>}
       </section>
 
-      <div className="mt-8"><Button onClick={onBack}>다른 추천 유형 보기</Button></div>
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-start">
+        <Button onClick={onBack}>다른 추천 유형 보기</Button>
+        <div><ReportPdfButton buildDoc={async () => {
+          const { recommendations } = await loadReportContext()
+          return buildWeakLearningDoc({ report, userName: user?.name, recommendations })
+        }} /></div>
+      </div>
     </PageContainer>
   </div>
 }
