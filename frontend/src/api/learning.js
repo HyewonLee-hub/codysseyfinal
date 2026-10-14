@@ -3,6 +3,7 @@ import api from './client.js'
 const learningTestSessionStorageKey = 'toeic_learning_test_session_id'
 const learningTestModeStorageKey = 'toeic_learning_test_mode'
 const learningTestAttemptIdsStorageKey = 'toeic_learning_test_attempt_ids'
+const learningTestResultSessionStorageKey = 'toeic_learning_test_result_session'
 const wrongReviewSessionStorageKey = 'toeic_wrong_review_session_id'
 const wrongReviewResultsStorageKey = 'toeic_wrong_review_results'
 
@@ -36,6 +37,23 @@ export function clearLearningTestSession() {
   window.sessionStorage.removeItem(learningTestSessionStorageKey)
   window.sessionStorage.removeItem(learningTestModeStorageKey)
   window.sessionStorage.removeItem(learningTestAttemptIdsStorageKey)
+}
+
+export function saveLearningTestResultSession(session) {
+  window.sessionStorage.setItem(learningTestResultSessionStorageKey, JSON.stringify(session))
+}
+
+export function getSavedLearningTestResultSession() {
+  try {
+    const session = JSON.parse(window.sessionStorage.getItem(learningTestResultSessionStorageKey) ?? 'null')
+    return session?.learningSessionId && session?.mode ? session : null
+  } catch {
+    return null
+  }
+}
+
+export function clearLearningTestResultSession() {
+  window.sessionStorage.removeItem(learningTestResultSessionStorageKey)
 }
 
 export function saveLearningTestAttemptIds(results) {

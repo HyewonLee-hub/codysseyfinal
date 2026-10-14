@@ -23,7 +23,7 @@ import VocabularyQuizResultPage from './pages/VocabularyQuizResultPage.jsx'
 import { createReviewRecord, getReviewType } from './data/studyReview.js'
 import { getSavedDiagnosticSessionId } from './api/diagnostic.js'
 import { getSavedWeakLearningSession, saveWeakLearningSession } from './api/weakLearning.js'
-import { clearLearningTestSession, getSavedLearningTestSession, toFrontendLearningMode } from './api/learning.js'
+import { clearLearningTestResultSession, clearLearningTestSession, getSavedLearningTestResultSession, getSavedLearningTestSession, saveLearningTestResultSession, toFrontendLearningMode } from './api/learning.js'
 import { clearWrongReviewSession, getSavedWrongReviewSession, saveWrongReviewSession } from './api/learning.js'
 import { clearVocabularyQuizSession, getSavedVocabularyQuizSession, saveVocabularyQuizSession, startVocabularyQuiz } from './api/vocabulary.js'
 import { useAuth } from './auth/useAuth.js'
@@ -45,6 +45,7 @@ function App() {
   const [diagnosticSessionId, setDiagnosticSessionId] = useState(getSavedDiagnosticSessionId)
   const [weakLearningSession, setWeakLearningSession] = useState(getSavedWeakLearningSession)
   const [learningTestSession, setLearningTestSession] = useState(getSavedLearningTestSession)
+  const [learningTestResultSession, setLearningTestResultSession] = useState(getSavedLearningTestResultSession)
   const [wrongReviewSessionId, setWrongReviewSessionId] = useState(getSavedWrongReviewSession)
   const [vocabularyQuizSessionId, setVocabularyQuizSessionId] = useState(getSavedVocabularyQuizSession)
   const [studyInitialExamId, setStudyInitialExamId] = useState('basic')
@@ -102,15 +103,20 @@ function App() {
 
   function handleCompleteStudy(session) {
     if (!session) return
-    setLearningTestSession(session)
+    saveLearningTestResultSession(session)
+    clearLearningTestSession()
+    setLearningTestSession(null)
+    setLearningTestResultSession(session)
     if (window.location.pathname !== '/study/result') window.history.pushState(null, '', '/study/result')
     setPath('/study/result')
   }
 
   function handleRetakeStudy() {
-    if (learningTestSession) setStudyInitialExamId(toFrontendLearningMode(learningTestSession.mode) ?? 'basic')
+    if (learningTestResultSession) setStudyInitialExamId(toFrontendLearningMode(learningTestResultSession.mode) ?? 'basic')
     clearLearningTestSession()
+    clearLearningTestResultSession()
     setLearningTestSession(null)
+    setLearningTestResultSession(null)
     if (window.location.pathname !== '/study') window.history.pushState(null, '', '/study')
     setPath('/study')
   }
@@ -219,7 +225,7 @@ function App() {
   }
   if (path === '/mypage/profile') return <ProfilePage onCancel={() => navigateTo('/mypage')} onHeaderNavigate={handleHeaderNavigate} onBack={() => navigateTo('/mypage')} />
   if (path === '/mypage/words') return <SavedWordsPage onStartTest={handleStartVocabularyQuiz} onHeaderNavigate={handleHeaderNavigate} onBack={() => handleHeaderNavigate('마이페이지')} onOpenWords={() => handleHeaderNavigate('오늘의 단어')} />
-  if (path === '/study/result') return <StudyResultPage session={learningTestSession} onHeaderNavigate={handleHeaderNavigate} onStart={handleRetakeStudy} onRetake={handleRetakeStudy} onReview={handleOpenReview} />
+  if (path === '/study/result') return <StudyResultPage session={learningTestResultSession} onHeaderNavigate={handleHeaderNavigate} onStart={handleRetakeStudy} onRetake={handleRetakeStudy} onReview={handleOpenReview} />
   if (path === '/study/review/weak/result') return <WeakLearningReportPage session={weakLearningSession} onHeaderNavigate={handleHeaderNavigate} onBack={handleOpenReview} />
   if (path === '/study/review/weak') return <WeakLearningPage session={weakLearningSession} onHeaderNavigate={handleHeaderNavigate} onComplete={handleCompleteWeakLearning} onBack={handleOpenReview} />
   if (path === '/study/review/wrong/result') return <WrongReviewResultPage sessionId={wrongReviewSessionId} onHeaderNavigate={handleHeaderNavigate} onBack={handleOpenReview} onRestart={handleResetWrongReview} />
