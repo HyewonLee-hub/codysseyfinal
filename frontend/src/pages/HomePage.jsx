@@ -61,7 +61,7 @@ export default function HomePage({ onHeaderNavigate, onNavigate }) {
                 아는 단어는 늘리고
               </h1>
               <p className="mt-[28px] text-[18px] leading-[22px] text-body">
-                진단 결과에 맞춰 필요한 부분을 공부하세요.
+                진단 결과에 맞춰 필요한 부분을 공부하세요!
               </p>
               <Button
                 onClick={() => onHeaderNavigate?.("무료진단")}
